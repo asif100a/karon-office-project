@@ -90,7 +90,7 @@ export default function RegisterDocumentsScreen({ onContinue }: RegisterDocument
       bounces={false}
     >
       {/* Orange Header Section */}
-      <View className="bg-[#FF5500] pt-14 pb-10 px-6 items-start justify-end min-h-[220px]">
+      <View className="bg-[#FF5500] pb-10 px-6 items-start justify-end min-h-[220px]">
         <View className="mb-4">
           <LogoWhite />
         </View>
@@ -193,11 +193,11 @@ export default function RegisterDocumentsScreen({ onContinue }: RegisterDocument
             </Text>
           </TouchableOpacity>
 
-          <Text className="text-neutral-400 text-[10px] text-center px-4 leading-relaxed font-medium">
+          <Text className="text-neutral-400 text-xs text-center px-4 leading-relaxed font-medium">
             By continuing you agree to our{' '}
-            <Text className="text-[#FF5500] underline font-semibold">Terms of Service</Text>
+            <Text className="text-[#FF5500] underline font-semibold text-xs">Terms of Service</Text>
             {' '}and{' '}
-            <Text className="text-[#FF5500] underline font-semibold">Privacy policy</Text>
+            <Text className="text-[#FF5500] underline font-semibold text-xs">Privacy policy</Text>
           </Text>
         </View>
       </View>

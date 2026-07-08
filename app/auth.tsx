@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+import { useState } from 'react';
+import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Text } from '@/components/ui/text';
-import { ChevronLeft } from 'lucide-react-native';
 
 // Import Screens
 import LoginScreen from './screens/auth/LoginScreen';
@@ -119,7 +117,11 @@ export default function AuthFlow() {
         {/* Top Mini-Navigation Bar */}
         {showHeader && (
           <View className="flex-row items-center justify-between px-4 pt-16" style={{backgroundColor: Colors.common.BRAND}}>
-            <BackButton onPress={handleBack} />
+            <BackButton onPress={handleBack} textStyle={{
+              color: Colors.common.WHITE
+            }} 
+            iconColor={Colors.common.WHITE}
+            />
           </View>
         )}
 

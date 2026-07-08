@@ -42,7 +42,7 @@ export default function RegisterPasswordScreen({ onComplete }: RegisterPasswordS
       bounces={false}
     >
       {/* Orange Header Section - Styled "Register Your Account" */}
-      <View className="bg-[#FF5500] pt-14 pb-10 px-6 items-start justify-end min-h-[220px]">
+      <View className="bg-[#FF5500] pb-10 px-6 items-start justify-end min-h-[220px]">
         <View className="mb-4">
           <LogoWhite />
         </View>
