@@ -66,14 +66,44 @@ const MOCK_MY_JOBS = [
     status: 'completed',
   },
   {
-    id: 'job-completed-4',
+    id: 'job-cancelled-1',
     title: 'Labourer',
     company: 'Tech Innovators Inc.',
-    statusBadge: 'Day 20 of 20',
+    statusBadge: 'Cancelled',
     location: 'Shoreditch • 1.2 mi away',
     team: '2 developers, 1 designer',
     duration: '12 Jun • 1 month',
-    status: 'completed',
+    status: 'cancelled',
+  },
+  {
+    id: 'job-cancelled-2',
+    title: 'Labourer',
+    company: 'Tech Innovators Inc.',
+    statusBadge: 'Cancelled',
+    location: 'Shoreditch • 1.2 mi away',
+    team: '2 developers, 1 designer',
+    duration: '12 Jun • 1 month',
+    status: 'cancelled',
+  },
+  {
+    id: 'job-cancelled-3',
+    title: 'Labourer',
+    company: 'Tech Innovators Inc.',
+    statusBadge: 'Cancelled',
+    location: 'Shoreditch • 1.2 mi away',
+    team: '2 developers, 1 designer',
+    duration: '12 Jun • 1 month',
+    status: 'cancelled',
+  },
+  {
+    id: 'job-cancelled-4',
+    title: 'Labourer',
+    company: 'Tech Innovators Inc.',
+    statusBadge: 'Cancelled',
+    location: 'Shoreditch • 1.2 mi away',
+    team: '2 developers, 1 designer',
+    duration: '12 Jun • 1 month',
+    status: 'cancelled',
   },
 ];
 
@@ -85,6 +115,8 @@ export default function MyJobsScreen() {
   const handleOpenJobDetails = (id: string, status: string) => {
     if (status === 'completed') {
       router.push(`/screens/completed-jobs/${id}` as any);
+    } else if (status === 'cancelled') {
+      router.push(`/screens/cancelled-jobs/${id}` as any);
     } else {
       router.push(`/screens/active-jobs/${id}` as any);
     }
@@ -185,11 +217,11 @@ export default function MyJobsScreen() {
 
                 <View className="items-end">
                   <View 
-                    style={job.status === 'completed' ? { backgroundColor: '#E0F2FE' } : { backgroundColor: Colors.common.BRAND_LIGHT }} 
+                    style={job.status === 'completed' ? { backgroundColor: '#E0F2FE' } : job.status === 'cancelled' ? { backgroundColor: '#FEE2E2' } : { backgroundColor: Colors.common.BRAND_LIGHT }} 
                     className="px-2.5 py-1 rounded-full"
                   >
                     <Text 
-                      style={job.status === 'completed' ? { color: '#0284C7' } : { color: Colors.common.BRAND }} 
+                      style={job.status === 'completed' ? { color: '#0284C7' } : job.status === 'cancelled' ? { color: '#EF4444' } : { color: Colors.common.BRAND }} 
                       className="text-[10px] font-extrabold"
                     >
                       {job.statusBadge}
