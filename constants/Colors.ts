@@ -34,7 +34,7 @@ export const Colors = {
     BLACK: "#000000",
     GRAY_LIGHT: "#F5F5F5",
     GRAY_DARK: "#333333",
-    GRAY_NORMAL: "#EDEDED",
+    GRAY_NORMAL: "#858585",
     BORDER: "#E8E8E8",
   }
 };

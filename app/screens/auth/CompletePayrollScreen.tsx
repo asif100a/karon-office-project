@@ -1,23 +1,50 @@
-import React, { useState } from 'react';
-import { View, Image, TouchableOpacity, ActivityIndicator, Modal } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Image, TouchableOpacity, Modal } from 'react-native';
 import { Text } from '@/components/ui/text';
 
 interface CompletePayrollScreenProps {
   onComplete: () => void;
 }
 
-export default function CompletePayrollScreen({ onComplete }: CompletePayrollScreenProps) {
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+type SubStep = 'initial' | 'review' | 'completed';
 
-  const handleConnect = () => {
-    setIsConnecting(true);
-    // Simulate connection delay
-    setTimeout(() => {
-      setIsConnecting(false);
-      setShowModal(true);
-    }, 1200);
-  };
+export default function CompletePayrollScreen({ onComplete }: CompletePayrollScreenProps) {
+  const [subStep, setSubStep] = useState<SubStep>('initial');
+
+  useEffect(() => {
+    if (subStep === 'review') {
+      const timer = setTimeout(() => {
+        setSubStep('completed');
+      }, 2000); // 2 seconds simulated review time
+      return () => clearTimeout(timer);
+    }
+  }, [subStep]);
+
+  if (subStep === 'review') {
+    return (
+      <View className="flex-1 bg-white justify-between px-6 pt-16 pb-10">
+        {/* Centered Illustration & Text for Review state */}
+        <View className="flex-1 justify-center items-center mt-10">
+          <Image
+            source={require('@/assets/images/orange_hourglass.png')}
+            style={{ width: 160, height: 160, resizeMode: 'contain' }}
+          />
+          <Text className="text-[#1B2530] text-[26px] font-bold text-center mt-10 tracking-tight leading-8 px-4">
+            Application Under Review
+          </Text>
+          <Text className="text-neutral-500 text-sm text-center mt-4 font-medium leading-6 px-8">
+            Your account is under review by our team. You'll be notified as soon as it's approved, and then you can log in.
+          </Text>
+        </View>
+
+        {/* Empty placeholder at bottom to match layout spacing */}
+        <View className="h-10" />
+      </View>
+    );
+  }
+
+  // Both 'initial' and 'completed' substeps share the base "Complete Employment Partner Profile" layout
+  const isCompleted = subStep === 'completed';
 
   return (
     <View className="flex-1 bg-white justify-between px-6 pt-16 pb-10">
@@ -38,24 +65,19 @@ export default function CompletePayrollScreen({ onComplete }: CompletePayrollScr
       {/* Action Button at the Bottom */}
       <View className="w-full mt-6">
         <TouchableOpacity
-          onPress={handleConnect}
-          disabled={isConnecting}
+          onPress={() => setSubStep('review')}
           activeOpacity={0.9}
           className="w-full bg-[#1B2530] py-4 rounded-xl items-center justify-center shadow-sm"
         >
-          {isConnecting ? (
-            <ActivityIndicator color="white" size="small" />
-          ) : (
-            <Text className="text-white text-base font-semibold">
-              {showModal ? 'Connect Payroll' : 'Complete Employment Partner Profile'}
-            </Text>
-          )}
+          <Text className="text-white text-base font-semibold">
+            {isCompleted ? 'Connect Payroll' : 'Complete Employment Partner Profile'}
+          </Text>
         </TouchableOpacity>
       </View>
 
       {/* Success Modal Overlay */}
       <Modal
-        visible={showModal}
+        visible={isCompleted}
         transparent={true}
         animationType="fade"
         onRequestClose={() => {}}
