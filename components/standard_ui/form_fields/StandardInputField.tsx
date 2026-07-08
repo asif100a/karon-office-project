@@ -72,8 +72,6 @@ export default function StandardInputField<T extends FieldValues>({
           </FormControlLabel>
 
           <Input
-            variant="outline"
-            size="xl"
             className={`h-[52px] rounded-xl`}
             style={{
               borderWidth: 1,

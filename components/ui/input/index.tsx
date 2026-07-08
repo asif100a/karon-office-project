@@ -101,7 +101,7 @@ const InputIcon = React.forwardRef<
   React.ComponentRef<typeof UIInput.Icon>,
   IInputIconProps
 >(function InputIcon({ className, ...props }, ref) {
-  const { size: parentSize } = useStyleContext();
+  const { size: parentSize } = useStyleContext(SCOPE);
   return (
     <UIInput.Icon
       ref={ref}
@@ -141,7 +141,7 @@ const InputField = React.forwardRef<
   React.ComponentRef<typeof UIInput.Input>,
   IInputFieldProps
 >(function InputField({ className, ...props }, ref) {
-  const { size: parentSize } = useStyleContext();
+  const { size: parentSize } = useStyleContext(SCOPE);
   return (
     <UIInput.Input
       ref={ref}

@@ -1,23 +1,23 @@
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "expo-router";
-import { Text, TouchableOpacity } from "react-native";
+import { ImageStyle, Text, TextStyle, TouchableOpacity, ViewStyle } from "react-native";
 
 export default function BackButton({
   title = "Back",
   size = "base",
   onPress,
-  className = "",
-  textClassname = "",
-  iconClassname = "",
+  style = {},
+  textStyle = {},
+  iconStyle = {},
   iconColor = "#000",
 }: {
   title?: string;
   size?: "base" | "lg";
   onPress?: () => void;
-  className?: string;
-  textClassname?: string;
-  iconClassname?: string;
+  style?: ViewStyle;
+  textStyle?: TextStyle;
+  iconStyle?: ImageStyle;
   iconColor?: string;
 }) {
   const navigation = useNavigation();
@@ -25,18 +25,20 @@ export default function BackButton({
   return (
     <TouchableOpacity
       onPress={() => (onPress ? onPress() : navigation.goBack())}
-      className={`flex-row items-center ${className}`}
+      className={`flex-row items-center`}
+      style={{...style}}
       activeOpacity={0.7}
     >
       <Ionicons
         name="chevron-back"
         size={18}
         color={iconColor}
-        className={iconClassname}
+        style={{...iconStyle}}
       />
 
       <Text
-        className={`text-black text-base mb-[0.5px] ${size === "lg" ? "text-2xl" : "text-base"} ${textClassname}`}
+        className={`text-black text-base mb-[0.5px] ${size === "lg" ? "text-2xl" : "text-base"}`}
+        style={{...textStyle}}
       >
         {title}
       </Text>

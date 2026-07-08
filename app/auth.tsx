@@ -9,9 +9,13 @@ import LoginScreen from './screens/auth/LoginScreen';
 import RegisterGeneralScreen from './screens/auth/RegisterGeneralScreen';
 import RegisterDocumentsScreen from './screens/auth/RegisterDocumentsScreen';
 import RegisterPasswordScreen from './screens/auth/RegisterPasswordScreen';
+import CompletePayrollScreen from './screens/auth/CompletePayrollScreen';
+import ReviewScreen from './screens/auth/ReviewScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Colors } from '@/constants/Colors';
+import BackButton from '@/components/standard_ui/buttons/BackButton';
 
-type AuthStep = 'login' | 'register_general' | 'register_documents' | 'register_password';
+type AuthStep = 'login' | 'register_general' | 'register_documents' | 'register_password' | 'complete_payroll' | 'review';
 
 export default function AuthFlow() {
   const router = useRouter();
@@ -29,6 +33,8 @@ export default function AuthFlow() {
       setStep('register_general');
     } else if (step === 'register_password') {
       setStep('register_documents');
+    } else if (step === 'complete_payroll' || step === 'review') {
+      setStep('login');
     } else {
       router.back();
     }
@@ -73,12 +79,27 @@ export default function AuthFlow() {
           <RegisterPasswordScreen
             onComplete={(password) => {
               console.log('Password complete registration');
-              // On success, redirect to home tabs
               if (role === 'employer') {
-                router.replace('/tabs/(employer-tabs)');
+                setStep('review');
               } else {
-                router.replace('/tabs/(worker-tabs)');
+                setStep('complete_payroll');
               }
+            }}
+          />
+        );
+      case 'complete_payroll':
+        return (
+          <CompletePayrollScreen
+            onComplete={() => {
+              router.replace('/tabs/(worker-tabs)');
+            }}
+          />
+        );
+      case 'review':
+        return (
+          <ReviewScreen
+            onBackToLogin={() => {
+              setStep('login');
             }}
           />
         );
@@ -87,39 +108,20 @@ export default function AuthFlow() {
     }
   };
 
+  const showHeader = step !== 'complete_payroll' && step !== 'review';
+
   return (
     <KeyboardAvoidingView 
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1 }}
-      className="bg-white"
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={{ flex: 1, backgroundColor: 'white' }}
     >
-      <SafeAreaView style={{ flex: 1 }} className="bg-white">
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={['bottom']}>
         {/* Top Mini-Navigation Bar */}
-        <View className="flex-row items-center justify-between px-4 py-2 border-b border-neutral-100 bg-white">
-          <TouchableOpacity 
-            onPress={handleBack} 
-            className="p-2 -ml-2 flex-row items-center gap-1"
-            activeOpacity={0.7}
-          >
-            <ChevronLeft size={20} color="#1B2530" />
-            <Text className="text-[#1B2530] text-sm font-semibold">Back</Text>
-          </TouchableOpacity>
-
-          <View className="flex-row items-center gap-1.5">
-            <Text className="text-neutral-400 text-xs font-semibold uppercase tracking-widest">
-              Role:
-            </Text>
-            <TouchableOpacity 
-              onPress={() => setRole(role === 'worker' ? 'employer' : 'worker')}
-              className="bg-neutral-100 px-2.5 py-1 rounded-md"
-              activeOpacity={0.7}
-            >
-              <Text className="text-neutral-700 text-xs font-bold capitalize">
-                {role}
-              </Text>
-            </TouchableOpacity>
+        {showHeader && (
+          <View className="flex-row items-center justify-between px-4 pt-16" style={{backgroundColor: Colors.common.BRAND}}>
+            <BackButton onPress={handleBack} />
           </View>
-        </View>
+        )}
 
         {/* Render Current Active Screen */}
         <View style={{ flex: 1 }} className="flex-1">
