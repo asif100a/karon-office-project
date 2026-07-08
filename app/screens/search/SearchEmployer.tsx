@@ -152,7 +152,7 @@ export default function WorkerSearchScreen() {
                       <Briefcase size={22} color="#FFFFFF" />
                     </View>
                     <View>
-                      <Text className="text-neutral-955 font-extrabold text-base">{job.title}</Text>
+                      <Text className="text-neutral-950 font-extrabold text-base">{job.title}</Text>
                       <Text className="text-neutral-500 text-xs font-semibold">{job.company}</Text>
                     </View>
                   </View>
@@ -284,7 +284,7 @@ export default function WorkerSearchScreen() {
                       <Briefcase size={22} color="#FFFFFF" />
                     </View>
                     <View>
-                      <Text className="text-neutral-955 font-extrabold text-base">{job.title}</Text>
+                      <Text className="text-neutral-950 font-extrabold text-base">{job.title}</Text>
                       <Text className="text-neutral-500 text-xs font-semibold">{job.company}</Text>
                     </View>
                   </View>
