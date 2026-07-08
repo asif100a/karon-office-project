@@ -74,7 +74,7 @@ export default function StandardInputField<T extends FieldValues>({
           <Input
             variant="outline"
             size="xl"
-            className={`h-[52px] rounded-xl bg-transparent `}
+            className={`h-[52px] rounded-xl`}
             style={{
               borderWidth: 1,
               borderColor: error
@@ -82,6 +82,7 @@ export default function StandardInputField<T extends FieldValues>({
                 : isFocused
                   ? "#afa9aa"
                   : "#e8e8e8",
+              backgroundColor: 'transparent',
             }}
           >
             <InputField
