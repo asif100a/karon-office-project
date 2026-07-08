@@ -49,6 +49,7 @@
     "react": "19.2.3",
     "react-aria": "^3.41.1",
     "react-dom": "19.2.3",
+    "react-hook-form": "^7.81.0",
     "react-native": "0.85.3",
     "react-native-css": "^3.0.5",
     "react-native-enriched-markdown": "^0.4.1",

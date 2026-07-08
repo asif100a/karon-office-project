@@ -90,9 +90,10 @@ export default function AuthFlow() {
   return (
     <KeyboardAvoidingView 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-white"
+      style={{ flex: 1 }}
+      className="bg-white"
     >
-      <SafeAreaView className="flex-1">
+      <SafeAreaView style={{ flex: 1 }} className="bg-white">
         {/* Top Mini-Navigation Bar */}
         <View className="flex-row items-center justify-between px-4 py-2 border-b border-neutral-100 bg-white">
           <TouchableOpacity 
@@ -121,7 +122,7 @@ export default function AuthFlow() {
         </View>
 
         {/* Render Current Active Screen */}
-        <View className="flex-1">
+        <View style={{ flex: 1 }} className="flex-1">
           {renderActiveScreen()}
         </View>
       </SafeAreaView>

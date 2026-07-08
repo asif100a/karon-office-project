@@ -48,10 +48,11 @@ function RootLayoutNav() {
   );
 
   return (
-    <ThemeProvider value={colorMode === 'dark' ? DarkTheme : DefaultTheme}>
+    // <ThemeProvider value={colorMode === 'dark' ? DarkTheme : DefaultTheme}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <GluestackUIProvider mode={colorMode}>
-          <StatusBar style={colorMode === 'dark' ? 'light' : 'dark'} />
+          {/* <StatusBar style={colorMode === 'dark' ? 'light' : 'dark'} /> */}
+          <StatusBar style={'dark'} />
           <Slot />
           {pathname === '/' && (
             <Fab
@@ -66,6 +67,6 @@ function RootLayoutNav() {
           )}
         </GluestackUIProvider>
       </GestureHandlerRootView>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 }

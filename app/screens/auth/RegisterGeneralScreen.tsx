@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, ScrollView, Modal, FlatList, Pressable } from 'react-native';
+import React from 'react';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Text } from '@/components/ui/text';
 import LogoWhite from '@/assets/icons/LogoWhite';
-import { ChevronDown, X } from 'lucide-react-native';
+import { useForm } from 'react-hook-form';
+import StandardInputField from '@/components/standard_ui/form_fields/StandardInputField';
+import StandardSelectField from '@/components/standard_ui/form_fields/StandardSelectField';
 
 interface RegisterGeneralScreenProps {
   onContinue?: (data: {
@@ -18,51 +20,47 @@ interface RegisterGeneralScreenProps {
 
 export default function RegisterGeneralScreen({ onContinue }: RegisterGeneralScreenProps) {
   const router = useRouter();
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [trade, setTrade] = useState('Groundworker');
-  const [experience, setExperience] = useState('6 years');
-  const [availableTime, setAvailableTime] = useState('8 am - 5 pm');
-  const [address, setAddress] = useState('2972 Westheimer Rd. Santa A...');
 
-  // State for active dropdown modals
-  const [pickerVisible, setPickerVisible] = useState(false);
-  const [pickerType, setPickerType] = useState<'trade' | 'experience' | 'availableTime' | null>(null);
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      fullName: '',
+      email: '',
+      trade: 'Groundworker',
+      experience: '6 years',
+      availableTime: '8 am - 5 pm',
+      address: '2972 Westheimer Rd. Santa A...',
+    }
+  });
 
-  // Selector Options
-  const trades = ['Groundworker', 'Carpenter', 'Electrician', 'Plumber', 'Bricklayer', 'Painter', 'Scaffolder'];
-  const experiences = ['1 year', '2 years', '3 years', '4 years', '5 years', '6 years', '7+ years'];
-  const times = ['8 am - 5 pm', '7 am - 4 pm', '9 am - 6 pm', 'Night shift', 'Flexible'];
+  const trades = [
+    { label: 'Groundworker', value: 'Groundworker' },
+    { label: 'Carpenter', value: 'Carpenter' },
+    { label: 'Electrician', value: 'Electrician' },
+    { label: 'Plumber', value: 'Plumber' },
+    { label: 'Bricklayer', value: 'Bricklayer' },
+    { label: 'Painter', value: 'Painter' },
+    { label: 'Scaffolder', value: 'Scaffolder' }
+  ];
 
-  const getOptions = () => {
-    if (pickerType === 'trade') return trades;
-    if (pickerType === 'experience') return experiences;
-    if (pickerType === 'availableTime') return times;
-    return [];
-  };
+  const experiences = [
+    { label: '1 year', value: '1 year' },
+    { label: '2 years', value: '2 years' },
+    { label: '3 years', value: '3 years' },
+    { label: '4 years', value: '4 years' },
+    { label: '5 years', value: '5 years' },
+    { label: '6 years', value: '6 years' },
+    { label: '7+ years', value: '7+ years' }
+  ];
 
-  const getTitle = () => {
-    if (pickerType === 'trade') return 'Select Trade / Skill';
-    if (pickerType === 'experience') return 'Select Experience';
-    if (pickerType === 'availableTime') return 'Select Available Time';
-    return '';
-  };
+  const times = [
+    { label: '8 am - 5 pm', value: '8 am - 5 pm' },
+    { label: '7 am - 4 pm', value: '7 am - 4 pm' },
+    { label: '9 am - 6 pm', value: '9 am - 6 pm' },
+    { label: 'Night shift', value: 'Night shift' },
+    { label: 'Flexible', value: 'Flexible' }
+  ];
 
-  const handleSelectOption = (option: string) => {
-    if (pickerType === 'trade') setTrade(option);
-    if (pickerType === 'experience') setExperience(option);
-    if (pickerType === 'availableTime') setAvailableTime(option);
-    setPickerVisible(false);
-    setPickerType(null);
-  };
-
-  const openPicker = (type: 'trade' | 'experience' | 'availableTime') => {
-    setPickerType(type);
-    setPickerVisible(true);
-  };
-
-  const handleContinue = () => {
-    const data = { fullName, email, trade, experience, availableTime, address };
+  const onSubmit = (data: any) => {
     if (onContinue) {
       onContinue(data);
     } else {
@@ -91,114 +89,70 @@ export default function RegisterGeneralScreen({ onContinue }: RegisterGeneralScr
         </View>
 
         {/* Form Fields Section */}
-        <View className="px-6 pt-6 pb-20 gap-5">
+        <View className="px-6 pt-6 pb-20 gap-1">
           {/* Full Name */}
-          <View className="gap-2">
-            <Text className="text-neutral-500 text-xs font-semibold uppercase tracking-wider">
-              Full Name
-            </Text>
-            <View className="w-full bg-[#FCFCFC] border border-neutral-200 rounded-xl px-4 py-3.5 flex-row items-center">
-              <TextInput
-                value={fullName}
-                onChangeText={setFullName}
-                placeholder="Enter Your Full Name"
-                placeholderTextColor="#A3A3A3"
-                className="flex-1 text-neutral-800 text-sm font-medium p-0"
-              />
-            </View>
-          </View>
+          <StandardInputField
+            label="Full Name"
+            id="fullName"
+            control={control}
+            required={true}
+            placeholder="Enter Your Full Name"
+          />
 
           {/* Email Address */}
-          <View className="gap-2">
-            <Text className="text-neutral-500 text-xs font-semibold uppercase tracking-wider">
-              Email Address
-            </Text>
-            <View className="w-full bg-[#FCFCFC] border border-neutral-200 rounded-xl px-4 py-3.5 flex-row items-center">
-              <TextInput
-                value={email}
-                onChangeText={setEmail}
-                placeholder="Enter Your Email"
-                placeholderTextColor="#A3A3A3"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-                className="flex-1 text-neutral-800 text-sm font-medium p-0"
-              />
-            </View>
-          </View>
+          <StandardInputField
+            label="Email Address"
+            id="email"
+            type="email"
+            control={control}
+            required={true}
+            placeholder="Enter Your Email"
+          />
 
           {/* Trade / Skill Dropdown */}
-          <View className="gap-2">
-            <Text className="text-neutral-500 text-xs font-semibold uppercase tracking-wider">
-              Trade / Skill
-            </Text>
-            <TouchableOpacity
-              onPress={() => openPicker('trade')}
-              activeOpacity={0.7}
-              className="w-full bg-[#FCFCFC] border border-neutral-200 rounded-xl px-4 py-3.5 flex-row items-center justify-between"
-            >
-              <Text className={`text-sm font-medium ${trade ? 'text-neutral-850' : 'text-neutral-400'}`}>
-                {trade || 'Select your trade'}
-              </Text>
-              <ChevronDown size={18} color="#737373" />
-            </TouchableOpacity>
-          </View>
+          <StandardSelectField
+            label="Trade / Skill"
+            id="trade"
+            control={control}
+            options={trades}
+            placeholder="Select Trade / Skill"
+            required={true}
+          />
 
           {/* Experience Dropdown */}
-          <View className="gap-2">
-            <Text className="text-neutral-500 text-xs font-semibold uppercase tracking-wider">
-              Experience
-            </Text>
-            <TouchableOpacity
-              onPress={() => openPicker('experience')}
-              activeOpacity={0.7}
-              className="w-full bg-[#FCFCFC] border border-neutral-200 rounded-xl px-4 py-3.5 flex-row items-center justify-between"
-            >
-              <Text className={`text-sm font-medium ${experience ? 'text-neutral-850' : 'text-neutral-400'}`}>
-                {experience || 'Select experience'}
-              </Text>
-              <ChevronDown size={18} color="#737373" />
-            </TouchableOpacity>
-          </View>
+          <StandardSelectField
+            label="Experience"
+            id="experience"
+            control={control}
+            options={experiences}
+            placeholder="Select Experience"
+            required={true}
+          />
 
           {/* Available Time Dropdown */}
-          <View className="gap-2">
-            <Text className="text-neutral-500 text-xs font-semibold uppercase tracking-wider">
-              Available time
-            </Text>
-            <TouchableOpacity
-              onPress={() => openPicker('availableTime')}
-              activeOpacity={0.7}
-              className="w-full bg-[#FCFCFC] border border-neutral-200 rounded-xl px-4 py-3.5 flex-row items-center justify-between"
-            >
-              <Text className={`text-sm font-medium ${availableTime ? 'text-neutral-850' : 'text-neutral-400'}`}>
-                {availableTime || 'Select timing'}
-              </Text>
-              <ChevronDown size={18} color="#737373" />
-            </TouchableOpacity>
-          </View>
+          <StandardSelectField
+            label="Available time"
+            id="availableTime"
+            control={control}
+            options={times}
+            placeholder="Select Available time"
+            required={true}
+          />
 
           {/* Address */}
-          <View className="gap-2">
-            <Text className="text-neutral-500 text-xs font-semibold uppercase tracking-wider">
-              Address
-            </Text>
-            <View className="w-full bg-[#FCFCFC] border border-neutral-200 rounded-xl px-4 py-3.5 flex-row items-center">
-              <TextInput
-                value={address}
-                onChangeText={setAddress}
-                placeholder="Enter Address"
-                placeholderTextColor="#A3A3A3"
-                className="flex-1 text-neutral-800 text-sm font-medium p-0"
-              />
-            </View>
-          </View>
+          <StandardInputField
+            label="Address"
+            id="address"
+            control={control}
+            required={true}
+            placeholder="Enter Address"
+          />
 
           {/* Continue Button */}
           <TouchableOpacity
-            onPress={handleContinue}
+            onPress={handleSubmit(onSubmit)}
             activeOpacity={0.9}
-            className="w-full bg-[#1B2530] py-4 rounded-xl items-center justify-center shadow-sm mt-6"
+            className="w-full bg-[#1B2530] py-4 rounded-xl items-center justify-center shadow-sm mt-4"
           >
             <Text className="text-white text-base font-semibold">
               Continue
@@ -206,47 +160,6 @@ export default function RegisterGeneralScreen({ onContinue }: RegisterGeneralScr
           </TouchableOpacity>
         </View>
       </ScrollView>
-
-      {/* Reusable Bottom Sheet / Modal Selector */}
-      <Modal
-        visible={pickerVisible}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => setPickerVisible(false)}
-      >
-        <Pressable 
-          onPress={() => setPickerVisible(false)} 
-          className="flex-1 bg-black/45 justify-end"
-        >
-          <View className="bg-white rounded-t-3xl pt-5 pb-8 max-h-[400px]">
-            <View className="flex-row justify-between items-center px-6 pb-4 border-b border-neutral-100">
-              <Text className="text-neutral-800 text-lg font-bold">
-                {getTitle()}
-              </Text>
-              <TouchableOpacity onPress={() => setPickerVisible(false)} className="p-1">
-                <X size={20} color="#737373" />
-              </TouchableOpacity>
-            </View>
-
-            <FlatList
-              data={getOptions()}
-              keyExtractor={(item) => item}
-              contentContainerStyle={{ paddingHorizontal: 24, paddingVertical: 12 }}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => handleSelectOption(item)}
-                  className="py-4 border-b border-neutral-50"
-                  activeOpacity={0.7}
-                >
-                  <Text className="text-neutral-700 text-base font-medium">
-                    {item}
-                  </Text>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        </Pressable>
-      </Modal>
     </View>
   );
 }

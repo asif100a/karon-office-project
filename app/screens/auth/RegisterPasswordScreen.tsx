@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Text } from '@/components/ui/text';
 import LogoWhite from '@/assets/icons/LogoWhite';
-import { Eye, EyeOff, Check } from 'lucide-react-native';
+import { useForm } from 'react-hook-form';
+import StandardInputField from '@/components/standard_ui/form_fields/StandardInputField';
+import { Check } from 'lucide-react-native';
 
 interface RegisterPasswordScreenProps {
   onComplete?: (password: string) => void;
@@ -11,19 +13,22 @@ interface RegisterPasswordScreenProps {
 
 export default function RegisterPasswordScreen({ onComplete }: RegisterPasswordScreenProps) {
   const router = useRouter();
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleComplete = () => {
-    if (password !== confirmPassword) {
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      password: '',
+      confirmPassword: '',
+    }
+  });
+
+  const onSubmit = (data: any) => {
+    if (data.password !== data.confirmPassword) {
       alert('Passwords do not match.');
       return;
     }
     if (onComplete) {
-      onComplete(password);
+      onComplete(data.password);
     } else {
       router.replace('/tabs/(worker-tabs)');
     }
@@ -51,66 +56,26 @@ export default function RegisterPasswordScreen({ onComplete }: RegisterPasswordS
 
       {/* Password Setup Form */}
       <View className="flex-1 px-6 pt-8 pb-10 justify-between">
-        <View className="gap-5">
+        <View className="gap-1">
           {/* Password */}
-          <View className="gap-2">
-            <Text className="text-neutral-500 text-xs font-semibold uppercase tracking-wider">
-              Password
-            </Text>
-            <View className="w-full bg-[#FCFCFC] border border-neutral-200 rounded-xl px-4 py-3.5 flex-row items-center justify-between">
-              <TextInput
-                value={password}
-                onChangeText={setPassword}
-                placeholder="•••••••"
-                placeholderTextColor="#A3A3A3"
-                secureTextEntry={!showPassword}
-                autoCapitalize="none"
-                autoCorrect={false}
-                className="flex-1 text-neutral-800 text-sm font-medium p-0"
-              />
-              <TouchableOpacity 
-                onPress={() => setShowPassword(!showPassword)}
-                className="ml-2 p-1"
-                activeOpacity={0.7}
-              >
-                {showPassword ? (
-                  <EyeOff size={18} color="#A3A3A3" />
-                ) : (
-                  <Eye size={18} color="#A3A3A3" />
-                )}
-              </TouchableOpacity>
-            </View>
-          </View>
+          <StandardInputField
+            label="Password"
+            id="password"
+            type="password"
+            control={control}
+            required={true}
+            placeholder="•••••••"
+          />
 
           {/* Confirm Password */}
-          <View className="gap-2">
-            <Text className="text-neutral-500 text-xs font-semibold uppercase tracking-wider">
-              Confirm Password
-            </Text>
-            <View className="w-full bg-[#FCFCFC] border border-neutral-200 rounded-xl px-4 py-3.5 flex-row items-center justify-between">
-              <TextInput
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                placeholder="•••••••"
-                placeholderTextColor="#A3A3A3"
-                secureTextEntry={!showConfirmPassword}
-                autoCapitalize="none"
-                autoCorrect={false}
-                className="flex-1 text-neutral-800 text-sm font-medium p-0"
-              />
-              <TouchableOpacity 
-                onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="ml-2 p-1"
-                activeOpacity={0.7}
-              >
-                {showConfirmPassword ? (
-                  <EyeOff size={18} color="#A3A3A3" />
-                ) : (
-                  <Eye size={18} color="#A3A3A3" />
-                )}
-              </TouchableOpacity>
-            </View>
-          </View>
+          <StandardInputField
+            label="Confirm Password"
+            id="confirmPassword"
+            type="password"
+            control={control}
+            required={true}
+            placeholder="•••••••"
+          />
 
           {/* Remember Me Checkbox */}
           <TouchableOpacity
@@ -132,7 +97,7 @@ export default function RegisterPasswordScreen({ onComplete }: RegisterPasswordS
         {/* Complete Registration Action */}
         <View className="mt-10">
           <TouchableOpacity
-            onPress={handleComplete}
+            onPress={handleSubmit(onSubmit)}
             activeOpacity={0.9}
             className="w-full bg-[#1B2530] py-4 rounded-xl items-center justify-center shadow-sm"
           >

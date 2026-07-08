@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import React from 'react';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Text } from '@/components/ui/text';
 import LogoWhite from '@/assets/icons/LogoWhite';
-import { Eye, EyeOff } from 'lucide-react-native';
+import { useForm } from 'react-hook-form';
+import StandardInputField from '@/components/standard_ui/form_fields/StandardInputField';
 
 interface LoginScreenProps {
   onRegisterPress?: () => void;
@@ -12,15 +13,18 @@ interface LoginScreenProps {
 
 export default function LoginScreen({ onRegisterPress, onLoginPress }: LoginScreenProps) {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    }
+  });
 
-  const handleLogin = () => {
+  const onSubmit = (data: any) => {
     if (onLoginPress) {
-      onLoginPress(email);
+      onLoginPress(data.email);
     } else {
-      // Default navigation behavior
       router.replace('/tabs/(worker-tabs)');
     }
   };
@@ -55,61 +59,32 @@ export default function LoginScreen({ onRegisterPress, onLoginPress }: LoginScre
 
       {/* Form Section */}
       <View className="flex-1 px-6 pt-8 pb-10 justify-between">
-        <View className="gap-5">
+        <View className="gap-1">
           {/* Email Field */}
-          <View className="gap-2">
-            <Text className="text-neutral-500 text-xs font-semibold uppercase tracking-wider">
-              Email Address
-            </Text>
-            <View className="w-full bg-[#FCFCFC] border border-neutral-200 rounded-xl px-4 py-3.5 flex-row items-center">
-              <TextInput
-                value={email}
-                onChangeText={setEmail}
-                placeholder="Enter Your Email"
-                placeholderTextColor="#A3A3A3"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-                className="flex-1 text-neutral-800 text-sm font-medium p-0"
-              />
-            </View>
-          </View>
+          <StandardInputField
+            label="Email Address"
+            id="email"
+            type="email"
+            control={control}
+            required={true}
+            placeholder="Enter Your Email"
+          />
 
           {/* Password Field */}
-          <View className="gap-2">
-            <Text className="text-neutral-500 text-xs font-semibold uppercase tracking-wider">
-              Password
-            </Text>
-            <View className="w-full bg-[#FCFCFC] border border-neutral-200 rounded-xl px-4 py-3.5 flex-row items-center justify-between">
-              <TextInput
-                value={password}
-                onChangeText={setPassword}
-                placeholder="•••••••"
-                placeholderTextColor="#A3A3A3"
-                secureTextEntry={!showPassword}
-                autoCapitalize="none"
-                autoCorrect={false}
-                className="flex-1 text-neutral-800 text-sm font-medium p-0"
-              />
-              <TouchableOpacity 
-                onPress={() => setShowPassword(!showPassword)}
-                className="ml-2 p-1"
-                activeOpacity={0.7}
-              >
-                {showPassword ? (
-                  <EyeOff size={18} color="#A3A3A3" />
-                ) : (
-                  <Eye size={18} color="#A3A3A3" />
-                )}
-              </TouchableOpacity>
-            </View>
-          </View>
+          <StandardInputField
+            label="Password"
+            id="password"
+            type="password"
+            control={control}
+            required={true}
+            placeholder="•••••••"
+          />
         </View>
 
         {/* Action Buttons */}
-        <View className="mt-10 gap-6">
+        <View className="mt-6 gap-6">
           <TouchableOpacity
-            onPress={handleLogin}
+            onPress={handleSubmit(onSubmit)}
             activeOpacity={0.9}
             className="w-full bg-[#1B2530] py-4 rounded-xl items-center justify-center shadow-sm"
           >
