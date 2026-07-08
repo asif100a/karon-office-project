@@ -61,11 +61,11 @@ export default function OnboardingScreen() {
   };
 
   const navigateToWorker = () => {
-    router.replace('/tabs/(worker-tabs)');
+    router.replace({ pathname: '/auth', params: { role: 'worker' } });
   };
 
   const navigateToEmployer = () => {
-    router.replace('/tabs/(employer-tabs)');
+    router.replace({ pathname: '/auth', params: { role: 'employer' } });
   };
 
   const handleNext = () => {
