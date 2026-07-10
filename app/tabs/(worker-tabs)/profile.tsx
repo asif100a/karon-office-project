@@ -23,12 +23,14 @@ export default function ProfileScreen() {
       { icon: AlertCircle, label: 'Dispute', onPress: () => router.push('/screens/profile/disputes' as any) },
       { icon: Star, label: 'Rating & Feedback', onPress: () => router.push('/screens/profile/rating-feedback' as any) },
       { icon: BellRing, label: 'Notification Settings', onPress: () => {} },
-    ],
-    more: [
+    ], 
+    more: [    
       { icon: FileText, label: 'Terms & Conditions', onPress: () => router.push('/screens/profile/terms' as any) },
       { icon: HelpCircle, label: 'Privacy Policy', onPress: () => {} },
       { icon: MessageSquare, label: 'Contact Site Source', onPress: () => {} },
-      { icon: LogOut, label: 'Log out', onPress: () => {} },
+      { icon: LogOut, label: 'Log out', onPress: () => {
+        return router.replace('/auth/login' as any);
+      } },
     ],
   };
 
@@ -76,7 +78,7 @@ export default function ProfileScreen() {
               >
                 <View className="flex-row items-center gap-3">
                   <item.icon size={20} color="#525252" />
-                  <Text className="text-neutral-900 font-semibold text-base">{item.label}</Text>
+                  <Text className="text-neutral-900 font-semibold text-base" style={item.label === 'Log out' ? { color: Colors.common.BRAND } : {color: '#171717'}}>{item.label}</Text>
                 </View>
                 {item.type === 'switch' ? (
                   <Switch

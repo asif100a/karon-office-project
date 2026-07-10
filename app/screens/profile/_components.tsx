@@ -23,7 +23,10 @@ export function ProfileHeader({ title }: { title: string }) {
   return (
     <View style={{ backgroundColor: Colors.common.BRAND }} className="pt-16 pb-7 px-5">
       <View className="flex-row justify-between items-center">
-        <TouchableOpacity onPress={() => router.back()} className="flex-row items-center gap-2 active:opacity-75">
+        <TouchableOpacity
+          onPress={() => router.replace('/tabs/(worker-tabs)/profile')}
+          className="flex-row items-center gap-2 active:opacity-75"
+        >
           <ChevronLeft size={22} color="#FFFFFF" />
           <Text className="text-white text-lg font-extrabold tracking-tight">{title}</Text>
         </TouchableOpacity>
