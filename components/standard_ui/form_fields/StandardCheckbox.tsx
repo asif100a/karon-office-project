@@ -8,12 +8,12 @@ export default function StandardCheckbox({
   onValueChange,
 }: {
   value: boolean;
-  onValueChange: (e: any, value: boolean) => void;
+  onValueChange: (value: boolean) => void;
 }) {
   return (
     <TouchableOpacity
       className="flex-row items-center gap-2"
-      onPress={(e) => onValueChange(e, !value)}
+      onPress={() => onValueChange(!value)}
       activeOpacity={0.7}
     >
       <View

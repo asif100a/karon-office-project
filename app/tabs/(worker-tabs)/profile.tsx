@@ -71,7 +71,7 @@ export default function ProfileScreen() {
           <Text className="text-neutral-900 font-extrabold text-lg tracking-tight mb-4">Account</Text>
           <View className="bg-white rounded-2xl border border-neutral-100/85 shadow-sm overflow-hidden">
             {menuItems.account.map((item, index) => (
-              <TouchableOpacity 
+              <TouchableOpacity
                 key={index} 
                 onPress={item.type === 'switch' ? () => setAvailable((value) => !value) : item.onPress}
                 className="flex-row items-center justify-between px-5 py-4 border-b border-neutral-50 last:border-b-0 active:opacity-70"

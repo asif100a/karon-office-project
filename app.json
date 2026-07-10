@@ -25,7 +25,8 @@
       "expo-font",
       "@react-native-community/datetimepicker",
       "expo-splash-screen",
-      "expo-status-bar"
+      "expo-status-bar",
+      "expo-image"
     ],
     "experiments": {
       "typedRoutes": true

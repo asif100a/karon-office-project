@@ -16,9 +16,10 @@ interface RegisterGeneralScreenProps {
     availableTime: string;
     address: string;
   }) => void;
+  onLoginPress?: () => void;
 }
 
-export default function RegisterGeneralScreen({ onContinue }: RegisterGeneralScreenProps) {
+export default function RegisterGeneralScreen({ onContinue, onLoginPress }: RegisterGeneralScreenProps) {
   const router = useRouter();
 
   const { control, handleSubmit } = useForm({
@@ -158,6 +159,20 @@ export default function RegisterGeneralScreen({ onContinue }: RegisterGeneralScr
               Continue
             </Text>
           </TouchableOpacity>
+
+          <View className="flex-row justify-center items-center mt-6">
+            <Text className="text-neutral-800 text-sm font-medium">
+              Already have an account?{' '}
+            </Text>
+            <TouchableOpacity
+              onPress={onLoginPress ?? (() => router.push({ pathname: '/auth', params: { step: 'login' } }))}
+              activeOpacity={0.7}
+            >
+              <Text className="text-[#1B2530] text-sm font-bold underline">
+                Login
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </View>

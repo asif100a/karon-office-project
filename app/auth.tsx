@@ -9,11 +9,12 @@ import RegisterDocumentsScreen from './screens/auth/RegisterDocumentsScreen';
 import RegisterPasswordScreen from './screens/auth/RegisterPasswordScreen';
 import CompletePayrollScreen from './screens/auth/CompletePayrollScreen';
 import ReviewScreen from './screens/auth/ReviewScreen';
+import RegisterEmployerScreen from './screens/auth/RegisterEmployerScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/Colors';
 import BackButton from '@/components/standard_ui/buttons/BackButton';
 
-type AuthStep = 'login' | 'register_general' | 'register_documents' | 'register_password' | 'complete_payroll' | 'review';
+type AuthStep = 'login' | 'register_general' | 'register_employer' | 'register_documents' | 'register_password' | 'complete_payroll' | 'review';
 
 export default function AuthFlow() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function AuthFlow() {
 
   // Go back to the previous screen in the flow
   const handleBack = () => {
-    if (step === 'register_general') {
+    if (step === 'register_general' || step === 'register_employer') {
       setStep('login');
     } else if (step === 'register_documents') {
       setStep('register_general');
@@ -39,11 +40,23 @@ export default function AuthFlow() {
   };
 
   const renderActiveScreen = () => {
+    if (role === 'employer' && (step === 'register_general' || step === 'register_employer')) {
+      return (
+        <RegisterEmployerScreen
+          onContinue={(data) => {
+            console.log('Employer register data:', data);
+            setStep('complete_payroll');
+          }}
+          onLoginPress={() => setStep('login')}
+        />
+      );
+    }
+
     switch (step) {
       case 'login':
         return (
           <LoginScreen
-            onRegisterPress={() => setStep('register_general')}
+            onRegisterPress={() => setStep(role === 'employer' ? 'register_employer' : 'register_general')}
             onLoginPress={(email) => {
               // Redirect based on selected user role
               if (role === 'employer') {
@@ -61,6 +74,7 @@ export default function AuthFlow() {
               console.log('General register data:', data);
               setStep('register_documents');
             }}
+            onLoginPress={() => setStep('login')}
           />
         );
       case 'register_documents':
@@ -89,7 +103,11 @@ export default function AuthFlow() {
         return (
           <CompletePayrollScreen
             onComplete={() => {
-              router.replace('/tabs/(worker-tabs)');
+              if (role === 'employer') {
+                setStep('review');
+              } else {
+                router.replace('/tabs/(worker-tabs)');
+              }
             }}
           />
         );
@@ -102,7 +120,7 @@ export default function AuthFlow() {
           />
         );
       default:
-        return <LoginScreen onRegisterPress={() => setStep('register_general')} />;
+        return <LoginScreen onRegisterPress={() => setStep(role === 'employer' ? 'register_employer' : 'register_general')} />;
     }
   };
 
