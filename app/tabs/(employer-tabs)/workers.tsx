@@ -41,6 +41,13 @@ export default function EmployerWorkersScreen() {
     } as any);
   };
 
+  const handleSearchWorkers = () => {
+    router.push({
+      pathname: "/screens/search/SearchWorker",
+      params: { origin: "employer" },
+    } as any);
+  }
+
   return (
     <View className="flex-1 bg-neutral-100">
       <View
@@ -60,7 +67,7 @@ export default function EmployerWorkersScreen() {
           </View>
 
           <View className="flex-row gap-2">
-            <TouchableOpacity className="w-11 h-11 rounded-full bg-white/14 items-center justify-center border border-white/10 active:opacity-75">
+            <TouchableOpacity onPress={handleSearchWorkers} className="w-11 h-11 rounded-full bg-white/14 items-center justify-center border border-white/10 active:opacity-75">
               <Search color="#FFFFFF" size={18} />
             </TouchableOpacity>
             <TouchableOpacity className="w-11 h-11 rounded-full bg-white/14 items-center justify-center border border-white/10 active:opacity-75">

@@ -48,6 +48,13 @@ export default function EmployerHomeScreen() {
     } as any);
   };
 
+  const handleCreateJobPost = () => {
+    router.push({
+      pathname: "/screens/job/CreateJobPost",
+      params: { origin: "employer" },
+    });
+  };
+
   return (
     <View className="flex-1 bg-neutral-100">
       <View
@@ -67,7 +74,10 @@ export default function EmployerHomeScreen() {
           </View>
 
           <View className="flex-row gap-2">
-            <TouchableOpacity className="w-11 h-11 rounded-full bg-white/14 items-center justify-center border border-white/10 active:opacity-75">
+            <TouchableOpacity
+              onPress={() => router.push("/screens/search/SearchWorker" as any)}
+              className="w-11 h-11 rounded-full bg-white/14 items-center justify-center border border-white/10 active:opacity-75"
+            >
               <Search color="#FFFFFF" size={18} />
             </TouchableOpacity>
             <TouchableOpacity className="w-11 h-11 rounded-full bg-white/14 items-center justify-center border border-white/10 active:opacity-75">
@@ -84,7 +94,7 @@ export default function EmployerHomeScreen() {
       >
         <TouchableOpacity
           activeOpacity={0.9}
-          onPress={() => router.push("/screens/job/CreateJobPost" as any)}
+          onPress={handleCreateJobPost}
           className="flex-row items-center justify-center bg-slate-900 rounded-2xl py-4 px-5 shadow-sm"
         >
           <Plus size={20} color="#FFFFFF" />

@@ -7,7 +7,7 @@ import {
   Modal,
   Pressable,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useForm } from "react-hook-form";
 import { ArrowLeft, X, ChevronDown, Minus, Plus } from "lucide-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -57,6 +57,8 @@ export default function CreateJobPostScreen() {
   const [selectedTrade, setSelectedTrade] = useState("groundworker");
   const [workersNeeded, setWorkersNeeded] = useState(3);
 
+  const {origin} = useLocalSearchParams();
+
   const submitJob = handleSubmit(() => {
     router.replace("/tabs/(employer-tabs)" as any);
   });
@@ -67,11 +69,24 @@ export default function CreateJobPostScreen() {
     closeWorkersModal();
   };
 
+  const onBackPress = () => {
+    if(origin === "worker") {
+      router.replace("/tabs/(worker-tabs)" as any);
+      return;
+    }  
+    if(origin === "employer") {
+      router.replace("/tabs/(employer-tabs)" as any);
+      return;
+    }
+    
+    router.back();
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#F8FAFC" }} edges={["top"]}>
       <View className="flex-row items-center justify-between px-5 py-4 bg-white border-b border-neutral-100">
         <TouchableOpacity
-          onPress={() => router.back()}
+          onPress={onBackPress}
           className="w-10 h-10 rounded-full bg-neutral-50 items-center justify-center active:opacity-75"
         >
           <ArrowLeft size={20} color="#1F2937" />
