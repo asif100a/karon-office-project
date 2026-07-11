@@ -61,6 +61,12 @@ export function CustomTabBar({
         onLongPress={onLongPress}
         style={styles.tabButton}
       >
+        <View
+          style={[
+            styles.activeIndicator,
+            { backgroundColor: activeColor, opacity: isFocused ? 1 : 0 },
+          ]}
+        />
         <View style={styles.tabContent}>
           <View style={styles.iconWrapper}>
             {options.tabBarIcon &&
@@ -123,6 +129,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     paddingVertical: 4,
+    paddingTop: 2,
+  },
+  activeIndicator: {
+    width: 56,
+    height: 3,
+    borderRadius: 999,
+    marginBottom: 8,
   },
   tabContent: {
     alignItems: "center",

@@ -1,20 +1,48 @@
-import { Tabs } from 'expo-router';
-import { Text } from '@/components/ui/text';
-import { Center } from '@/components/ui/center';
+import { Tabs } from "expo-router";
+import { CustomTabBar } from "@/components/layout/CustomTabBar";
+import TabIcons from "@/assets/icons/TabIcons";
 
 export default function EmployerTabsLayout() {
-
   return (
-    <Tabs>
+    <Tabs
+      tabBar={(props) => <CustomTabBar {...props} />}
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Employer',
-          tabBarIcon: ({ color, size }) => (
-            <Center>
-              <Text style={{ color, fontSize: size }}>🏢</Text>
-            </Center>
-          )
+          title: "Home",
+          tabBarIcon: ({ color, size }) => <TabIcons.HomeIcon color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name="workers"
+        options={{
+          title: "Workers",
+          tabBarIcon: ({ color, size }) => <TabIcons.PeopleIcon color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name="my-jobs"
+        options={{
+          title: "My Jobs",
+          tabBarIcon: ({ color, size }) => <TabIcons.BagIcon color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name="chats"
+        options={{
+          title: "Chats",
+          tabBarIcon: ({ color, size }) => <TabIcons.ChatIcon color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, size }) => <TabIcons.ProfileIcon color={color} size={size} />,
         }}
       />
     </Tabs>
