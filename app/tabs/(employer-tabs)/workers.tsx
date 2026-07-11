@@ -38,14 +38,14 @@ export default function EmployerWorkersScreen() {
     router.push({
       pathname: "/screens/worker-details/[id]",
       params: { id: workerId, origin: "employer" },
-    } as any);
+    });
   };
 
   const handleSearchWorkers = () => {
     router.push({
       pathname: "/screens/search/SearchWorker",
       params: { origin: "employer" },
-    } as any);
+    });
   }
 
   return (
@@ -83,10 +83,14 @@ export default function EmployerWorkersScreen() {
         contentContainerStyle={{ paddingTop: 18, paddingBottom: 110 }}
       >
         <View className="flex-row items-center gap-3">
-          <View className="flex-1 flex-row items-center bg-white border border-neutral-200/90 rounded-2xl px-4 py-3.5 shadow-sm">
+          <TouchableOpacity
+            onPress={handleSearchWorkers}
+            activeOpacity={0.9}
+            className="flex-1 flex-row items-center bg-white border border-neutral-200/90 rounded-2xl px-4 py-3.5 shadow-sm"
+          >
             <Search size={18} color="#A3A3A3" className="mr-2" />
             <Text className="flex-1 text-neutral-400 text-sm font-medium">Search Offers</Text>
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity className="w-12 h-12 bg-white border border-neutral-200/90 rounded-2xl items-center justify-center shadow-sm active:opacity-85">
             <SlidersHorizontal size={18} color="#333333" />
           </TouchableOpacity>
