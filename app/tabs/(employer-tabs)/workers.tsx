@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
-import { Bell, Search, SlidersHorizontal, Bookmark, AlertCircle } from "lucide-react-native";
+import { useRouter } from "expo-router";
+import { Bell, Search, SlidersHorizontal, Bookmark, MapPin, Clock } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 
 const WORKERS = [
@@ -31,6 +32,15 @@ const WORKERS = [
 ];
 
 export default function EmployerWorkersScreen() {
+  const router = useRouter();
+
+  const openWorkerDetails = (workerId: string) => {
+    router.push({
+      pathname: "/screens/worker-details/[id]",
+      params: { id: workerId, origin: "employer" },
+    } as any);
+  };
+
   return (
     <View className="flex-1 bg-neutral-100">
       <View
@@ -86,8 +96,10 @@ export default function EmployerWorkersScreen() {
 
         <View className="gap-4">
           {WORKERS.map((worker) => (
-            <View
+            <TouchableOpacity
               key={worker.id}
+              onPress={() => openWorkerDetails(worker.id)}
+              activeOpacity={0.9}
               className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden"
             >
               <View className="px-4 pt-4 pb-3">
@@ -110,11 +122,11 @@ export default function EmployerWorkersScreen() {
 
                 <View className="pt-4 mt-4 border-t border-neutral-100 gap-2.5">
                   <View className="flex-row items-center gap-2">
-                    <AlertCircle size={14} color="#C81E1E" />
+                    <MapPin size={14} color="#C81E1E" />
                     <Text className="text-neutral-500 text-xs">{worker.location}</Text>
                   </View>
                   <View className="flex-row items-center gap-2">
-                    <AlertCircle size={14} color="#737373" />
+                    <Clock size={14} color="#737373" />
                     <Text className="text-neutral-500 text-xs">{worker.availability}</Text>
                   </View>
                 </View>
@@ -136,7 +148,7 @@ export default function EmployerWorkersScreen() {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>

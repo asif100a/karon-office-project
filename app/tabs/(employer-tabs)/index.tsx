@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
-import { Bell, Plus, Search, AlertCircle, Bookmark, ChevronRight } from "lucide-react-native";
+import { useRouter } from "expo-router";
+import { Bell, Plus, Search, MapPin, Clock, Bookmark, ChevronRight } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 
 const MARKET_RATES = [
@@ -38,6 +39,15 @@ const JOB_REQUESTS = [
 ];
 
 export default function EmployerHomeScreen() {
+  const router = useRouter();
+
+  const openWorkerDetails = (workerId: string) => {
+    router.push({
+      pathname: "/screens/worker-details/[id]",
+      params: { id: workerId, origin: "employer" },
+    } as any);
+  };
+
   return (
     <View className="flex-1 bg-neutral-100">
       <View
@@ -116,8 +126,10 @@ export default function EmployerHomeScreen() {
 
           <View className="gap-4">
             {JOB_REQUESTS.map((job) => (
-              <View
+              <TouchableOpacity
                 key={job.id}
+                onPress={() => openWorkerDetails(job.id)}
+                activeOpacity={0.9}
                 className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden"
               >
                 <View className="px-4 pt-4 pb-3">
@@ -140,11 +152,11 @@ export default function EmployerHomeScreen() {
 
                   <View className="pt-4 mt-4 border-t border-neutral-100 gap-2.5">
                     <View className="flex-row items-center gap-2">
-                      <AlertCircle size={14} color="#C81E1E" />
+                      <MapPin size={14} color="#C81E1E" />
                       <Text className="text-neutral-500 text-xs">{job.location}</Text>
                     </View>
                     <View className="flex-row items-center gap-2">
-                      <AlertCircle size={14} color="#737373" />
+                      <Clock size={14} color="#737373" />
                       <Text className="text-neutral-500 text-xs">{job.availability}</Text>
                     </View>
                   </View>
@@ -166,7 +178,7 @@ export default function EmployerHomeScreen() {
                     </TouchableOpacity>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
         </View>

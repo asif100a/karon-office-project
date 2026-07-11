@@ -16,8 +16,8 @@ export default function LoginScreen({ onRegisterPress, onLoginPress }: LoginScre
   
   const { control, handleSubmit } = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'sl@gb.so',
+      password: '123456',
     }
   });
 
