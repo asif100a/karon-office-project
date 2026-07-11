@@ -185,11 +185,20 @@ export default function WorkerDetailsScreen() {
     setReviewRating(4);
   };
 
+  const handleHeaderBack = () => {
+    if (showReviewComposer) {
+      closeReviewComposer();
+      return;
+    }
+
+    goBackToOrigin();
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#F8FAFC" }} edges={["top"]}>
       <View className="flex-row items-center justify-between px-5 py-4 bg-white border-b border-neutral-100">
         <TouchableOpacity
-          onPress={goBackToOrigin}
+          onPress={handleHeaderBack}
           className="w-10 h-10 rounded-full bg-neutral-50 items-center justify-center active:opacity-75"
         >
           <ArrowLeft size={20} color="#1F2937" />

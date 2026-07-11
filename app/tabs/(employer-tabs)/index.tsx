@@ -84,6 +84,7 @@ export default function EmployerHomeScreen() {
       >
         <TouchableOpacity
           activeOpacity={0.9}
+          onPress={() => router.push("/screens/job/CreateJobPost" as any)}
           className="flex-row items-center justify-center bg-slate-900 rounded-2xl py-4 px-5 shadow-sm"
         >
           <Plus size={20} color="#FFFFFF" />
