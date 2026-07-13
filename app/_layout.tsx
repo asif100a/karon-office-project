@@ -20,7 +20,7 @@ export {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
+  const [, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
@@ -31,10 +31,10 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    // The app renders its own splash screen, so release the native launch view
+    // as soon as the React tree is ready instead of blocking on font loading.
+    SplashScreen.hideAsync();
+  }, []);
   return <RootLayoutNav />;
 }
 

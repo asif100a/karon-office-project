@@ -1,13 +1,58 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Platform } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { ArrowLeft, Bookmark, MapPin, Users, Calendar, Briefcase, Clock } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import type { Region } from 'react-native-maps';
+
+const JOB_COORDINATES: Region = {
+  latitude: 51.5246,
+  longitude: -0.0786,
+  latitudeDelta: 0.014,
+  longitudeDelta: 0.014,
+};
+
+type NativeMapComponents = {
+  MapView: typeof import('react-native-maps').default;
+  Marker: typeof import('react-native-maps').Marker;
+};
+
+function getNativeMapComponents(): NativeMapComponents | null {
+  const hasAndroidApiKey = Boolean(process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY);
+
+  if (Platform.OS === 'web' || (Platform.OS === 'android' && !hasAndroidApiKey)) {
+    return null;
+  }
+
+  try {
+    const maps = require('react-native-maps') as typeof import('react-native-maps');
+    return { MapView: maps.default, Marker: maps.Marker };
+  } catch {
+    return null;
+  }
+}
+
+function MapFallback() {
+  return (
+    <View className="flex-1 bg-[#E9EEF8]">
+      <View className="absolute top-[18%] left-[-5%] w-[55%] h-3 rounded-full bg-white/70 rotate-[10deg]" />
+      <View className="absolute top-[34%] left-[12%] w-[75%] h-3 rounded-full bg-white/75 -rotate-[12deg]" />
+      <View className="absolute top-[56%] left-[-8%] w-[68%] h-3 rounded-full bg-white/75 rotate-[8deg]" />
+      <View className="absolute top-[72%] right-[-5%] w-[58%] h-3 rounded-full bg-white/70 -rotate-[14deg]" />
+      <View className="absolute left-[20%] top-[-6%] w-3 h-[45%] rounded-full bg-white/70 -rotate-[18deg]" />
+      <View className="absolute right-[24%] top-[8%] w-3 h-[62%] rounded-full bg-white/75 rotate-[14deg]" />
+      <View className="absolute right-[10%] top-[24%] w-3 h-[48%] rounded-full bg-white/70 -rotate-[10deg]" />
+    </View>
+  );
+}
 
 export default function EmployerDetailsScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams();
+  const nativeMapComponents = getNativeMapComponents();
+  const NativeMapView = nativeMapComponents?.MapView;
+  const NativeMarker = nativeMapComponents?.Marker;
 
   // Simple static data lookup based on id parameter (mock)
   const jobDetails = {
@@ -15,9 +60,9 @@ export default function EmployerDetailsScreen() {
     company: 'Tech Innovators Inc.',
     payRate: '$80 - $120/hour',
     tag: 'Market Rate',
-    location: 'Shoreditch • 1.2 mi away',
+    location: 'Shoreditch \u2022 1.2 mi away',
     team: '2 developers, 1 designer',
-    duration: '12 Jun • 1 month',
+    duration: '12 Jun \u2022 1 month',
     time: '2 hours ago',
     tradeSkill: 'Groundworker',
     tradeCount: '1 labor',
@@ -28,42 +73,43 @@ export default function EmployerDetailsScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={['top']}>
-      {/* Navigation Header */}
-      <View className="flex-row items-center justify-between px-6 py-4 border-b border-neutral-100">
-        <TouchableOpacity 
-          onPress={() => router.back()}
-          className="w-10 h-10 rounded-xl bg-neutral-50 items-center justify-center border border-neutral-100 active:opacity-75"
-        >
-          <ArrowLeft size={20} color="#171717" />
-        </TouchableOpacity>
-        <Text className="text-neutral-900 font-extrabold text-base">Employer Details</Text>
-        <TouchableOpacity 
-          className="w-10 h-10 rounded-xl bg-neutral-900 items-center justify-center active:opacity-85"
-        >
-          <Bookmark size={18} color="#FFFFFF" fill="#FFFFFF" />
-        </TouchableOpacity>
-      </View>
-
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        {/* Mock Map Banner */}
-        <View className="h-48 w-full bg-slate-50 overflow-hidden relative border-b border-neutral-100">
-          {/* Visual representations of grid lines / streets */}
-          <View className="absolute top-1/4 left-0 w-full h-[1.5px] bg-neutral-200/50 rotate-6" />
-          <View className="absolute top-2/3 left-0 w-full h-[1.5px] bg-neutral-200/50 -rotate-[8deg]" />
-          <View className="absolute left-1/3 top-0 w-[1.5px] h-full bg-neutral-200/50 rotate-45" />
-          <View className="absolute left-2/3 top-0 w-[1.5px] h-full bg-neutral-200/50 -rotate-[35deg]" />
+        {/* Map Header */}
+        <View className="h-64 w-full overflow-hidden relative bg-slate-100">
+          {NativeMapView && NativeMarker ? (
+            <NativeMapView
+              style={{ flex: 1 }}
+              initialRegion={JOB_COORDINATES}
+              region={JOB_COORDINATES}
+              scrollEnabled={false}
+              zoomEnabled={false}
+              rotateEnabled={false}
+              pitchEnabled={false}
+              toolbarEnabled={false}
+            >
+              <NativeMarker coordinate={JOB_COORDINATES} />
+            </NativeMapView>
+          ) : (
+            <MapFallback />
+          )}
 
-          {/* Street labels */}
-          <Text className="absolute text-[9px] text-neutral-400 font-bold rotate-6 top-[22%] left-[15%]">Weston Dr</Text>
-          <Text className="absolute text-[9px] text-neutral-400 font-bold -rotate-[8deg] top-[60%] right-[20%]">St Andrews Dr</Text>
-          <Text className="absolute text-[9px] text-neutral-400 font-bold rotate-45 bottom-[25%] left-[30%]">Wemborough Rd</Text>
+          <View className="absolute inset-x-0 top-0 px-6 pt-4 pb-6">
+            <View className="flex-row items-center justify-between">
+              <View className="flex-row items-center gap-3">
+                <TouchableOpacity
+                  onPress={() => router.back()}
+                  className="w-11 h-11 rounded-full bg-white/95 items-center justify-center active:opacity-75"
+                >
+                  <ArrowLeft size={20} color="#171717" />
+                </TouchableOpacity>
+                <Text className="text-neutral-900 font-extrabold text-[18px]">Employer Details</Text>
+              </View>
 
-          {/* Centered Map Pin indicator */}
-          <View className="absolute top-1/2 left-1/2 -mt-7 -ml-6 items-center justify-center">
-            {/* Pulsing ring */}
-            <View className="w-12 h-12 rounded-full bg-orange-500/10 absolute justify-center items-center" />
-            <View className="w-9 h-9 rounded-full bg-white items-center justify-center shadow-lg border border-neutral-100">
-              <MapPin size={20} color={Colors.common.BRAND} />
+              <TouchableOpacity
+                className="w-11 h-11 rounded-2xl bg-neutral-900 items-center justify-center active:opacity-85"
+              >
+                <Bookmark size={18} color="#FFFFFF" />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
