@@ -12,9 +12,11 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import {
   ChevronLeft,
   Bell,
+  Bookmark,
   MapPin,
   Users,
   Calendar,
+  Clock,
   Briefcase,
   Mail,
   Phone,
@@ -50,13 +52,53 @@ const EMPLOYER_JOB_DETAILS = {
   duration: "12 Jun - 1 month",
 };
 
+const EMPLOYER_UPCOMING_JOB_DETAILS = {
+  title: "Labourer",
+  company: "Tech Innovators Inc.",
+  rate: "$80 - $120/hour",
+  marketRate: "Market Rate",
+  location: "Shoreditch - 1.2 mi away",
+  team: "2 developers, 1 designer",
+  duration: "12 Jun - 1 month",
+};
+
+const EMPLOYER_UPCOMING_APPLICANTS = [
+  {
+    id: "1",
+    name: "Michael Turner",
+    role: "Labour",
+    location: "Shoreditch - 1.2 mi away",
+    availability: "Available 8am - 5pm",
+    experience: "8 Years Experience",
+  },
+  {
+    id: "2",
+    name: "Michael Turner",
+    role: "Labour",
+    location: "Shoreditch - 1.2 mi away",
+    availability: "Available 8am - 5pm",
+    experience: "8 Years Experience",
+  },
+  {
+    id: "3",
+    name: "Michael Turner",
+    role: "Labour",
+    location: "Shoreditch - 1.2 mi away",
+    availability: "Available 8am - 5pm",
+    experience: "8 Years Experience",
+  },
+];
+
 export default function ActiveJobDetailScreen() {
   const router = useRouter();
-  const { id, origin } = useLocalSearchParams<{
+  const { id, origin, status } = useLocalSearchParams<{
     id?: string;
     origin?: string;
+    status?: string;
   }>();
   const originRoute = Array.isArray(origin) ? origin[0] : origin;
+  const statusRoute = Array.isArray(status) ? status[0] : status;
+  const employerJobStatus = statusRoute === "upcoming" ? "upcoming" : "active";
 
   const [activeSubTab, setActiveSubTab] = useState<
     "schedule" | "summary" | "policy"
@@ -140,7 +182,7 @@ export default function ActiveJobDetailScreen() {
             >
               <ChevronLeft size={19} color="#FFFFFF" />
               <Text className="text-white text-[17px] font-extrabold">
-                Active Jobs
+                {employerJobStatus === "upcoming" ? "UpcomingJobs" : "Active Jobs"}
               </Text>
             </TouchableOpacity>
 
@@ -156,132 +198,279 @@ export default function ActiveJobDetailScreen() {
           contentContainerStyle={{ paddingBottom: 120 }}
         >
           <View className="px-4 pt-4">
-            <View className="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm">
-              <View className="flex-row justify-between items-start mb-4">
-                <View className="flex-row items-center gap-3">
-                  <View className="w-11 h-11 bg-blue-600 rounded-xl items-center justify-center">
-                    <Briefcase size={20} color="#FFFFFF" />
-                  </View>
-                  <View>
-                    <Text className="text-neutral-900 text-base font-extrabold">
-                      {EMPLOYER_JOB_DETAILS.title}
-                    </Text>
-                    <Text className="text-neutral-500 text-xs font-medium">
-                      {EMPLOYER_JOB_DETAILS.company}
-                    </Text>
-                  </View>
-                </View>
-
-                <View className="bg-orange-50 px-2.5 py-1 rounded-lg">
-                  <Text
-                    style={{ color: Colors.common.BRAND }}
-                    className="text-[10px] font-bold"
-                  >
-                    {EMPLOYER_JOB_DETAILS.statusBadge}
-                  </Text>
-                </View>
-              </View>
-
-              <View className="pt-3 border-t border-neutral-100 gap-2.5">
-                <View className="flex-row items-center gap-2">
-                  <MapPin size={13} color="#C81E1E" />
-                  <Text className="text-neutral-500 text-xs">
-                    {EMPLOYER_JOB_DETAILS.location}
-                  </Text>
-                </View>
-                <View className="flex-row items-center gap-2">
-                  <Users size={13} color="#737373" />
-                  <Text className="text-neutral-500 text-xs">
-                    {EMPLOYER_JOB_DETAILS.team}
-                  </Text>
-                </View>
-                <View className="flex-row items-center gap-2">
-                  <Calendar size={13} color="#737373" />
-                  <Text className="text-neutral-500 text-xs">
-                    {EMPLOYER_JOB_DETAILS.duration}
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            <View className="mt-4">
-              <Text className="text-neutral-900 text-sm font-extrabold mb-3">
-                Workers
-              </Text>
-              <View className="gap-3">
-                {EMPLOYER_WORKERS.map((worker) => (
-                  <TouchableOpacity
-                    key={worker.id}
-                    onPress={() => openWorkerDetails(worker.id)}
-                    activeOpacity={0.9}
-                    className="bg-white rounded-2xl border border-neutral-100 px-3 py-3.5 shadow-sm"
-                  >
-                    <View className="flex-row items-center justify-between">
-                      <View className="flex-row items-center gap-3">
-                        <Image
-                          source={{
-                            uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
-                          }}
-                          className="w-10 h-10 rounded-full"
-                        />
-                        <View>
-                          <Text className="text-neutral-900 text-sm font-bold">
-                            {worker.name}
-                          </Text>
-                          <Text className="text-neutral-400 text-xs mt-0.5">
-                            {worker.progress}
-                          </Text>
-                        </View>
+            {employerJobStatus === "active" ? (
+              <>
+                <View className="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm">
+                  <View className="flex-row justify-between items-start mb-4">
+                    <View className="flex-row items-center gap-3">
+                      <View className="w-11 h-11 bg-blue-600 rounded-xl items-center justify-center">
+                        <Briefcase size={20} color="#FFFFFF" />
                       </View>
-
-                      <View className="flex-row items-center gap-1">
-                        <Text className="text-neutral-500 text-xs font-medium">
-                          Update Timesheet
+                      <View>
+                        <Text className="text-neutral-900 text-base font-extrabold">
+                          {EMPLOYER_JOB_DETAILS.title}
                         </Text>
-                        <ChevronRight size={16} color="#737373" />
+                        <Text className="text-neutral-500 text-xs font-medium">
+                          {EMPLOYER_JOB_DETAILS.company}
+                        </Text>
                       </View>
                     </View>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </View>
 
-            <View className="mt-5">
-              <Text className="text-neutral-900 text-sm font-extrabold mb-3">
-                Project Schedule
-              </Text>
-              <View className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden">
-                {EMPLOYER_SCHEDULE.map((item, index) => (
-                  <View
-                    key={item.label}
-                    className={`flex-row items-center justify-between px-4 py-4 ${index < EMPLOYER_SCHEDULE.length - 1 ? "border-b border-neutral-100" : ""}`}
-                  >
-                    <Text className="text-neutral-400 text-sm">
-                      {item.label}
-                    </Text>
-                    <Text className="text-neutral-700 text-sm font-medium">
-                      {item.value}
-                    </Text>
+                    <View className="bg-orange-50 px-2.5 py-1 rounded-lg">
+                      <Text
+                        style={{ color: Colors.common.BRAND }}
+                        className="text-[10px] font-bold"
+                      >
+                        {EMPLOYER_JOB_DETAILS.statusBadge}
+                      </Text>
+                    </View>
                   </View>
-                ))}
-              </View>
-            </View>
+
+                  <View className="pt-3 border-t border-neutral-100 gap-2.5">
+                    <View className="flex-row items-center gap-2">
+                      <MapPin size={13} color="#C81E1E" />
+                      <Text className="text-neutral-500 text-xs">
+                        {EMPLOYER_JOB_DETAILS.location}
+                      </Text>
+                    </View>
+                    <View className="flex-row items-center gap-2">
+                      <Users size={13} color="#737373" />
+                      <Text className="text-neutral-500 text-xs">
+                        {EMPLOYER_JOB_DETAILS.team}
+                      </Text>
+                    </View>
+                    <View className="flex-row items-center gap-2">
+                      <Calendar size={13} color="#737373" />
+                      <Text className="text-neutral-500 text-xs">
+                        {EMPLOYER_JOB_DETAILS.duration}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+
+                <View className="mt-4">
+                  <Text className="text-neutral-900 text-sm font-extrabold mb-3">
+                    Workers
+                  </Text>
+                  <View className="gap-3">
+                    {EMPLOYER_WORKERS.map((worker) => (
+                      <TouchableOpacity
+                        key={worker.id}
+                        onPress={() => openWorkerDetails(worker.id)}
+                        activeOpacity={0.9}
+                        className="bg-white rounded-2xl border border-neutral-100 px-3 py-3.5 shadow-sm"
+                      >
+                        <View className="flex-row items-center justify-between">
+                          <View className="flex-row items-center gap-3">
+                            <Image
+                              source={{
+                                uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+                              }}
+                              className="w-10 h-10 rounded-full"
+                            />
+                            <View>
+                              <Text className="text-neutral-900 text-sm font-bold">
+                                {worker.name}
+                              </Text>
+                              <Text className="text-neutral-400 text-xs mt-0.5">
+                                {worker.progress}
+                              </Text>
+                            </View>
+                          </View>
+
+                          <View className="flex-row items-center gap-1">
+                            <Text className="text-neutral-500 text-xs font-medium">
+                              Update Timesheet
+                            </Text>
+                            <ChevronRight size={16} color="#737373" />
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </View>
+
+                <View className="mt-5">
+                  <Text className="text-neutral-900 text-sm font-extrabold mb-3">
+                    Project Schedule
+                  </Text>
+                  <View className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden">
+                    {EMPLOYER_SCHEDULE.map((item, index) => (
+                      <View
+                        key={item.label}
+                        className={`flex-row items-center justify-between px-4 py-4 ${index < EMPLOYER_SCHEDULE.length - 1 ? "border-b border-neutral-100" : ""}`}
+                      >
+                        <Text className="text-neutral-400 text-sm">
+                          {item.label}
+                        </Text>
+                        <Text className="text-neutral-700 text-sm font-medium">
+                          {item.value}
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
+                </View>
+              </>
+            ) : (
+              <>
+                <View className="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm">
+                  <View className="flex-row justify-between items-start mb-4">
+                    <View className="flex-row items-center gap-3 flex-1 pr-3">
+                      <View className="w-11 h-11 bg-blue-600 rounded-xl items-center justify-center">
+                        <Briefcase size={20} color="#FFFFFF" />
+                      </View>
+                      <View className="flex-1">
+                        <Text className="text-neutral-900 text-base font-extrabold">
+                          {EMPLOYER_UPCOMING_JOB_DETAILS.title}
+                        </Text>
+                        <Text className="text-neutral-500 text-xs font-medium">
+                          {EMPLOYER_UPCOMING_JOB_DETAILS.company}
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View className="items-end">
+                      <Text className="text-neutral-700 text-sm font-semibold">
+                        {EMPLOYER_UPCOMING_JOB_DETAILS.rate}
+                      </Text>
+                      <Text
+                        style={{ color: Colors.common.BRAND }}
+                        className="text-xs font-medium mt-0.5"
+                      >
+                        {EMPLOYER_UPCOMING_JOB_DETAILS.marketRate}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View className="pt-3 border-t border-neutral-100 gap-2.5">
+                    <View className="flex-row items-center gap-2">
+                      <MapPin size={13} color="#C81E1E" />
+                      <Text className="text-neutral-500 text-xs">
+                        {EMPLOYER_UPCOMING_JOB_DETAILS.location}
+                      </Text>
+                    </View>
+                    <View className="flex-row items-center gap-2">
+                      <Users size={13} color="#737373" />
+                      <Text className="text-neutral-500 text-xs">
+                        {EMPLOYER_UPCOMING_JOB_DETAILS.team}
+                      </Text>
+                    </View>
+                    <View className="flex-row items-center gap-2">
+                      <Calendar size={13} color="#737373" />
+                      <Text className="text-neutral-500 text-xs">
+                        {EMPLOYER_UPCOMING_JOB_DETAILS.duration}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+
+                <View className="mt-5">
+                  <View className="flex-row items-center justify-between mb-3">
+                    <Text className="text-neutral-900 text-[18px] font-semibold">
+                      Applicants
+                    </Text>
+                    <ChevronRight size={18} color="#111827" />
+                  </View>
+
+                  <View className="gap-4">
+                    {EMPLOYER_UPCOMING_APPLICANTS.map((applicant) => (
+                      <View
+                        key={applicant.id}
+                        className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden"
+                      >
+                        <View className="px-4 pt-4 pb-3">
+                          <View className="flex-row items-start justify-between">
+                            <View className="flex-row items-center gap-3 flex-1 pr-3">
+                              <Image
+                                source={{
+                                  uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+                                }}
+                                className="w-11 h-11 rounded-full"
+                              />
+                              <View className="flex-1">
+                                <Text className="text-neutral-950 text-base font-bold">
+                                  {applicant.name}
+                                </Text>
+                                <Text className="text-neutral-500 text-sm">
+                                  {applicant.role}
+                                </Text>
+                              </View>
+                            </View>
+
+                            <TouchableOpacity className="p-1.5">
+                              <Bookmark size={18} color="#737373" />
+                            </TouchableOpacity>
+                          </View>
+
+                          <View className="pt-4 mt-4 border-t border-neutral-100 gap-2.5">
+                            <View className="flex-row items-center gap-2">
+                              <MapPin size={14} color="#C81E1E" />
+                              <Text className="text-neutral-500 text-xs">
+                                {applicant.location}
+                              </Text>
+                            </View>
+                            <View className="flex-row items-center gap-2">
+                              <Clock size={14} color="#737373" />
+                              <Text className="text-neutral-500 text-xs">
+                                {applicant.availability}
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
+
+                        <View className="flex-row items-center justify-between px-4 pb-4">
+                          <View className="bg-orange-50 px-3 py-1.5 rounded-md">
+                            <Text
+                              style={{ color: Colors.common.BRAND }}
+                              className="text-xs font-medium"
+                            >
+                              {applicant.experience}
+                            </Text>
+                          </View>
+
+                          <View className="flex-row items-center gap-3">
+                            <TouchableOpacity
+                              onPress={() => openWorkerDetails(applicant.id)}
+                            >
+                              <Text className="text-neutral-700 text-xs font-medium">
+                                View Details
+                              </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                              onPress={() => openWorkerDetails(applicant.id)}
+                              style={{ backgroundColor: Colors.common.GRAY_DARK }}
+                              className="px-4 py-2 rounded-md active:opacity-90"
+                            >
+                              <Text className="text-white text-xs font-medium">
+                                Accept
+                              </Text>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      </View>
+                    ))}
+                  </View>
+                </View>
+              </>
+            )}
           </View>
         </ScrollView>
 
-        <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-neutral-100 px-4 py-4 flex-row gap-3">
-          <TouchableOpacity
-            style={{ backgroundColor: Colors.common.GRAY_DARK }}
-            className="flex-1 py-4 rounded-xl items-center justify-center active:opacity-90"
-          >
-            <Text className="text-white text-sm font-semibold">Cancel Job</Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="flex-1 py-4 rounded-xl border border-neutral-200 bg-white items-center justify-center active:opacity-75">
-            <Text className="text-neutral-700 text-sm font-medium">
-              Dispute
-            </Text>
-          </TouchableOpacity>
-        </View>
+        {employerJobStatus === "active" && (
+          <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-neutral-100 px-4 py-4 flex-row gap-3">
+            <TouchableOpacity
+              style={{ backgroundColor: Colors.common.GRAY_DARK }}
+              className="flex-1 py-4 rounded-xl items-center justify-center active:opacity-90"
+            >
+              <Text className="text-white text-sm font-semibold">Cancel Job</Text>
+            </TouchableOpacity>
+            <TouchableOpacity className="flex-1 py-4 rounded-xl border border-neutral-200 bg-white items-center justify-center active:opacity-75">
+              <Text className="text-neutral-700 text-sm font-medium">
+                Dispute
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </SafeAreaView>
     );
   }

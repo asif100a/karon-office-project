@@ -189,7 +189,7 @@ export default function WorkerDetailsScreen() {
     }
 
     if (originRoute === "employer") {
-      router.replace("/tabs/(employer-tabs)" as any);
+      router.back();
       return;
     }
 

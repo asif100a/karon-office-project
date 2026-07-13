@@ -1,18 +1,14 @@
-import React, { useState } from "react";
-import { Image, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   Bell,
-  Bookmark,
   Briefcase,
   Calendar,
-  ChevronDown,
-  ChevronRight,
   MapPin,
   Search,
   SlidersHorizontal,
   Users,
-  X,
 } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 
@@ -157,7 +153,7 @@ const COMPLETED_JOBS: JobCard[] = [
     id: "completed-1",
     title: "Labourer",
     company: "Tech Innovators Inc.",
-    badge: "Completed",
+    badge: "Day 20 of 20",
     location: "Shoreditch - 1.2 mi away",
     team: "2 developers, 1 designer",
     duration: "12 Jun - 1 month",
@@ -167,7 +163,7 @@ const COMPLETED_JOBS: JobCard[] = [
     id: "completed-2",
     title: "Labourer",
     company: "Tech Innovators Inc.",
-    badge: "Completed",
+    badge: "Day 20 of 20",
     location: "Shoreditch - 1.2 mi away",
     team: "2 developers, 1 designer",
     duration: "12 Jun - 1 month",
@@ -188,13 +184,6 @@ const CANCELLED_JOBS: JobCard[] = [
   },
 ];
 
-const APPROVAL_WEEKS = [
-  { day: "Saturday", hours: "8 Hours" },
-  { day: "Sunday", hours: "8 Hours" },
-  { day: "Monday", hours: "8 Hours" },
-  { day: "Tuesday", hours: "8 Hours" },
-];
-
 function AvatarStack() {
   return (
     <View className="flex-row items-center">
@@ -213,9 +202,21 @@ function AvatarStack() {
 
 export default function EmployerMyJobsScreen() {
   const router = useRouter();
+  const { tab } = useLocalSearchParams<{ tab?: string }>();
   const [activeTab, setActiveTab] = useState<JobStatus>("active");
   const [searchQuery, setSearchQuery] = useState("");
-  const [showApprovalModal, setShowApprovalModal] = useState(false);
+
+  useEffect(() => {
+    const requestedTab = Array.isArray(tab) ? tab[0] : tab;
+    if (
+      requestedTab === "active" ||
+      requestedTab === "upcoming" ||
+      requestedTab === "completed" ||
+      requestedTab === "cancelled"
+    ) {
+      setActiveTab(requestedTab);
+    }
+  }, [tab]);
 
   const jobsByTab: Record<JobStatus, JobCard[]> = {
     active: ACTIVE_JOBS,
@@ -237,27 +238,26 @@ export default function EmployerMyJobsScreen() {
     return haystack.includes(query);
   });
 
-  const openWorkerDetails = (workerId: string) => {
-    router.push({
-      pathname: "/screens/worker-details/[id]",
-      params: { id: workerId, origin: "employer" },
-    });
-  };
-
   const openJobDetails = (jobId: string) => {
     if (activeTab === "completed") {
-      router.push(`/screens/completed-jobs/${jobId}` as any);
+      router.push({
+        pathname: "/screens/completed-jobs/[id]",
+        params: { id: jobId, origin: "employer", status: activeTab },
+      });
       return;
     }
 
     if (activeTab === "cancelled") {
-      router.push(`/screens/cancelled-jobs/${jobId}` as any);
+      router.push({
+        pathname: "/screens/cancelled-jobs/[id]",
+        params: { id: jobId, origin: "employer", status: activeTab },
+      });
       return;
     }
 
     router.push({
       pathname: "/screens/active-jobs/[id]",
-      params: { id: jobId, origin: "employer" },
+      params: { id: jobId, origin: "employer", status: activeTab },
     });
   };
 
@@ -373,7 +373,12 @@ export default function EmployerMyJobsScreen() {
 
           {activeTab === "upcoming" &&
             filteredJobs.map((job) => (
-              <View key={job.id} className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden">
+              <TouchableOpacity
+                key={job.id}
+                onPress={() => openJobDetails(job.id)}
+                activeOpacity={0.9}
+                className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden"
+              >
                 <View className="px-4 pt-4 pb-3">
                   <View className="flex-row items-start justify-between">
                     <View className="flex-row items-center gap-3 flex-1 pr-3">
@@ -410,69 +415,21 @@ export default function EmployerMyJobsScreen() {
                   </View>
                 </View>
 
-                <View className="px-4 pb-4 pt-0">
-                  <View className="flex-row items-center justify-between mb-3">
-                    <Text className="text-neutral-900 text-base font-extrabold">Applicants</Text>
-                    <TouchableOpacity className="p-1">
-                      <ChevronRight size={18} color="#111827" />
-                    </TouchableOpacity>
+                <View className="flex-row items-center justify-between px-4 pb-4">
+                  <View className="flex-row items-center gap-2">
+                    <AvatarStack />
+                    <Text className="text-neutral-500 text-xs font-medium">+ 21 Application</Text>
                   </View>
 
-                  <View className="gap-3">
-                    {job.applicants?.map((applicant) => (
-                      <View key={applicant.id} className="rounded-2xl border border-neutral-100 px-3 py-3">
-                        <View className="flex-row items-start justify-between">
-                          <View className="flex-row items-center gap-3 flex-1 pr-3">
-                            <Image
-                              source={{ uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop" }}
-                              className="w-11 h-11 rounded-full"
-                            />
-                            <View className="flex-1">
-                              <Text className="text-neutral-950 text-base font-bold">{applicant.name}</Text>
-                              <Text className="text-neutral-500 text-sm">{applicant.role}</Text>
-                            </View>
-                          </View>
-                          <TouchableOpacity className="p-1.5">
-                            <Bookmark size={18} color="#737373" />
-                          </TouchableOpacity>
-                        </View>
-
-                        <View className="pt-4 mt-4 border-t border-neutral-100 gap-2.5">
-                          <View className="flex-row items-center gap-2">
-                            <MapPin size={14} color="#C81E1E" />
-                            <Text className="text-neutral-500 text-xs">{applicant.location}</Text>
-                          </View>
-                          <View className="flex-row items-center gap-2">
-                            <Calendar size={14} color="#737373" />
-                            <Text className="text-neutral-500 text-xs">{applicant.availability}</Text>
-                          </View>
-                        </View>
-
-                        <View className="flex-row items-center justify-between pt-3">
-                          <View className="bg-orange-50 px-3 py-1.5 rounded-md">
-                            <Text style={{ color: Colors.common.BRAND }} className="text-xs font-medium">
-                              {applicant.experience}
-                            </Text>
-                          </View>
-
-                          <View className="flex-row items-center gap-3">
-                            <TouchableOpacity onPress={() => openWorkerDetails(applicant.id)}>
-                              <Text className="text-neutral-700 text-xs font-medium">View Details</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                              onPress={() => setShowApprovalModal(true)}
-                              style={{ backgroundColor: Colors.common.GRAY_DARK }}
-                              className="px-4 py-2 rounded-md active:opacity-90"
-                            >
-                              <Text className="text-white text-xs font-medium">Accept</Text>
-                            </TouchableOpacity>
-                          </View>
-                        </View>
-                      </View>
-                    ))}
-                  </View>
+                  <TouchableOpacity
+                    onPress={() => openJobDetails(job.id)}
+                    style={{ backgroundColor: Colors.common.GRAY_DARK }}
+                    className="px-4 py-2 rounded-md active:opacity-90"
+                  >
+                    <Text className="text-white text-xs font-medium">View Details</Text>
+                  </TouchableOpacity>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
 
           {(activeTab === "completed" || activeTab === "cancelled") &&
@@ -511,7 +468,7 @@ export default function EmployerMyJobsScreen() {
                         >
                           <Text
                             className={`text-[10px] font-extrabold ${
-                              isCompleted ? "text-emerald-600" : isCancelled ? "text-red-500" : "text-orange-500"
+                              isCompleted ? "text-emerald-500" : isCancelled ? "text-red-500" : "text-orange-500"
                             }`}
                           >
                             {job.badge}
@@ -550,53 +507,6 @@ export default function EmployerMyJobsScreen() {
         </View>
       </ScrollView>
 
-      <Modal animationType="slide" transparent visible={showApprovalModal} onRequestClose={() => setShowApprovalModal(false)}>
-        <View className="flex-1 bg-black/50 justify-end">
-          <View className="bg-white rounded-t-[32px] p-6 pb-12 shadow-2xl border-t border-neutral-100">
-            <View className="flex-row justify-between items-center mb-6">
-              <Text className="text-neutral-900 font-extrabold text-lg tracking-tight">Request approval</Text>
-              <TouchableOpacity
-                onPress={() => setShowApprovalModal(false)}
-                className="w-8 h-8 rounded-full bg-neutral-100 items-center justify-center active:opacity-75"
-              >
-                <X size={16} color="#333333" />
-              </TouchableOpacity>
-            </View>
-
-            <ScrollView className="max-h-[400px] mb-6" showsVerticalScrollIndicator={false}>
-              <View className="gap-4 pr-1">
-                <View>
-                  <Text className="text-neutral-400 text-xs font-bold uppercase mb-2 tracking-wider">Week</Text>
-                  <TouchableOpacity className="bg-neutral-50 border border-neutral-200/60 rounded-2xl px-4 py-3.5 flex-row justify-between items-center active:opacity-85">
-                    <Text className="text-neutral-800 text-sm font-semibold">Select Week</Text>
-                    <ChevronDown size={18} color="#737373" />
-                  </TouchableOpacity>
-                </View>
-
-                {APPROVAL_WEEKS.map((item) => (
-                  <View key={item.day} className="bg-white border border-neutral-100 rounded-2xl px-4 py-4 flex-row items-center justify-between shadow-sm">
-                    <View>
-                      <Text className="text-slate-900 font-bold text-sm">{item.day}</Text>
-                      <Text className="text-slate-400 text-xs mt-1">{item.hours}</Text>
-                    </View>
-                    <TouchableOpacity className="border border-neutral-200 rounded-lg px-4 py-2 bg-white active:opacity-85">
-                      <Text className="text-neutral-700 text-xs font-medium">Approve</Text>
-                    </TouchableOpacity>
-                  </View>
-                ))}
-              </View>
-            </ScrollView>
-
-            <TouchableOpacity
-              onPress={() => setShowApprovalModal(false)}
-              style={{ backgroundColor: Colors.common.GRAY_DARK }}
-              className="w-full py-4 rounded-2xl items-center justify-center active:opacity-90 shadow-md shadow-neutral-900/10"
-            >
-              <Text className="text-white font-extrabold text-sm">Approve</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }

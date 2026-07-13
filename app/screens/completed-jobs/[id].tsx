@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { ChevronLeft, Bell, MapPin, Users, Calendar, Briefcase, Mail, Phone, Clock } from 'lucide-react-native';
+import { ChevronLeft, Bell, MapPin, Users, Calendar, Briefcase, Mail, Phone } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CompletedJobDetailScreen() {
   const router = useRouter();
-  const { id } = useLocalSearchParams();
-  
-  // Tab selector State
+  const { id, origin, status } = useLocalSearchParams<{ id?: string; origin?: string; status?: string }>();
+  const originRoute = Array.isArray(origin) ? origin[0] : origin;
+  const statusRoute = Array.isArray(status) ? status[0] : status;
+
   const [activeSubTab, setActiveSubTab] = useState<'schedule' | 'summary'>('schedule');
 
-  // Mock static data for the completed job details
   const jobDetails = {
     title: 'Labourer',
     company: 'Tech Innovators Inc.',
     statusBadge: 'Day 20 of 20',
-    location: 'Shoreditch • 1.2 mi away',
+    location: 'Shoreditch - 1.2 mi away',
     team: '2 developers, 1 designer',
-    duration: '12 Jun • 1 month',
+    duration: '12 Jun - 1 month',
     contactName: 'James Hartley',
-    contactTitle: 'Director • Hartley Construction',
+    contactTitle: 'Director - Hartley Construction',
     contactEmail: 'olivia@untitledui.com',
     contactPhone: '+44 723 456 7891',
     startDate: '3 Jun 2026',
@@ -32,29 +32,39 @@ export default function CompletedJobDetailScreen() {
   };
 
   const mockWeeklyWork = [
-    { week: 'Week 1', dates: '12th - 16th July', status: 'Completed', color: 'bg-neutral-100 text-neutral-500' },
-    { week: 'Week 1', dates: '12th - 16th July', status: 'Approved', color: 'bg-green-50 text-green-600' },
-    { week: 'Week 1', dates: '12th - 16th July', status: 'Approved', color: 'bg-green-50 text-green-600' },
-    { week: 'Week 1', dates: '12th - 16th July', status: 'Approved', color: 'bg-green-50 text-green-600' },
-    { week: 'Week 1', dates: '12th - 16th July', status: 'Approved', color: 'bg-green-50 text-green-600' },
+    { week: 'Week 1', dates: '12th - 16th July', status: 'Completed' },
+    { week: 'Week 1', dates: '12th - 16th July', status: 'Approved' },
+    { week: 'Week 1', dates: '12th - 16th July', status: 'Approved' },
+    { week: 'Week 1', dates: '12th - 16th July', status: 'Approved' },
   ];
+
+  const handleNavigateBack = () => {
+    if (originRoute === 'employer') {
+      router.replace({
+        pathname: '/tabs/(employer-tabs)/my-jobs',
+        params: { tab: statusRoute ?? 'completed' },
+      });
+      return;
+    }
+
+    router.back();
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={['top']}>
-      {/* Brand Header */}
-      <View 
-        style={{ backgroundColor: Colors.common.BRAND }} 
+      <View
+        style={{ backgroundColor: Colors.common.BRAND }}
         className="pb-6 pt-4 px-6 rounded-b-[24px] shadow-lg shadow-orange-500/10 z-10"
       >
         <View className="flex-row justify-between items-center">
-          <TouchableOpacity 
-            onPress={() => router.back()}
+          <TouchableOpacity
+            onPress={handleNavigateBack}
             className="flex-row items-center gap-1 active:opacity-75"
           >
             <ChevronLeft size={20} color="#FFFFFF" />
-            <Text className="text-white text-base font-extrabold tracking-tight">Completed Jobs</Text>
+            <Text className="text-white text-base font-extrabold tracking-tight">My Jobs</Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity className="w-10 h-10 rounded-full bg-white/20 items-center justify-center border border-white/25 active:opacity-75">
             <Bell color="#FFFFFF" size={18} />
           </TouchableOpacity>
@@ -63,8 +73,6 @@ export default function CompletedJobDetailScreen() {
 
       <ScrollView className="flex-1 bg-neutral-50/50" showsVerticalScrollIndicator={false}>
         <View className="px-5 pt-4 pb-12">
-          
-          {/* Completed Job Card */}
           <View className="bg-white rounded-2xl p-5 border border-neutral-100 shadow-sm mb-6">
             <View className="flex-row justify-between items-start mb-4">
               <View className="flex-row items-center gap-3">
@@ -78,14 +86,8 @@ export default function CompletedJobDetailScreen() {
               </View>
 
               <View className="items-end">
-                <View 
-                  className="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-100"
-                >
-                  <Text 
-                    className="text-[10px] font-extrabold text-emerald-600"
-                  >
-                    {jobDetails.statusBadge}
-                  </Text>
+                <View className="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-100">
+                  <Text className="text-[10px] font-extrabold text-emerald-500">{jobDetails.statusBadge}</Text>
                 </View>
               </View>
             </View>
@@ -106,10 +108,9 @@ export default function CompletedJobDetailScreen() {
             </View>
           </View>
 
-          {/* Employer Contact Card */}
           <View className="bg-white rounded-2xl p-5 border border-neutral-100 shadow-sm mb-6">
             <Text className="text-neutral-900 font-extrabold text-base mb-4">Employer Contact</Text>
-            
+
             <View className="flex-row items-center gap-3 mb-4">
               <View className="w-12 h-12 rounded-full bg-slate-100 border border-slate-200 justify-center items-center">
                 <Text className="text-slate-700 font-extrabold text-sm">JH</Text>
@@ -132,30 +133,24 @@ export default function CompletedJobDetailScreen() {
             </View>
           </View>
 
-          {/* Subnavigation chips */}
           <View className="flex-row gap-2 mb-6">
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => setActiveSubTab('schedule')}
               style={activeSubTab === 'schedule' ? { backgroundColor: Colors.common.GRAY_DARK } : { backgroundColor: '#E5E5E52B' }}
               className={`px-4 py-2 rounded-xl shadow-sm ${activeSubTab === 'schedule' ? '' : 'border border-neutral-200/60'}`}
             >
-              <Text className={`text-xs font-bold ${activeSubTab === 'schedule' ? 'text-white' : 'text-neutral-500'}`}>
-                Schedule
-              </Text>
+              <Text className={`text-xs font-bold ${activeSubTab === 'schedule' ? 'text-white' : 'text-neutral-500'}`}>Schedule</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => setActiveSubTab('summary')}
               style={activeSubTab === 'summary' ? { backgroundColor: Colors.common.GRAY_DARK } : { backgroundColor: '#E5E5E52B' }}
               className={`px-4 py-2 rounded-xl shadow-sm ${activeSubTab === 'summary' ? '' : 'border border-neutral-200/60'}`}
             >
-              <Text className={`text-xs font-bold ${activeSubTab === 'summary' ? 'text-white' : 'text-neutral-500'}`}>
-                Work Summary
-              </Text>
+              <Text className={`text-xs font-bold ${activeSubTab === 'summary' ? 'text-white' : 'text-neutral-500'}`}>Work Summary</Text>
             </TouchableOpacity>
           </View>
 
-          {/* Tab Sub-content grids */}
           {activeSubTab === 'schedule' && (
             <View>
               <Text className="text-neutral-900 font-extrabold text-base mb-3.5">Project Schedule</Text>
@@ -187,7 +182,6 @@ export default function CompletedJobDetailScreen() {
           {activeSubTab === 'summary' && (
             <View>
               <Text className="text-neutral-900 font-extrabold text-base mb-4">Work Summary</Text>
-              
               <View className="border border-neutral-100 rounded-2xl bg-white shadow-sm overflow-hidden divide-y divide-neutral-50">
                 {mockWeeklyWork.map((item, idx) => (
                   <View key={idx} className="flex-row justify-between items-center p-4">
@@ -205,7 +199,6 @@ export default function CompletedJobDetailScreen() {
               </View>
             </View>
           )}
-
         </View>
       </ScrollView>
     </SafeAreaView>
