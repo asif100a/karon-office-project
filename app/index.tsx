@@ -2,10 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Animated, View } from 'react-native';
 import SplashScreenComponent from './screens/SplashScreen';
 import OnboardingScreenComponent from './screens/OnboardingScreen';
+import { router } from 'expo-router';
+import { Routes } from '@/constants/Routes';
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const fadeAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    router.push('/tabs/(worker-tabs)');
+  }, []);
 
   useEffect(() => {
     // Show splash for 2.5s, then fade out and render the onboarding screens

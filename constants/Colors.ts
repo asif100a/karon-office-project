@@ -25,7 +25,7 @@ export const Colors = {
   },
   common: {
     BRAND: '#FF5500',
-    BRAND_LIGHT: "#FF55002A",
+    BRAND_LIGHT: "#FEEEE6",
     ERROR: "#F0436F",
     SUCCESS: "#4CAF50",
     WARNING: "#FFC107",

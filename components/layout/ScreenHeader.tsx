@@ -21,7 +21,7 @@ export default function ScreenHeader() {
           />
 
           <View className="flex-1">
-            <Text className="text-white text-base font-semibold">Welcome Back</Text>
+            <Text className="text-white text-lg font-semibold">Welcome Back 👋</Text>
             <Text className="text-white/90 text-sm font-medium mt-0.5">Hello, Thom Haye</Text>
           </View>
         </View>
