@@ -27,9 +27,9 @@ export default function ScreenHeader() {
         </View>
 
         <View className="flex-row items-center gap-3">
-          <TouchableOpacity className="w-12 h-12 rounded-full bg-white/10 items-center justify-center active:opacity-85">
+          {/* <TouchableOpacity className="w-12 h-12 rounded-full bg-white/10 items-center justify-center active:opacity-85">
             <Feather name="search" size={22} color="#FFFFFF" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity
             onPress={handleNotificationPress}
