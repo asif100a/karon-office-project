@@ -54,6 +54,7 @@ function RootLayoutNav() {
           {/* <StatusBar style={colorMode === 'dark' ? 'light' : 'dark'} /> */}
           <StatusBar style={'dark'} />
           <Slot />
+         {/*
           {pathname === '/' && (
             <Fab
               onPress={() =>
@@ -65,6 +66,7 @@ function RootLayoutNav() {
               <FabIcon as={colorMode === 'dark' ? MoonIcon : SunIcon} />
             </Fab>
           )}
+         */}
         </GluestackUIProvider>
       </GestureHandlerRootView>
     // </ThemeProvider>

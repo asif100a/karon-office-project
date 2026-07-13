@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image, TextInput } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Image, TextInput, Modal } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import {
   ArrowLeft,
@@ -10,6 +10,8 @@ import {
   Briefcase,
   ChevronRight,
   MessageCircle,
+  X,
+  ChevronDown,
 } from "lucide-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/constants/Colors";
@@ -86,6 +88,20 @@ const WORKER_DETAILS: Record<string, WorkerDetail> = {
 
 WORKER_DETAILS["2"] = WORKER_DETAILS["1"];
 WORKER_DETAILS["3"] = WORKER_DETAILS["1"];
+
+const EMPLOYER_TIMESHEETS = [
+  { week: "Week 1", dates: "12th - 16th July" },
+  { week: "Week 1", dates: "12th - 16th July" },
+  { week: "Week 1", dates: "12th - 16th July" },
+  { week: "Week 1", dates: "12th - 16th July" },
+];
+
+const EMPLOYER_APPROVAL_DAYS = [
+  { day: "Saturday", hours: "8 Hours" },
+  { day: "Sunday", hours: "8 Hours" },
+  { day: "Monday", hours: "8 Hours" },
+  { day: "Tuesday", hours: "8 Hours" },
+];
 
 function RatingStars({ rating }: { rating: string }) {
   const fullStars = Math.floor(Number(rating));
@@ -164,6 +180,7 @@ export default function WorkerDetailsScreen() {
   const [showReviewComposer, setShowReviewComposer] = useState(false);
   const [reviewRating, setReviewRating] = useState(4);
   const [reviewText, setReviewText] = useState("");
+  const [showApprovalModal, setShowApprovalModal] = useState(false);
 
   const goBackToOrigin = () => {
     if (originRoute === "worker") {
@@ -193,6 +210,153 @@ export default function WorkerDetailsScreen() {
 
     goBackToOrigin();
   };
+
+  if (originRoute === "employer" && !showEmptyState) {
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#F8FAFC" }} edges={["top"]}>
+        <View className="flex-row items-center justify-between px-5 py-4 bg-white border-b border-neutral-100">
+          <TouchableOpacity
+            onPress={goBackToOrigin}
+            className="w-10 h-10 rounded-full bg-neutral-50 items-center justify-center active:opacity-75"
+          >
+            <ArrowLeft size={20} color="#1F2937" />
+          </TouchableOpacity>
+          <Text className="text-neutral-900 text-base font-extrabold">Worker Details</Text>
+          <TouchableOpacity className="w-10 h-10 rounded-xl bg-neutral-900 items-center justify-center active:opacity-85">
+            <Bookmark size={18} color="#FFFFFF" />
+          </TouchableOpacity>
+        </View>
+
+        <ScrollView className="flex-1" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 24 }}>
+          <View className="px-4 pt-4">
+            <View className="bg-white rounded-2xl border border-neutral-100 shadow-sm px-5 py-5 items-center">
+              <View className="relative">
+                <Image
+                  source={{ uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&h=240&fit=crop" }}
+                  className="w-24 h-24 rounded-full"
+                />
+                <View
+                  style={{ left: "50%", transform: [{ translateX: -36 }] }}
+                  className="absolute -bottom-2 bg-emerald-50 border border-emerald-300 px-3 py-1 rounded-full"
+                >
+                  <Text className="text-emerald-600 text-[10px] font-bold">{worker.status}</Text>
+                </View>
+              </View>
+
+              <Text className="text-neutral-900 text-2xl font-extrabold mt-5">{worker.name}</Text>
+              <Text className="text-neutral-500 text-base mt-1">{worker.role}</Text>
+
+              <View className="flex-row items-center gap-2 mt-2">
+                <RatingStars rating={worker.rating} />
+                <View className="flex-row items-center -space-x-2">
+                  <View className="w-7 h-7 rounded-full bg-orange-500 border-2 border-white items-center justify-center">
+                    <Text className="text-white text-xs font-bold">K</Text>
+                  </View>
+                  <View className="w-7 h-7 rounded-full bg-violet-600 border-2 border-white items-center justify-center">
+                    <Text className="text-white text-xs font-bold">C</Text>
+                  </View>
+                </View>
+                <Text className="text-neutral-500 text-sm font-medium">({worker.reviews})</Text>
+              </View>
+
+              <View className="flex-row items-center gap-2 mt-4">
+                <MapPin size={14} color="#C81E1E" />
+                <Text className="text-neutral-500 text-sm">{worker.location}</Text>
+              </View>
+            </View>
+
+            <View className="bg-white rounded-2xl border border-neutral-100 shadow-sm mt-4 overflow-hidden">
+              <View className="flex-row items-center justify-between px-4 py-4 border-b border-neutral-100">
+                <Text className="text-neutral-900 text-base font-extrabold">Update Timesheet</Text>
+                <View className="bg-orange-50 px-2.5 py-1 rounded-lg">
+                  <Text style={{ color: Colors.common.BRAND }} className="text-[10px] font-bold">
+                    Day 3 of 20
+                  </Text>
+                </View>
+              </View>
+
+              {EMPLOYER_TIMESHEETS.map((item, index) => (
+                <View
+                  key={`${item.week}-${index}`}
+                  className={`px-4 py-4 flex-row items-center justify-between ${index < EMPLOYER_TIMESHEETS.length - 1 ? "border-b border-neutral-100" : ""}`}
+                >
+                  <View>
+                    <Text className="text-neutral-900 text-sm font-bold">{item.week}</Text>
+                    <Text className="text-neutral-400 text-xs mt-1">{item.dates}</Text>
+                  </View>
+
+                  <View className="flex-row items-center gap-3">
+                    <TouchableOpacity>
+                      <Text className="text-neutral-600 text-xs font-medium">View</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => setShowApprovalModal(true)}
+                      className="border border-neutral-200 rounded-lg px-4 py-2 bg-white active:opacity-85"
+                    >
+                      <Text className="text-neutral-500 text-[11px] font-medium">Approve</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ))}
+            </View>
+          </View>
+        </ScrollView>
+
+        <Modal
+          animationType="slide"
+          transparent
+          visible={showApprovalModal}
+          onRequestClose={() => setShowApprovalModal(false)}
+        >
+          <View className="flex-1 bg-black/50 justify-end">
+            <View className="bg-white rounded-t-[28px] p-5 pb-6 border-t border-neutral-100">
+              <View className="flex-row items-center justify-between mb-5">
+                <Text className="text-neutral-900 text-lg font-extrabold">Request approval</Text>
+                <TouchableOpacity
+                  onPress={() => setShowApprovalModal(false)}
+                  className="w-8 h-8 rounded-full items-center justify-center active:opacity-75"
+                >
+                  <X size={16} color="#111827" />
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView className="max-h-[420px]" showsVerticalScrollIndicator={false}>
+                <View>
+                  <Text className="text-neutral-400 text-xs mb-2">Week</Text>
+                  <TouchableOpacity className="bg-white border border-neutral-200 rounded-2xl px-4 py-3.5 flex-row items-center justify-between mb-5">
+                    <Text className="text-neutral-400 text-sm">Select Week</Text>
+                    <ChevronDown size={16} color="#6B7280" />
+                  </TouchableOpacity>
+                </View>
+
+                <View className="gap-4">
+                  {EMPLOYER_APPROVAL_DAYS.map((item) => (
+                    <View key={item.day} className="bg-white border border-neutral-100 rounded-2xl px-4 py-4 flex-row items-center justify-between">
+                      <View>
+                        <Text className="text-slate-900 text-sm font-medium">{item.day}</Text>
+                        <Text className="text-slate-400 text-xs mt-1">{item.hours}</Text>
+                      </View>
+                      <TouchableOpacity className="border border-neutral-200 rounded-lg px-4 py-2 bg-white active:opacity-85">
+                        <Text className="text-neutral-400 text-[11px] font-medium">Approve</Text>
+                      </TouchableOpacity>
+                    </View>
+                  ))}
+                </View>
+              </ScrollView>
+
+              <TouchableOpacity
+                onPress={() => setShowApprovalModal(false)}
+                style={{ backgroundColor: Colors.common.GRAY_DARK }}
+                className="mt-5 w-full py-4 rounded-xl items-center justify-center active:opacity-90"
+              >
+                <Text className="text-white text-sm font-semibold">Approve</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#F8FAFC" }} edges={["top"]}>
