@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: "#F3F4F6",
-    paddingTop: 6,
+    paddingTop: 0,
     elevation: 12,
     shadowColor: "#000",
     shadowOpacity: 0.07,
@@ -128,11 +128,11 @@ const styles = StyleSheet.create({
   tabButton: {
     flex: 1,
     alignItems: "center",
-    paddingVertical: 4,
+    paddingBottom: 4,
     paddingTop: 2,
   },
   activeIndicator: {
-    width: 56,
+    width: '100%',
     height: 3,
     borderRadius: 999,
     marginBottom: 8,

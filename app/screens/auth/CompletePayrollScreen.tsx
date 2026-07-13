@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, TouchableOpacity, Modal } from 'react-native';
 import { Text } from '@/components/ui/text';
+import WalletImg from '@/assets/images/auth/money-bag.png';
+import ProgressImg from '@/assets/images/auth/progress.png';
+import CheckmarkImg from '@/assets/images/auth/checkmark.png';
 
 interface CompletePayrollScreenProps {
   onComplete: () => void;
@@ -26,13 +29,13 @@ export default function CompletePayrollScreen({ onComplete }: CompletePayrollScr
         {/* Centered Illustration & Text for Review state */}
         <View className="flex-1 justify-center items-center mt-10">
           <Image
-            source={require('@/assets/images/orange_hourglass.png')}
+            source={ProgressImg}
             style={{ width: 160, height: 160, resizeMode: 'contain' }}
           />
-          <Text className="text-[#1B2530] text-[26px] font-bold text-center mt-10 tracking-tight leading-8 px-4">
+          <Text className="text-[#1B2530] text-[26px] font-bold text-center mt-6 tracking-tight leading-6 px-4">
             Application Under Review
           </Text>
-          <Text className="text-neutral-500 text-sm text-center mt-4 font-medium leading-6 px-8">
+          <Text className="text-neutral-500 text-sm text-center mt-3 font-medium leading-6 px-8">
             Your account is under review by our team. You'll be notified as soon as it's approved, and then you can log in.
           </Text>
         </View>
@@ -51,10 +54,10 @@ export default function CompletePayrollScreen({ onComplete }: CompletePayrollScr
       {/* Centered Illustration & Text */}
       <View className="flex-1 justify-center items-center mt-10">
         <Image
-          source={require('@/assets/images/orange_wallet.png')}
+          source={WalletImg}
           style={{ width: 160, height: 160, resizeMode: 'contain' }}
         />
-        <Text className="text-[#1B2530] text-[26px] font-bold text-center mt-10 tracking-tight leading-8 px-4">
+        <Text className="text-[#1B2530] text-[26px] font-bold text-center mt-4 tracking-tight leading-6 px-4">
           Complete Employment Partner Profile
         </Text>
         <Text className="text-neutral-500 text-sm text-center mt-3 font-medium leading-5 px-6">
@@ -82,11 +85,11 @@ export default function CompletePayrollScreen({ onComplete }: CompletePayrollScr
         animationType="fade"
         onRequestClose={() => {}}
       >
-        <View className="flex-1 bg-black/60 justify-center items-center px-6">
-          <View className="w-full bg-white rounded-[32px] p-8 items-center shadow-xl">
+        <View className="flex-1 bg-neutral-500/60 justify-center items-center px-6">
+          <View className="w-full bg-white rounded-[32px] p-8 items-center">
             {/* Glossy Green Checkmark Badge */}
             <Image
-              source={require('@/assets/images/green_checkmark.png')}
+              source={CheckmarkImg}
               style={{ width: 90, height: 90, resizeMode: 'contain' }}
             />
             
