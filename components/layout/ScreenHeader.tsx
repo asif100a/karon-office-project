@@ -1,40 +1,47 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
-import Logo from "@/assets/icons/Logo";
 import { useRouter } from "expo-router";
+import { Routes } from "@/constants/Routes";
 
 export default function ScreenHeader() {
   const router = useRouter();
 
   const handleNotificationPress = () => {
-    router.push("/screens/common/notifications");
+    router.push(Routes.CommonRoutes.NOTIFICATIONS);
   };
 
   return (
-    <View className="flex-row items-center justify-between px-5 pt-20 pb-4 bg-white">
-      <View className="flex-row items-center gap-3">
-        <View className="w-auto h-auto p-2 rounded-full bg-blue-600 items-center justify-center">
-          <Logo width={36} height={36} />
+    <View style={{ backgroundColor: Colors.common.BRAND }} className="px-6 pt-18 pb-8">
+      <View className="flex-row items-center justify-between">
+        <View className="flex-row items-center gap-3 flex-1 pr-4">
+          <Image
+            source={{ uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop" }}
+            className="w-14 h-14 rounded-full border-2 border-white/30"
+          />
+
+          <View className="flex-1">
+            <Text className="text-white text-base font-semibold">Welcome Back</Text>
+            <Text className="text-white/90 text-sm font-medium mt-0.5">Hello, Thom Haye</Text>
+          </View>
         </View>
-        <View>
-          <Text className="text-sm text-gray-400">Welcome back</Text>
-          <Text className="text-xl font-bold text-gray-900">Samiul</Text>
+
+        <View className="flex-row items-center gap-3">
+          <TouchableOpacity className="w-12 h-12 rounded-full bg-white/10 items-center justify-center active:opacity-85">
+            <Feather name="search" size={22} color="#FFFFFF" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={handleNotificationPress}
+            className="relative w-12 h-12 rounded-full bg-white/10 items-center justify-center active:opacity-85"
+          >
+            <Feather name="bell" size={22} color="#FFFFFF" />
+            <View className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-white/15 items-center justify-center border border-white/20">
+              <Text className="text-white text-[10px] font-bold">2</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity
-        onPress={handleNotificationPress}
-        className="relative w-auto h-auto p-3.5 items-center justify-center"
-        style={{
-          backgroundColor: Colors.common.GRAY_LIGHT,
-          borderRadius: 9999,
-        }}
-      >
-        <Feather name="bell" size={24} color="#111827" />
-        <View className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-blue-600 items-center justify-center">
-          <Text className="text-white text-base">2</Text>
-        </View>
-      </TouchableOpacity>
     </View>
   );
 }

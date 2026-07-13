@@ -10,7 +10,7 @@ export default function BackButton({
   style = {},
   textStyle = {},
   iconStyle = {},
-  iconColor = "#000",
+  iconColor = "#fff",
 }: {
   title?: string;
   size?: "base" | "lg";
@@ -37,7 +37,7 @@ export default function BackButton({
       />
 
       <Text
-        className={`text-black text-base mb-[0.5px] ${size === "lg" ? "text-2xl" : "text-base"}`}
+        className={`text-white text-base mb-[0.5px] ${size === "lg" ? "text-2xl" : "text-base"}`}
         style={{...textStyle}}
       >
         {title}

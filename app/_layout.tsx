@@ -49,7 +49,7 @@ function RootLayoutNav() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <GluestackUIProvider mode={colorMode}>
         {/* <StatusBar style={colorMode === 'dark' ? 'light' : 'dark'} /> */}
-        <StatusBar style={"dark"} />
+        <StatusBar style={"light"} />
         <Slot />
         <Toast />
       </GluestackUIProvider>

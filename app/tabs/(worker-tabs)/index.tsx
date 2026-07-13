@@ -1,8 +1,8 @@
-import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Search, Bell, MapPin, Users, Calendar, Briefcase, ChevronRight, Sparkles } from 'lucide-react-native';
+import { MapPin, Users, Calendar, Briefcase, ChevronRight, Sparkles } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
+import ScreenHeader from '@/components/layout/ScreenHeader';
 
 const MOCK_JOB_OFFERS = [
   {
@@ -56,35 +56,7 @@ export default function WorkerHomeScreen() {
   return (
     <View className="flex-1 bg-neutral-50">
       {/* Brand Header */}
-      <View 
-        style={{ backgroundColor: Colors.common.BRAND }} 
-        className="pt-16 pb-8 px-6 rounded-b-[32px] shadow-lg shadow-orange-500/10"
-      >
-        <View className="flex-row justify-between items-center">
-          {/* User Info */}
-          <View className="flex-row items-center gap-3">
-            {/* Initials Avatar */}
-            <View className="w-12 h-12 rounded-full bg-white/20 items-center justify-center border border-white/35">
-              <Text className="text-white font-extrabold text-base">TH</Text>
-            </View>
-            <View>
-              <Text className="text-white/85 text-xs font-semibold">Welcome Back 👋</Text>
-              <Text className="text-white text-base font-extrabold tracking-tight">Hello, Thom Haye</Text>
-            </View>
-          </View>
-
-          {/* Header Action Buttons */}
-          <View className="flex-row gap-2">
-            <TouchableOpacity className="w-10 h-10 rounded-full bg-white/15 items-center justify-center border border-white/10 active:opacity-75">
-              <Search color="#FFFFFF" size={18} />
-            </TouchableOpacity>
-            <TouchableOpacity className="w-10 h-10 rounded-full bg-white/15 items-center justify-center border border-white/10 active:opacity-75 relative">
-              <Bell color="#FFFFFF" size={18} />
-              <View className="absolute top-1 right-1 w-2.5 h-2.5 bg-yellow-400 rounded-full border border-orange-500" />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
+      <ScreenHeader />
 
       <ScrollView 
         className="flex-1 px-5" 
