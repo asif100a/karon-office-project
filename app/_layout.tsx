@@ -14,6 +14,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -54,6 +55,7 @@ function RootLayoutNav() {
           {/* <StatusBar style={colorMode === 'dark' ? 'light' : 'dark'} /> */}
           <StatusBar style={'dark'} />
           <Slot />
+          <Toast />
          {/*
           {pathname === '/' && (
             <Fab

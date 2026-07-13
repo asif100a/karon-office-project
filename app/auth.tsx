@@ -124,7 +124,7 @@ export default function AuthFlow() {
     }
   };
 
-  const showHeader = step !== 'complete_payroll' && step !== 'review';
+  const showHeader = step !== 'complete_payroll' && step !== 'review' && step !== 'login' && step !== 'register_general';
 
   return (
     <KeyboardAvoidingView 

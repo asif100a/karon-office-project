@@ -6,6 +6,7 @@ import LogoWhite from '@/assets/icons/LogoWhite';
 import { useForm } from 'react-hook-form';
 import StandardInputField from '@/components/standard_ui/form_fields/StandardInputField';
 import { Check } from 'lucide-react-native';
+import Toast from 'react-native-toast-message';
 
 interface RegisterPasswordScreenProps {
   onComplete?: (password: string) => void;
@@ -24,7 +25,11 @@ export default function RegisterPasswordScreen({ onComplete }: RegisterPasswordS
 
   const onSubmit = (data: any) => {
     if (data.password !== data.confirmPassword) {
-      alert('Passwords do not match.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Passwords do not match.'
+      });
       return;
     }
     if (onComplete) {

@@ -107,7 +107,7 @@ export default function RegisterDocumentsScreen({ onContinue }: RegisterDocument
         <View className="gap-6">
           {/* Dashed Upload Box */}
           <View 
-            className="border-2 border-dashed border-neutral-200 rounded-2xl p-6 items-center bg-[#FAFAFA]"
+            className="border-2 border-dashed border-neutral-200 rounded-2xl p-6 items-center"
             style={{ borderStyle: 'dashed' }}
           >
             <Text className="text-neutral-500 text-xs font-semibold uppercase tracking-wider mb-1">
@@ -143,7 +143,7 @@ export default function RegisterDocumentsScreen({ onContinue }: RegisterDocument
             {documents.map((doc) => (
               <View 
                 key={doc.id}
-                className="border border-neutral-100 bg-[#FCFCFC] rounded-xl p-4 flex-row items-center justify-between"
+                className="border border-neutral-100 rounded-xl p-4 flex-row items-center justify-between"
               >
                 <View className="flex-row items-center gap-3">
                   <View className="bg-red-50 p-2.5 rounded-lg">
