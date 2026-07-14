@@ -29,6 +29,7 @@ import {
 } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
+import CommonHeader from "@/components/modules/common/CommonHeader";
 
 const EMPLOYER_WORKERS = [
   { id: "1", name: "James Hartley", progress: "Day 3 of 20" },
@@ -169,9 +170,9 @@ export default function ActiveJobDetailScreen() {
     return (
       <SafeAreaView
         style={{ flex: 1, backgroundColor: "#F8FAFC" }}
-        edges={["top"]}
+        edges={[]}
       >
-        <View
+        {/* <View
           style={{ backgroundColor: Colors.common.BRAND }}
           className="pb-6 pt-4 px-5 rounded-b-[24px] shadow-lg shadow-orange-500/10"
         >
@@ -190,7 +191,11 @@ export default function ActiveJobDetailScreen() {
               <Bell color="#FFFFFF" size={18} />
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
+        <CommonHeader
+          headerTitle={EMPLOYER_JOB_DETAILS.title}
+          onPress={handleNavigateBack}
+        />
 
         <ScrollView
           className="flex-1 bg-neutral-50"
@@ -438,7 +443,9 @@ export default function ActiveJobDetailScreen() {
                             </TouchableOpacity>
                             <TouchableOpacity
                               onPress={() => openWorkerDetails(applicant.id)}
-                              style={{ backgroundColor: Colors.common.GRAY_DARK }}
+                              style={{
+                                backgroundColor: Colors.common.GRAY_DARK,
+                              }}
                               className="px-4 py-2 rounded-md active:opacity-90"
                             >
                               <Text className="text-white text-xs font-medium">
@@ -462,7 +469,9 @@ export default function ActiveJobDetailScreen() {
               style={{ backgroundColor: Colors.common.GRAY_DARK }}
               className="flex-1 py-4 rounded-xl items-center justify-center active:opacity-90"
             >
-              <Text className="text-white text-sm font-semibold">Cancel Job</Text>
+              <Text className="text-white text-sm font-semibold">
+                Cancel Job
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity className="flex-1 py-4 rounded-xl border border-neutral-200 bg-white items-center justify-center active:opacity-75">
               <Text className="text-neutral-700 text-sm font-medium">

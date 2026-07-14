@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Bell, ArrowRight } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
+import CommonHeader from '@/components/modules/common/CommonHeader';
 
 const MOCK_CHATS = [
   {
@@ -77,18 +78,7 @@ export default function WorkerChatsScreen() {
   return (
     <View className="flex-1 bg-white">
       {/* Brand Header */}
-      <View 
-        style={{ backgroundColor: Colors.common.BRAND }} 
-        className="pt-14 pb-4 px-6"
-      >
-        <View className="flex-row justify-between items-center">
-          <Text className="text-white text-2xl font-extrabold tracking-tight">Chats</Text>
-          
-          <TouchableOpacity className="w-10 h-10 rounded-full bg-white/15 items-center justify-center border border-white/10 active:opacity-75">
-            <Bell color="#FFFFFF" size={18} />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <CommonHeader headerTitle="Chats" />
 
       {/* Chats List */}
       <ScrollView 
