@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
-  View,
   ScrollView,
 } from "react-native";
 import { useRouter } from "expo-router";
@@ -8,6 +7,7 @@ import SearchAndFilterInput from "@/components/modules/worker/my-jobs/SearchAndF
 import MyJobToggleChips from "@/components/modules/worker/my-jobs/MyJobToggleChips";
 import JobsList from "@/components/modules/worker/my-jobs/JobsList";
 import CommonHeader from "@/components/modules/common/CommonHeader";
+import ScreenWrapper from "@/components/layout/ScreenWrapper";
 
 export default function MyJobsScreen() {
   const router = useRouter();
@@ -27,7 +27,7 @@ export default function MyJobsScreen() {
   };
 
   return (
-    <View className="flex-1 bg-neutral-50">
+    <ScreenWrapper>
       {/* Header */}
       <CommonHeader headerTitle="My Jobs" />
 
@@ -51,6 +51,6 @@ export default function MyJobsScreen() {
           activeTab={activeTab}
         />
       </ScrollView>
-    </View>
+    </ScreenWrapper>
   );
 }

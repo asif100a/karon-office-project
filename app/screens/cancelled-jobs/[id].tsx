@@ -4,6 +4,8 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { ChevronLeft, Bell, MapPin, Users, Calendar, Briefcase, Info, ShieldAlert } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import CommonHeader from '@/components/modules/common/CommonHeader';
+import ScreenWrapper from '@/components/layout/ScreenWrapper';
 
 export default function CancelledJobDetailScreen() {
   const router = useRouter();
@@ -24,25 +26,9 @@ export default function CancelledJobDetailScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={['top']}>
-      <View
-        style={{ backgroundColor: Colors.common.BRAND }}
-        className="pb-6 pt-4 px-6 rounded-b-[24px] shadow-lg shadow-orange-500/10 z-10"
-      >
-        <View className="flex-row justify-between items-center">
-          <TouchableOpacity
-            onPress={() => router.back()}
-            className="flex-row items-center gap-1 active:opacity-75"
-          >
-            <ChevronLeft size={20} color="#FFFFFF" />
-            <Text className="text-white text-base font-extrabold tracking-tight">CancelledJobs</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity className="w-10 h-10 rounded-full bg-white/20 items-center justify-center border border-white/25 active:opacity-75">
-            <Bell color="#FFFFFF" size={18} />
-          </TouchableOpacity>
-        </View>
-      </View>
+    <ScreenWrapper>
+      {/* Header */}
+      <CommonHeader headerTitle={'Cancelled Job'} withBackButton />
 
       <ScrollView className="flex-1 bg-neutral-50/50" showsVerticalScrollIndicator={false}>
         <View className="px-5 pt-4 pb-12">
@@ -123,6 +109,6 @@ export default function CancelledJobDetailScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 }

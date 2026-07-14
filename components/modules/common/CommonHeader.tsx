@@ -32,12 +32,12 @@ export default function CommonHeader({
             className="flex-row items-center"
           >
             <ChevronLeft size={20} color="#FFFFFF" />
-            <Text className="text-white text-2xl font-extrabold tracking-tight">
+            <Text className="text-white text-xl font-extrabold tracking-tight">
               {headerTitle}
             </Text>
           </TouchableOpacity>
         ) : (
-          <Text className="text-white text-2xl font-extrabold tracking-tight">
+          <Text className="text-white text-xl font-extrabold tracking-tight">
             {headerTitle}
           </Text>
         )}

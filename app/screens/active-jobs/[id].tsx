@@ -172,28 +172,9 @@ export default function ActiveJobDetailScreen() {
         style={{ flex: 1, backgroundColor: "#F8FAFC" }}
         edges={[]}
       >
-        {/* <View
-          style={{ backgroundColor: Colors.common.BRAND }}
-          className="pb-6 pt-4 px-5 rounded-b-[24px] shadow-lg shadow-orange-500/10"
-        >
-          <View className="flex-row items-center justify-between">
-            <TouchableOpacity
-              onPress={() => handleNavigateBack()}
-              className="flex-row items-center gap-1.5 active:opacity-75"
-            >
-              <ChevronLeft size={19} color="#FFFFFF" />
-              <Text className="text-white text-[17px] font-extrabold">
-                {employerJobStatus === "upcoming" ? "UpcomingJobs" : "Active Jobs"}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity className="w-10 h-10 rounded-full bg-white/18 items-center justify-center border border-white/15 active:opacity-75">
-              <Bell color="#FFFFFF" size={18} />
-            </TouchableOpacity>
-          </View>
-        </View> */}
         <CommonHeader
-          headerTitle={EMPLOYER_JOB_DETAILS.title}
+          headerTitle={'Active Job'}
+          withBackButton
           onPress={handleNavigateBack}
         />
 

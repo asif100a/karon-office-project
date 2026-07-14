@@ -122,7 +122,7 @@ export default function JobsList({
           key={job.id}
           onPress={() => handleOpenJobDetails(job.id, job.status)}
           activeOpacity={0.9}
-          className="bg-white rounded-2xl p-5 border border-neutral-100/85 shadow-sm"
+          className="bg-white rounded-xl p-5 border border-neutral-100/80"
         >
           {/* Header info */}
           <View className="flex-row justify-between items-start mb-4">
