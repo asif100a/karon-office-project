@@ -180,7 +180,7 @@ export default function SearchWorkerScreen() {
             className="flex-row items-center gap-1 active:opacity-75"
           >
             <ChevronLeft size={20} color="#FFFFFF" />
-            <Text className="text-white text-base font-extrabold tracking-tight">Search Workers</Text>
+            <Text className="text-white text-xl font-extrabold tracking-tight">Search Workers</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
