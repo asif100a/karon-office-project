@@ -65,24 +65,38 @@ export default function LabourerCard({ job, handleViewDetails }: { job: any; han
       </View>
 
       {/* Action buttons */}
-      <View className="flex-row justify-between items-center">
-        <Text className="text-neutral-400 text-xs font-medium">{job.time}</Text>
+      <View className="flex-row gap-2 justify-between items-center">
+        <Text
+          className="text-neutral-400 text-xs font-medium"
+          numberOfLines={1}
+        >
+          {job.time}
+        </Text>
 
-        <View className="flex-row gap-2">
+        <View className="flex-row gap-2 justify-end">
           <TouchableOpacity
             onPress={() => handleViewDetails(job.id)}
             className="px-4 py-2 bg-neutral-100 rounded-md active:opacity-70"
+            style={{ minWidth: 82 }}
           >
-            <Text className="text-neutral-600 font-bold text-xs">
+            <Text
+              className="text-neutral-600 font-bold text-xs text-center"
+              numberOfLines={1}
+            >
               View Details
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => handleViewDetails(job.id)}
-            style={{ backgroundColor: Colors.common.GRAY_DARK }}
+            style={{ backgroundColor: Colors.common.GRAY_DARK, minWidth: 132 }}
             className="px-4 py-2 rounded-md active:opacity-90 shadow-sm"
           >
-            <Text className="text-white font-bold text-xs">Send Request</Text>
+            <Text
+              className="text-white font-bold text-xs text-center"
+              numberOfLines={1}
+            >
+              Send Request
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

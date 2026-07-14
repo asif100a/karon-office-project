@@ -164,13 +164,13 @@ export default function RegisterEmployerScreen({
           placeholder="Enter Address"
         />
 
-        <View className="flex-row items-center gap-2 mt-4">
+        <View className="flex-row items-start gap-2 mt-4">
           <StandardCheckbox
             value={termsAccepted}
             onValueChange={setTermsAccepted}
           />
           {/* Terms and Conditions */}
-          <Text className="text-neutral-400 text-xs leading-relaxed font-medium">
+          <Text className="text-neutral-400 text-xs leading-relaxed font-medium -mt-1">
             By continuing you agree to our{" "}
             <Text className="text-[#FF5500] underline font-semibold text-xs">
               Terms of Service
