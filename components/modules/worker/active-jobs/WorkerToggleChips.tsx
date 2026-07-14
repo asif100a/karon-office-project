@@ -5,14 +5,15 @@ import { Colors } from "@/constants/Colors";
 const TABS = [
   { key: "schedule", label: "Schedule", minWidth: 64 },
   { key: "summary", label: "Work Summary", minWidth: 104 },
+  { key: "policy", label: "Worker Policy", minWidth: 104 },
 ] as const;
 
-export default function CompletedToggleChips({
+export default function WorkerToggleChips({
   activeSubTab,
   setActiveSubTab,
 }: {
-  activeSubTab: "schedule" | "summary";
-  setActiveSubTab: React.Dispatch<React.SetStateAction<"schedule" | "summary">>;
+  activeSubTab: "schedule" | "summary" | "policy";
+  setActiveSubTab: React.Dispatch<React.SetStateAction<"schedule" | "summary" | "policy">>;
 }) {
   return (
     <View className="flex-row gap-2 mb-6">
@@ -27,9 +28,9 @@ export default function CompletedToggleChips({
               { minWidth: tab.minWidth },
               isActive
                 ? { backgroundColor: Colors.common.GRAY_DARK }
-                : { backgroundColor: "#E5E5E52B" },
+                : { backgroundColor: "#FFFFFF" },
             ]}
-            className={`px-3 py-2 rounded-xl shadow-sm items-center justify-center ${isActive ? "" : "border border-neutral-200/60"}`}
+            className={`px-3 py-2 rounded-lg items-center justify-center ${isActive ? "" : "border border-neutral-200/60"}`}
           >
             <Text
               numberOfLines={1}
