@@ -1,10 +1,22 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Platform } from 'react-native';
-import { useRouter, useLocalSearchParams } from 'expo-router';
-import { ArrowLeft, Bookmark, MapPin, Users, Calendar, Briefcase, Clock } from 'lucide-react-native';
-import { Colors } from '@/constants/Colors';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import type { Region } from 'react-native-maps';
+import { useLocalSearchParams, useRouter } from "expo-router";
+import type { ReactNode } from "react";
+import {
+  ArrowLeft,
+  Bookmark,
+} from "lucide-react-native";
+import { Platform, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import type { Region } from "react-native-maps";
+import { SafeAreaView } from "react-native-safe-area-context";
+import StickyActions from "@/components/modules/employer/employer-details/StickyActions";
+import JobSummaryCard from "@/components/modules/employer/employer-details/JobSummaryCard";
+import JobOverviewSection from "@/components/modules/employer/employer-details/JobOverviewSection";
+import MapFallback from "@/components/modules/employer/employer-details/_ui/MapFallback";
+import { EmployerJobDetails } from "@/types";
+
+type NativeMapComponents = {
+  MapView: typeof import("react-native-maps").default;
+  Marker: typeof import("react-native-maps").Marker;
+};
 
 const JOB_COORDINATES: Region = {
   latitude: 51.5246,
@@ -13,69 +25,113 @@ const JOB_COORDINATES: Region = {
   longitudeDelta: 0.014,
 };
 
-type NativeMapComponents = {
-  MapView: typeof import('react-native-maps').default;
-  Marker: typeof import('react-native-maps').Marker;
+const DEFAULT_JOB_DETAILS: EmployerJobDetails = {
+  title: "Labourer",
+  company: "Tech Innovators Inc.",
+  payRate: "$80 - $120/hour",
+  tag: "Market Rate",
+  location: "Shoreditch \u2022 1.2 mi away",
+  team: "2 developers, 1 designer",
+  duration: "12 Jun \u2022 1 month",
+  time: "2 hours ago",
+  tradeSkill: "Groundworker",
+  tradeCount: "1 labor",
+  employmentType: "Full-time",
+  jobDuration: "4 week",
+  requirements:
+    "CIS registration required. CSCS Gold card preferred. Site induction on day one.",
+};
+
+const JOB_DETAILS_BY_ID: Record<string, EmployerJobDetails> = {
+  "3": DEFAULT_JOB_DETAILS,
+  "4": DEFAULT_JOB_DETAILS,
+  "5": {
+    ...DEFAULT_JOB_DETAILS,
+    title: "Graphic Designer",
+    payRate: "$60 - $90/hour",
+    tag: "Competitive Rate",
+    location: "Soho \u2022 2.5 mi away",
+    team: "1 designer",
+    duration: "15 Jun \u2022 2 weeks",
+    time: "4 hours ago",
+    tradeSkill: "Creative Design",
+    tradeCount: "1 designer",
+    employmentType: "Contract",
+    jobDuration: "2 week",
+    requirements:
+      "Portfolio required. Experience with Adobe Creative Suite and motion graphics preferred.",
+  },
 };
 
 function getNativeMapComponents(): NativeMapComponents | null {
   const hasAndroidApiKey = Boolean(process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY);
 
-  if (Platform.OS === 'web' || (Platform.OS === 'android' && !hasAndroidApiKey)) {
+  if (Platform.OS === "web" || (Platform.OS === "android" && !hasAndroidApiKey)) {
     return null;
   }
 
   try {
-    const maps = require('react-native-maps') as typeof import('react-native-maps');
+    const maps = require("react-native-maps") as typeof import("react-native-maps");
     return { MapView: maps.default, Marker: maps.Marker };
   } catch {
     return null;
   }
 }
 
-function MapFallback() {
+function SectionLabel({ children }: { children: ReactNode }) {
   return (
-    <View className="flex-1 bg-[#E9EEF8]">
-      <View className="absolute top-[18%] left-[-5%] w-[55%] h-3 rounded-full bg-white/70 rotate-[10deg]" />
-      <View className="absolute top-[34%] left-[12%] w-[75%] h-3 rounded-full bg-white/75 -rotate-[12deg]" />
-      <View className="absolute top-[56%] left-[-8%] w-[68%] h-3 rounded-full bg-white/75 rotate-[8deg]" />
-      <View className="absolute top-[72%] right-[-5%] w-[58%] h-3 rounded-full bg-white/70 -rotate-[14deg]" />
-      <View className="absolute left-[20%] top-[-6%] w-3 h-[45%] rounded-full bg-white/70 -rotate-[18deg]" />
-      <View className="absolute right-[24%] top-[8%] w-3 h-[62%] rounded-full bg-white/75 rotate-[14deg]" />
-      <View className="absolute right-[10%] top-[24%] w-3 h-[48%] rounded-full bg-white/70 -rotate-[10deg]" />
+    <Text className="mb-2 text-xs font-bold uppercase tracking-wider text-neutral-400">
+      {children}
+    </Text>
+  );
+}
+
+function TradeSkillSection({ value }: { value: string }) {
+  return (
+    <View className="mb-6">
+      <SectionLabel>Trade / Skill</SectionLabel>
+      <View className="rounded-xl border border-neutral-200/80 bg-white px-4 py-3.5">
+        <Text className="text-sm font-semibold text-neutral-800">{value}</Text>
+      </View>
     </View>
   );
 }
 
+function RequirementsSection({ value }: { value: string }) {
+  return (
+    <View className="mb-6 rounded-2xl border border-neutral-200/80 bg-white p-4">
+      <Text className="mb-3 text-base font-extrabold text-neutral-900">Requirements</Text>
+      <Text className="text-sm font-medium leading-relaxed text-neutral-600">{value}</Text>
+    </View>
+  );
+}
+
+
+
 export default function EmployerDetailsScreen() {
   const router = useRouter();
-  const { id } = useLocalSearchParams();
+  const { id } = useLocalSearchParams<{ id?: string | string[] }>();
+
+  const jobId = Array.isArray(id) ? id[0] : id;
+  const jobDetails = (jobId && JOB_DETAILS_BY_ID[jobId]) || DEFAULT_JOB_DETAILS;
+
   const nativeMapComponents = getNativeMapComponents();
   const NativeMapView = nativeMapComponents?.MapView;
   const NativeMarker = nativeMapComponents?.Marker;
 
-  // Simple static data lookup based on id parameter (mock)
-  const jobDetails = {
-    title: 'Labourer',
-    company: 'Tech Innovators Inc.',
-    payRate: '$80 - $120/hour',
-    tag: 'Market Rate',
-    location: 'Shoreditch \u2022 1.2 mi away',
-    team: '2 developers, 1 designer',
-    duration: '12 Jun \u2022 1 month',
-    time: '2 hours ago',
-    tradeSkill: 'Groundworker',
-    tradeCount: '1 labor',
-    employmentType: 'Full-time',
-    jobDuration: '4 week',
-    requirements: 'CIS registration required. CSCS Gold card preferred. Site induction on day one.',
+  const handleBackPress = () => {
+    router.back();
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={['bottom']}>
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }} edges={["bottom"]}>
+      <ScrollView
+        className="flex-1"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 160 }}
+      >
         {/* Map Header */}
-        <View className="h-56 w-full overflow-hidden relative bg-slate-100">
+        <View className="relative h-56 w-full overflow-hidden bg-slate-100">
           {NativeMapView && NativeMarker ? (
             <NativeMapView
               style={{ flex: 1 }}
@@ -93,158 +149,40 @@ export default function EmployerDetailsScreen() {
             <MapFallback />
           )}
 
-          <View className="absolute inset-x-0 top-8 px-6 pt-4 pb-6">
+          <View className="absolute inset-x-0 top-8 px-6 pb-6 pt-4">
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center gap-3">
                 <TouchableOpacity
-                  onPress={() => router.back()}
-                  className="w-11 h-11 rounded-full bg-white/95 items-center justify-center active:opacity-75"
+                  onPress={handleBackPress}
+                  className="h-11 w-11 items-center justify-center rounded-full bg-white/95 active:opacity-75"
                 >
                   <ArrowLeft size={20} color="#171717" />
                 </TouchableOpacity>
-                <Text className="text-neutral-900 font-extrabold text-[18px]">Employer Details</Text>
+
+                <Text className="text-[18px] font-extrabold text-neutral-900">
+                  Employer Details
+                </Text>
               </View>
 
-              <TouchableOpacity
-                className="w-11 h-11 rounded-2xl bg-neutral-900 items-center justify-center active:opacity-85"
-              >
+              <TouchableOpacity className="h-11 w-11 items-center justify-center rounded-2xl bg-neutral-900 active:opacity-85">
                 <Bookmark size={18} color="#FFFFFF" />
               </TouchableOpacity>
             </View>
           </View>
         </View>
 
-        {/* Content Section */}
-        <View className="px-6 pb-36">
-          {/* Overlapping Info Card */}
-          <View className="mt-8 mb-6">
-            <View className="flex-row justify-between items-start mb-4">
-              <View className="flex-row items-center gap-3">
-                <View className="w-12 h-12 bg-blue-600 rounded-xl items-center justify-center">
-                  <Briefcase size={22} color="#FFFFFF" />
-                </View>
-                <View>
-                  <Text className="text-neutral-950 font-extrabold text-base">{jobDetails.title}</Text>
-                  <Text className="text-neutral-500 text-xs font-semibold">{jobDetails.company}</Text>
-                </View>
-              </View>
-
-              <View className="items-end">
-                <Text className="text-neutral-900 font-extrabold text-sm">{jobDetails.payRate}</Text>
-                <View 
-                  style={{ backgroundColor: Colors.common.BRAND_LIGHT }} 
-                  className="px-2.5 py-0.5 rounded-md mt-1.5"
-                >
-                  <Text 
-                    style={{ color: Colors.common.BRAND }} 
-                    className="text-[10px] font-extrabold"
-                  >
-                    {jobDetails.tag}
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            {/* Details layout */}
-            <View className="gap-2.5 pt-3 border-t border-neutral-50">
-              <View className="flex-row items-center gap-2">
-                <MapPin size={15} color="#858585" />
-                <Text className="text-neutral-500 text-xs font-semibold">{jobDetails.location}</Text>
-              </View>
-              <View className="flex-row items-center gap-2">
-                <Users size={15} color="#858585" />
-                <Text className="text-neutral-500 text-xs font-semibold">{jobDetails.team}</Text>
-              </View>
-              <View className="flex-row items-center gap-2">
-                <Calendar size={15} color="#858585" />
-                <Text className="text-neutral-500 text-xs font-semibold">{jobDetails.duration}</Text>
-              </View>
-            </View>
-          </View>
-
-          {/* Trade / Skill Field */}
-          <View className="mb-6">
-            <Text className="text-neutral-400 text-xs font-bold uppercase mb-2 tracking-wider">Trade / Skill</Text>
-            <View className="bg-white border border-neutral-200/80 rounded-xl px-4 py-3.5">
-              <Text className="text-neutral-800 text-sm font-semibold">{jobDetails.tradeSkill}</Text>
-            </View>
-          </View>
-
-          {/* Job Overview Specifications Grid */}
-          <View className="mb-6 p-4 border border-neutral-200/80 rounded-2xl overflow-hidden bg-white">
-            <View className="flex-row justify-between items-center mb-3">
-              <Text className="text-neutral-900 font-extrabold text-base">Job overview</Text>
-              <View className="flex-row items-center gap-1.5">
-                <Clock size={14} color="#A3A3A3" />
-                <Text className="text-neutral-400 text-xs font-medium">{jobDetails.time}</Text>
-              </View>
-            </View>
-
-            <View className="">
-              <View className="flex-row justify-between items-center py-2 border-b border-neutral-50">
-                <Text className="text-neutral-500 text-sm font-semibold">Trade</Text>
-                <Text className="text-neutral-900 text-sm font-extrabold">{jobDetails.tradeCount}</Text>
-              </View>
-              
-              <View className="flex-row justify-between items-center py-2 border-b border-neutral-50">
-                <Text className="text-neutral-500 text-sm font-semibold">Employment</Text>
-                <Text className="text-neutral-900 text-sm font-extrabold">{jobDetails.employmentType}</Text>
-              </View>
-
-              <View className="flex-row justify-between items-center py-2 border-b border-neutral-50">
-                <Text className="text-neutral-500 text-sm font-semibold">Duration</Text>
-                <Text className="text-neutral-900 text-sm font-extrabold">{jobDetails.jobDuration}</Text>
-              </View>
-
-              <View className="flex-row justify-between items-center py-2">
-                <Text className="text-neutral-500 text-sm font-semibold">Pay range</Text>
-                <View className="items-end gap-2">
-                  <Text className="text-neutral-900 text-sm font-extrabold">{jobDetails.payRate}</Text>
-                  <View 
-                    style={{ backgroundColor: Colors.common.BRAND_LIGHT }} 
-                    className="px-2 py-0.5 rounded"
-                  >
-                    <Text 
-                      style={{ color: Colors.common.BRAND }} 
-                      className="text-[9px] font-extrabold"
-                    >
-                      {jobDetails.tag}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-
-          {/* Requirements Section */}
-          <View className="mb-6 bg-white rounded-2xl p-4 border border-neutral-200/80">
-            <Text className="text-neutral-900 font-extrabold text-base mb-3">Requirements</Text>
-            <View className="">
-              <Text className="text-neutral-600 text-sm leading-relaxed font-medium">
-                {jobDetails.requirements}
-              </Text>
-            </View>
-          </View>
+        <View className="px-6">
+          <JobSummaryCard jobDetails={jobDetails} />
+          <TradeSkillSection value={jobDetails.tradeSkill} />
+          <JobOverviewSection jobDetails={jobDetails} />
+          <RequirementsSection value={jobDetails.requirements} />
         </View>
       </ScrollView>
 
-      {/* Sticky Bottom Actions */}
-      <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-neutral-100 px-6 pt-4 pb-16 flex-row gap-3">
-        <TouchableOpacity 
-          onPress={() => router.back()}
-          style={{ backgroundColor: Colors.common.GRAY_DARK }}
-          className="flex-1 py-4 rounded-2xl items-center justify-center active:opacity-90 shadow-sm shadow-black/10"
-        >
-          <Text className="text-white font-extrabold text-sm">Send Request</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          onPress={() => router.back()}
-          className="flex-1 py-4 border border-neutral-200 rounded-2xl items-center justify-center bg-white active:opacity-75"
-        >
-          <Text className="text-neutral-900 font-extrabold text-sm">Accept</Text>
-        </TouchableOpacity>
-      </View>
+      <StickyActions
+        onPrimaryPress={handleBackPress}
+        onSecondaryPress={handleBackPress}
+      />
     </SafeAreaView>
   );
 }
