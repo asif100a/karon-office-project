@@ -21,7 +21,7 @@ export default function CompletedJobDetails({ jobDetails }: { jobDetails: any })
         </View>
 
         <View className="items-end">
-          <View className="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-100">
+          <View className="px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-100">
             <Text className="text-[10px] font-extrabold text-emerald-500">
               {jobDetails.statusBadge}
             </Text>

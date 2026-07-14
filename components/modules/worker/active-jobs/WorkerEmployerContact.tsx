@@ -4,7 +4,7 @@ import { Mail, Phone } from "lucide-react-native";
 
 export default function WorkerEmployerContact({jobDetails}: {jobDetails: any}) {
   return (
-    <View className="bg-white rounded-2xl p-5 border border-neutral-200/80 mb-6">
+    <View className="bg-white rounded-xl p-5 border border-neutral-200/80 mb-6">
       <Text className="text-neutral-900 font-extrabold text-base mb-4">
         Employer Contact
       </Text>

@@ -24,7 +24,7 @@ export default function WorkerWorkSummary({
         <TouchableOpacity
           onPress={() => setShowApprovalModal(true)}
           style={{ borderColor: Colors.common.BRAND }}
-          className="border px-3 py-1.5 rounded-xl active:opacity-75 bg-white"
+          className="border px-3 py-1.5 rounded-lg active:opacity-75 bg-white"
         >
           <Text
             style={{ color: Colors.common.BRAND }}
@@ -35,7 +35,7 @@ export default function WorkerWorkSummary({
         </TouchableOpacity>
       </View>
 
-      <View className="border border-neutral-100 rounded-2xl bg-white shadow-sm overflow-hidden divide-y divide-neutral-50">
+      <View className="border border-neutral-200/80 rounded-2xl bg-white overflow-hidden divide-y divide-neutral-50">
         {mockWeeklyWork.map((item, idx) => (
           <View key={idx} className="flex-row justify-between items-center p-4">
             <View>

@@ -24,7 +24,7 @@ export default function WorkerJobDetails({jobDetails}: {jobDetails: any}) {
         <View className="items-end">
           <View
             style={{ backgroundColor: Colors.common.BRAND_LIGHT }}
-            className="px-2.5 py-1 rounded-full"
+            className="px-2.5 py-1 rounded-md"
           >
             <Text
               style={{ color: Colors.common.BRAND }}

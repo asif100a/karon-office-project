@@ -7,7 +7,7 @@ export default function WorkerProjectSchedule({jobDetails}: {jobDetails: any}) {
       <Text className="text-neutral-900 font-extrabold text-base mb-3.5">
         Project Schedule
       </Text>
-      <View className="border border-neutral-100 rounded-2xl bg-white shadow-sm overflow-hidden">
+      <View className="border border-neutral-200/80 rounded-xl bg-white overflow-hidden">
         <View className="flex-row justify-between items-center p-4 border-b border-neutral-50">
           <Text className="text-neutral-400 text-sm font-semibold">
             Start Date

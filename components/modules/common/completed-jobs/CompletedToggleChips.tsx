@@ -27,9 +27,9 @@ export default function CompletedToggleChips({
               { minWidth: tab.minWidth },
               isActive
                 ? { backgroundColor: Colors.common.GRAY_DARK }
-                : { backgroundColor: "#E5E5E52B" },
+                : { backgroundColor: "#FFFFFF" },
             ]}
-            className={`px-3 py-2 rounded-xl shadow-sm items-center justify-center ${isActive ? "" : "border border-neutral-200/60"}`}
+            className={`px-3 py-2 rounded-lg items-center justify-center ${isActive ? "" : "border border-neutral-200/60"}`}
           >
             <Text
               numberOfLines={1}

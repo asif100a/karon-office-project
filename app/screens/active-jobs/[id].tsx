@@ -192,7 +192,7 @@ export default function ActiveJobDetailScreen() {
           setShowSupportModal(true);
         }}
         style={{ backgroundColor: Colors.common.BRAND }}
-        className="absolute bottom-6 right-6 w-14 h-14 rounded-full items-center justify-center shadow-lg shadow-orange-500/25 active:opacity-90 z-20"
+        className="absolute bottom-14 right-6 w-14 h-14 rounded-full items-center justify-center active:opacity-90 z-20"
       >
         <Headphones size={24} color="#FFFFFF" />
       </TouchableOpacity>
