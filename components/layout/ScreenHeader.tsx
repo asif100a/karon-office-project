@@ -12,7 +12,7 @@ export default function ScreenHeader() {
   };
 
   return (
-    <View style={{ backgroundColor: Colors.common.BRAND }} className="px-6 pt-18 pb-8">
+    <View style={{ backgroundColor: Colors.common.BRAND }} className="px-6 pt-14 pb-4">
       <View className="flex-row items-center justify-between">
         <View className="flex-row items-center gap-3 flex-1 pr-4">
           <Image

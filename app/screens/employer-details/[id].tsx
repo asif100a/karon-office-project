@@ -75,7 +75,7 @@ export default function EmployerDetailsScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={['bottom']}>
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Map Header */}
-        <View className="h-64 w-full overflow-hidden relative bg-slate-100">
+        <View className="h-56 w-full overflow-hidden relative bg-slate-100">
           {NativeMapView && NativeMarker ? (
             <NativeMapView
               style={{ flex: 1 }}
@@ -93,7 +93,7 @@ export default function EmployerDetailsScreen() {
             <MapFallback />
           )}
 
-          <View className="absolute inset-x-0 top-12 px-6 pt-4 pb-6">
+          <View className="absolute inset-x-0 top-8 px-6 pt-4 pb-6">
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center gap-3">
                 <TouchableOpacity
@@ -115,7 +115,7 @@ export default function EmployerDetailsScreen() {
         </View>
 
         {/* Content Section */}
-        <View className="px-6 pb-24">
+        <View className="px-6 pb-36">
           {/* Overlapping Info Card */}
           <View className="mt-8 mb-6">
             <View className="flex-row justify-between items-start mb-4">
@@ -229,7 +229,7 @@ export default function EmployerDetailsScreen() {
       </ScrollView>
 
       {/* Sticky Bottom Actions */}
-      <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-neutral-100 px-6 pt-4 pb-8 flex-row gap-3">
+      <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-neutral-100 px-6 pt-4 pb-16 flex-row gap-3">
         <TouchableOpacity 
           onPress={() => router.back()}
           style={{ backgroundColor: Colors.common.GRAY_DARK }}

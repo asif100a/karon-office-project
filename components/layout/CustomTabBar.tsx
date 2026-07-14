@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     paddingBottom: 4,
-    paddingTop: 2,
+    paddingTop: 0,
   },
   activeIndicator: {
     width: '100%',
