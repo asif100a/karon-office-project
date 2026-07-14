@@ -79,7 +79,7 @@ export default function WorkerChatsScreen() {
       {/* Brand Header */}
       <View 
         style={{ backgroundColor: Colors.common.BRAND }} 
-        className="pt-16 pb-8 px-6 rounded-b-[32px] shadow-lg shadow-orange-500/10"
+        className="pt-14 pb-4 px-6"
       >
         <View className="flex-row justify-between items-center">
           <Text className="text-white text-2xl font-extrabold tracking-tight">Chats</Text>

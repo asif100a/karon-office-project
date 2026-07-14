@@ -12,6 +12,7 @@ import JobSummaryCard from "@/components/modules/employer/employer-details/JobSu
 import JobOverviewSection from "@/components/modules/employer/employer-details/JobOverviewSection";
 import MapFallback from "@/components/modules/employer/employer-details/_ui/MapFallback";
 import { EmployerJobDetails } from "@/types";
+import { StatusBar } from "expo-status-bar";
 
 type NativeMapComponents = {
   MapView: typeof import("react-native-maps").default;
@@ -106,8 +107,6 @@ function RequirementsSection({ value }: { value: string }) {
   );
 }
 
-
-
 export default function EmployerDetailsScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id?: string | string[] }>();
@@ -124,7 +123,10 @@ export default function EmployerDetailsScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }} edges={["bottom"]}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }} edges={["bottom"]}>      
+      {/* Status Bar */}
+      <StatusBar style="dark" />
+      
       <ScrollView
         className="flex-1"
         showsVerticalScrollIndicator={false}
