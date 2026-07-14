@@ -72,7 +72,7 @@ export default function EmployerDetailsScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={['top']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={['bottom']}>
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Map Header */}
         <View className="h-64 w-full overflow-hidden relative bg-slate-100">
@@ -93,7 +93,7 @@ export default function EmployerDetailsScreen() {
             <MapFallback />
           )}
 
-          <View className="absolute inset-x-0 top-0 px-6 pt-4 pb-6">
+          <View className="absolute inset-x-0 top-12 px-6 pt-4 pb-6">
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center gap-3">
                 <TouchableOpacity
@@ -117,7 +117,7 @@ export default function EmployerDetailsScreen() {
         {/* Content Section */}
         <View className="px-6 pb-24">
           {/* Overlapping Info Card */}
-          <View className="bg-white rounded-3xl p-5 border border-neutral-100/90 shadow-sm -mt-10 mb-6">
+          <View className="mt-8 mb-6">
             <View className="flex-row justify-between items-start mb-4">
               <View className="flex-row items-center gap-3">
                 <View className="w-12 h-12 bg-blue-600 rounded-xl items-center justify-center">
@@ -133,7 +133,7 @@ export default function EmployerDetailsScreen() {
                 <Text className="text-neutral-900 font-extrabold text-sm">{jobDetails.payRate}</Text>
                 <View 
                   style={{ backgroundColor: Colors.common.BRAND_LIGHT }} 
-                  className="px-2.5 py-0.5 rounded-full mt-1.5"
+                  className="px-2.5 py-0.5 rounded-md mt-1.5"
                 >
                   <Text 
                     style={{ color: Colors.common.BRAND }} 
@@ -165,13 +165,13 @@ export default function EmployerDetailsScreen() {
           {/* Trade / Skill Field */}
           <View className="mb-6">
             <Text className="text-neutral-400 text-xs font-bold uppercase mb-2 tracking-wider">Trade / Skill</Text>
-            <View className="bg-neutral-50 border border-neutral-100 rounded-2xl px-4 py-3.5">
+            <View className="bg-white border border-neutral-200/80 rounded-xl px-4 py-3.5">
               <Text className="text-neutral-800 text-sm font-semibold">{jobDetails.tradeSkill}</Text>
             </View>
           </View>
 
           {/* Job Overview Specifications Grid */}
-          <View className="mb-6">
+          <View className="mb-6 p-4 border border-neutral-200/80 rounded-2xl overflow-hidden bg-white">
             <View className="flex-row justify-between items-center mb-3">
               <Text className="text-neutral-900 font-extrabold text-base">Job overview</Text>
               <View className="flex-row items-center gap-1.5">
@@ -180,25 +180,25 @@ export default function EmployerDetailsScreen() {
               </View>
             </View>
 
-            <View className="border border-neutral-100 rounded-2xl overflow-hidden bg-white shadow-sm">
-              <View className="flex-row justify-between items-center p-4 border-b border-neutral-50">
+            <View className="">
+              <View className="flex-row justify-between items-center py-2 border-b border-neutral-50">
                 <Text className="text-neutral-500 text-sm font-semibold">Trade</Text>
                 <Text className="text-neutral-900 text-sm font-extrabold">{jobDetails.tradeCount}</Text>
               </View>
               
-              <View className="flex-row justify-between items-center p-4 border-b border-neutral-50">
+              <View className="flex-row justify-between items-center py-2 border-b border-neutral-50">
                 <Text className="text-neutral-500 text-sm font-semibold">Employment</Text>
                 <Text className="text-neutral-900 text-sm font-extrabold">{jobDetails.employmentType}</Text>
               </View>
 
-              <View className="flex-row justify-between items-center p-4 border-b border-neutral-50">
+              <View className="flex-row justify-between items-center py-2 border-b border-neutral-50">
                 <Text className="text-neutral-500 text-sm font-semibold">Duration</Text>
                 <Text className="text-neutral-900 text-sm font-extrabold">{jobDetails.jobDuration}</Text>
               </View>
 
-              <View className="flex-row justify-between items-center p-4">
+              <View className="flex-row justify-between items-center py-2">
                 <Text className="text-neutral-500 text-sm font-semibold">Pay range</Text>
-                <View className="flex-row items-center gap-2">
+                <View className="items-end gap-2">
                   <Text className="text-neutral-900 text-sm font-extrabold">{jobDetails.payRate}</Text>
                   <View 
                     style={{ backgroundColor: Colors.common.BRAND_LIGHT }} 
@@ -217,9 +217,9 @@ export default function EmployerDetailsScreen() {
           </View>
 
           {/* Requirements Section */}
-          <View className="mb-6">
+          <View className="mb-6 bg-white rounded-2xl p-4 border border-neutral-200/80">
             <Text className="text-neutral-900 font-extrabold text-base mb-3">Requirements</Text>
-            <View className="bg-neutral-50 rounded-2xl p-4 border border-neutral-100">
+            <View className="">
               <Text className="text-neutral-600 text-sm leading-relaxed font-medium">
                 {jobDetails.requirements}
               </Text>
@@ -229,7 +229,7 @@ export default function EmployerDetailsScreen() {
       </ScrollView>
 
       {/* Sticky Bottom Actions */}
-      <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-neutral-100 px-6 py-4 flex-row gap-3">
+      <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-neutral-100 px-6 pt-4 pb-8 flex-row gap-3">
         <TouchableOpacity 
           onPress={() => router.back()}
           style={{ backgroundColor: Colors.common.GRAY_DARK }}
