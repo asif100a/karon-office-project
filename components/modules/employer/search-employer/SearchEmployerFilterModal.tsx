@@ -42,7 +42,7 @@ export default function SearchEmployerFilterModal({
             tintColor="rgba(148, 163, 184, 0.42)"
             style={StyleSheet.absoluteFill}
           />
-          <View style={StyleSheet.absoluteFillObject} className="bg-neutral-500/10" />
+          <View style={StyleSheet.absoluteFill} className="bg-neutral-500/10" />
         </Pressable>
 
         {/* Bottom Sheet Panel */}

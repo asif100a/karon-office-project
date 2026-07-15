@@ -10,7 +10,7 @@ export default function Home() {
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    router.push('/tabs/(worker-tabs)');
+    router.push('/tabs/(employer-tabs)');
   }, []);
 
   useEffect(() => {
