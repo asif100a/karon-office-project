@@ -142,7 +142,7 @@ const EMPLOYER_APPROVAL_DAYS = [
   { day: "Tuesday", hours: "8 Hours" },
 ];
 
-function RatingStars({ rating }: { rating: string }) {
+function WorkerRatingStars({ rating }: { rating: string }) {
   const fullStars = Math.floor(Number(rating));
   return (
     <View className="flex-row items-center gap-1">
@@ -466,7 +466,7 @@ export default function WorkerDetailsScreen() {
                 </Text>
 
                 <View className="flex-row items-center gap-2 mt-2">
-                  <RatingStars rating={worker.rating} />
+                  <WorkerRatingStars rating={worker.rating} />
                   <Text className="text-neutral-700 text-sm font-medium">
                     <Text className="font-extrabold">{worker.rating}</Text> (
                     {worker.reviews})
@@ -600,7 +600,7 @@ export default function WorkerDetailsScreen() {
                           </Text>
                           <Text className="text-neutral-400 text-xs">/5</Text>
                           <View className="mt-2">
-                            <RatingStars rating={worker.rating} />
+                            <WorkerRatingStars rating={worker.rating} />
                           </View>
                           <Text className="text-neutral-400 text-xs mt-2">
                             {worker.reviews}
