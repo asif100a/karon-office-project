@@ -174,7 +174,7 @@ function ReviewComposer({
         })}
       </View>
 
-      <View className="bg-white border border-neutral-100 rounded-2xl shadow-sm px-4 py-3 min-h-[240px]">
+      <View className="bg-white border border-neutral-200/80 rounded-2xl px-4 py-3 min-h-[240px]">
         <TextInput
           value={reviewText}
           onChangeText={setReviewText}
