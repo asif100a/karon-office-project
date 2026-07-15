@@ -6,8 +6,10 @@ import LogoWhite from '@/assets/icons/LogoWhite';
 import { useForm } from 'react-hook-form';
 import StandardInputField from '@/components/standard_ui/form_fields/StandardInputField';
 import StandardSelectField from '@/components/standard_ui/form_fields/StandardSelectField';
+import { normalizeUserRole, UserRole } from '@/constants/Routes';
 
 interface RegisterGeneralScreenProps {
+  role?: UserRole;
   onContinue?: (data: {
     fullName: string;
     email: string;
@@ -19,8 +21,9 @@ interface RegisterGeneralScreenProps {
   onLoginPress?: () => void;
 }
 
-export default function RegisterGeneralScreen({ onContinue, onLoginPress }: RegisterGeneralScreenProps) {
+export default function RegisterGeneralScreen({ role, onContinue, onLoginPress }: RegisterGeneralScreenProps) {
   const router = useRouter();
+  const activeRole = normalizeUserRole(role);
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -65,7 +68,7 @@ export default function RegisterGeneralScreen({ onContinue, onLoginPress }: Regi
     if (onContinue) {
       onContinue(data);
     } else {
-      router.push({ pathname: '/auth', params: { step: 'register_documents' } });
+      router.push({ pathname: '/auth', params: { step: 'register_documents', role: activeRole } });
     }
   };
 
@@ -165,7 +168,7 @@ export default function RegisterGeneralScreen({ onContinue, onLoginPress }: Regi
               Already have an account?{' '}
             </Text>
             <TouchableOpacity
-              onPress={onLoginPress ?? (() => router.push({ pathname: '/auth', params: { step: 'login' } }))}
+              onPress={onLoginPress ?? (() => router.push({ pathname: '/auth', params: { step: 'login', role: activeRole } }))}
               activeOpacity={0.7}
             >
               <Text className="text-[#1B2530] text-sm font-bold underline">

@@ -7,14 +7,17 @@ import { useForm } from 'react-hook-form';
 import StandardInputField from '@/components/standard_ui/form_fields/StandardInputField';
 import { Check } from 'lucide-react-native';
 import Toast from 'react-native-toast-message';
+import { getDashboardRouteForRole, normalizeUserRole, UserRole } from '@/constants/Routes';
 
 interface RegisterPasswordScreenProps {
+  role?: UserRole;
   onComplete?: (password: string) => void;
 }
 
-export default function RegisterPasswordScreen({ onComplete }: RegisterPasswordScreenProps) {
+export default function RegisterPasswordScreen({ role, onComplete }: RegisterPasswordScreenProps) {
   const router = useRouter();
   const [rememberMe, setRememberMe] = useState(false);
+  const activeRole = normalizeUserRole(role);
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -35,7 +38,7 @@ export default function RegisterPasswordScreen({ onComplete }: RegisterPasswordS
     if (onComplete) {
       onComplete(data.password);
     } else {
-      router.replace('/tabs/(worker-tabs)');
+      router.replace(getDashboardRouteForRole(activeRole));
     }
   };
 

@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image, TextInput, Modal } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  Modal,
+} from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import {
   ArrowLeft,
@@ -15,6 +23,13 @@ import {
 } from "lucide-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/constants/Colors";
+import {
+  getDashboardRouteForRole,
+  normalizeUserRole,
+} from "@/constants/Routes";
+import { StatusBar } from "expo-status-bar";
+import ScreenWrapper from "@/components/layout/ScreenWrapper";
+import WorkerProfileSection from "@/components/modules/employer/worker-details/WorkerProfileSection";
 
 type WorkerDetail = {
   name: string;
@@ -26,8 +41,20 @@ type WorkerDetail = {
   stats: Array<{ label: string; value: string }>;
   about: string;
   documents: Array<{ id: string; name: string; size: string }>;
-  workHistory: Array<{ id: string; title: string; company: string; duration: string; rating: string }>;
-  feedback: Array<{ id: string; name: string; date: string; text: string; rating: string }>;
+  workHistory: Array<{
+    id: string;
+    title: string;
+    company: string;
+    duration: string;
+    rating: string;
+  }>;
+  feedback: Array<{
+    id: string;
+    name: string;
+    date: string;
+    text: string;
+    rating: string;
+  }>;
 };
 
 const WORKER_DETAILS: Record<string, WorkerDetail> = {
@@ -51,8 +78,20 @@ const WORKER_DETAILS: Record<string, WorkerDetail> = {
       { id: "doc-3", name: "CSCS Gold Card", size: "1.1 MB" },
     ],
     workHistory: [
-      { id: "wh-1", title: "Lead Groundworker", company: "BuildRight Group", duration: "3 months", rating: "5.0" },
-      { id: "wh-2", title: "Groundworker", company: "Northline Builders", duration: "1 year", rating: "4.9" },
+      {
+        id: "wh-1",
+        title: "Lead Groundworker",
+        company: "BuildRight Group",
+        duration: "3 months",
+        rating: "5.0",
+      },
+      {
+        id: "wh-2",
+        title: "Groundworker",
+        company: "Northline Builders",
+        duration: "1 year",
+        rating: "4.9",
+      },
     ],
     feedback: [
       {
@@ -171,7 +210,10 @@ function ReviewComposer({
 
 export default function WorkerDetailsScreen() {
   const router = useRouter();
-  const { id, origin } = useLocalSearchParams<{ id?: string; origin?: string }>();
+  const { id, origin } = useLocalSearchParams<{
+    id?: string;
+    origin?: string;
+  }>();
   const workerId = Array.isArray(id) ? id[0] : id;
   const originRoute = Array.isArray(origin) ? origin[0] : origin;
   const worker = workerId ? WORKER_DETAILS[workerId] : undefined;
@@ -183,13 +225,8 @@ export default function WorkerDetailsScreen() {
   const [showApprovalModal, setShowApprovalModal] = useState(false);
 
   const goBackToOrigin = () => {
-    if (originRoute === "worker") {
-      router.replace("/tabs/(worker-tabs)" as any);
-      return;
-    }
-
-    if (originRoute === "employer") {
-      router.back();
+    if (originRoute === "worker" || originRoute === "employer") {
+      router.replace(getDashboardRouteForRole(normalizeUserRole(originRoute)));
       return;
     }
 
@@ -213,63 +250,44 @@ export default function WorkerDetailsScreen() {
 
   if (originRoute === "employer" && !showEmptyState) {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#F8FAFC" }} edges={["top"]}>
-        <View className="flex-row items-center justify-between px-5 py-4 bg-white border-b border-neutral-100">
-          <TouchableOpacity
-            onPress={goBackToOrigin}
-            className="w-10 h-10 rounded-full bg-neutral-50 items-center justify-center active:opacity-75"
-          >
-            <ArrowLeft size={20} color="#1F2937" />
-          </TouchableOpacity>
-          <Text className="text-neutral-900 text-base font-extrabold">Worker Details</Text>
+      <ScreenWrapper>
+        <StatusBar style="dark" />
+
+        <View className="flex-row items-center justify-between mt-14 px-5">
+          <View className="flex-row items-center">
+            <TouchableOpacity
+              onPress={goBackToOrigin}
+              className="w-10 h-10 rounded-full items-center justify-center active:opacity-75"
+            >
+              <ArrowLeft size={20} color="#1F2937" />
+            </TouchableOpacity>
+            <Text className="text-neutral-900 text-base font-extrabold">
+              Worker Details
+            </Text>
+          </View>
           <TouchableOpacity className="w-10 h-10 rounded-xl bg-neutral-900 items-center justify-center active:opacity-85">
             <Bookmark size={18} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
 
-        <ScrollView className="flex-1" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView
+          className="flex-1"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 24 }}
+        >
           <View className="px-4 pt-4">
-            <View className="bg-white rounded-2xl border border-neutral-100 shadow-sm px-5 py-5 items-center">
-              <View className="relative">
-                <Image
-                  source={{ uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&h=240&fit=crop" }}
-                  className="w-24 h-24 rounded-full"
-                />
-                <View
-                  style={{ left: "50%", transform: [{ translateX: -36 }] }}
-                  className="absolute -bottom-2 bg-emerald-50 border border-emerald-300 px-3 py-1 rounded-full"
-                >
-                  <Text className="text-emerald-600 text-[10px] font-bold">{worker.status}</Text>
-                </View>
-              </View>
-
-              <Text className="text-neutral-900 text-2xl font-extrabold mt-5">{worker.name}</Text>
-              <Text className="text-neutral-500 text-base mt-1">{worker.role}</Text>
-
-              <View className="flex-row items-center gap-2 mt-2">
-                <RatingStars rating={worker.rating} />
-                <View className="flex-row items-center -space-x-2">
-                  <View className="w-7 h-7 rounded-full bg-orange-500 border-2 border-white items-center justify-center">
-                    <Text className="text-white text-xs font-bold">K</Text>
-                  </View>
-                  <View className="w-7 h-7 rounded-full bg-violet-600 border-2 border-white items-center justify-center">
-                    <Text className="text-white text-xs font-bold">C</Text>
-                  </View>
-                </View>
-                <Text className="text-neutral-500 text-sm font-medium">({worker.reviews})</Text>
-              </View>
-
-              <View className="flex-row items-center gap-2 mt-4">
-                <MapPin size={14} color="#C81E1E" />
-                <Text className="text-neutral-500 text-sm">{worker.location}</Text>
-              </View>
-            </View>
+            <WorkerProfileSection worker={worker} />
 
             <View className="bg-white rounded-2xl border border-neutral-100 shadow-sm mt-4 overflow-hidden">
               <View className="flex-row items-center justify-between px-4 py-4 border-b border-neutral-100">
-                <Text className="text-neutral-900 text-base font-extrabold">Update Timesheet</Text>
+                <Text className="text-neutral-900 text-base font-extrabold">
+                  Update Timesheet
+                </Text>
                 <View className="bg-orange-50 px-2.5 py-1 rounded-lg">
-                  <Text style={{ color: Colors.common.BRAND }} className="text-[10px] font-bold">
+                  <Text
+                    style={{ color: Colors.common.BRAND }}
+                    className="text-[10px] font-bold"
+                  >
                     Day 3 of 20
                   </Text>
                 </View>
@@ -281,19 +299,27 @@ export default function WorkerDetailsScreen() {
                   className={`px-4 py-4 flex-row items-center justify-between ${index < EMPLOYER_TIMESHEETS.length - 1 ? "border-b border-neutral-100" : ""}`}
                 >
                   <View>
-                    <Text className="text-neutral-900 text-sm font-bold">{item.week}</Text>
-                    <Text className="text-neutral-400 text-xs mt-1">{item.dates}</Text>
+                    <Text className="text-neutral-900 text-sm font-bold">
+                      {item.week}
+                    </Text>
+                    <Text className="text-neutral-400 text-xs mt-1">
+                      {item.dates}
+                    </Text>
                   </View>
 
                   <View className="flex-row items-center gap-3">
                     <TouchableOpacity>
-                      <Text className="text-neutral-600 text-xs font-medium">View</Text>
+                      <Text className="text-neutral-600 text-xs font-medium">
+                        View
+                      </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => setShowApprovalModal(true)}
                       className="border border-neutral-200 rounded-lg px-4 py-2 bg-white active:opacity-85"
                     >
-                      <Text className="text-neutral-500 text-[11px] font-medium">Approve</Text>
+                      <Text className="text-neutral-500 text-[11px] font-medium">
+                        Approve
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -311,7 +337,9 @@ export default function WorkerDetailsScreen() {
           <View className="flex-1 bg-black/50 justify-end">
             <View className="bg-white rounded-t-[28px] p-5 pb-6 border-t border-neutral-100">
               <View className="flex-row items-center justify-between mb-5">
-                <Text className="text-neutral-900 text-lg font-extrabold">Request approval</Text>
+                <Text className="text-neutral-900 text-lg font-extrabold">
+                  Request approval
+                </Text>
                 <TouchableOpacity
                   onPress={() => setShowApprovalModal(false)}
                   className="w-8 h-8 rounded-full items-center justify-center active:opacity-75"
@@ -320,24 +348,38 @@ export default function WorkerDetailsScreen() {
                 </TouchableOpacity>
               </View>
 
-              <ScrollView className="max-h-[420px]" showsVerticalScrollIndicator={false}>
+              <ScrollView
+                className="max-h-[420px]"
+                showsVerticalScrollIndicator={false}
+              >
                 <View>
                   <Text className="text-neutral-400 text-xs mb-2">Week</Text>
                   <TouchableOpacity className="bg-white border border-neutral-200 rounded-2xl px-4 py-3.5 flex-row items-center justify-between mb-5">
-                    <Text className="text-neutral-400 text-sm">Select Week</Text>
+                    <Text className="text-neutral-400 text-sm">
+                      Select Week
+                    </Text>
                     <ChevronDown size={16} color="#6B7280" />
                   </TouchableOpacity>
                 </View>
 
                 <View className="gap-4">
                   {EMPLOYER_APPROVAL_DAYS.map((item) => (
-                    <View key={item.day} className="bg-white border border-neutral-100 rounded-2xl px-4 py-4 flex-row items-center justify-between">
+                    <View
+                      key={item.day}
+                      className="bg-white border border-neutral-100 rounded-2xl px-4 py-4 flex-row items-center justify-between"
+                    >
                       <View>
-                        <Text className="text-slate-900 text-sm font-medium">{item.day}</Text>
-                        <Text className="text-slate-400 text-xs mt-1">{item.hours}</Text>
+                        <Text className="text-slate-900 text-sm font-medium">
+                          {item.day}
+                        </Text>
+                        <Text className="text-slate-400 text-xs mt-1">
+                          {item.hours}
+                        </Text>
                       </View>
                       <TouchableOpacity className="border border-neutral-200 rounded-lg px-4 py-2 bg-white active:opacity-85">
-                        <Text className="text-neutral-400 text-[11px] font-medium">Approve</Text>
+                        <Text className="text-neutral-400 text-[11px] font-medium">
+                          Approve
+                        </Text>
                       </TouchableOpacity>
                     </View>
                   ))}
@@ -349,17 +391,22 @@ export default function WorkerDetailsScreen() {
                 style={{ backgroundColor: Colors.common.GRAY_DARK }}
                 className="mt-5 w-full py-4 rounded-xl items-center justify-center active:opacity-90"
               >
-                <Text className="text-white text-sm font-semibold">Approve</Text>
+                <Text className="text-white text-sm font-semibold">
+                  Approve
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
         </Modal>
-      </SafeAreaView>
+      </ScreenWrapper>
     );
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#F8FAFC" }} edges={["top"]}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#F8FAFC" }}
+      edges={["top"]}
+    >
       <View className="flex-row items-center justify-between px-5 py-4 bg-white border-b border-neutral-100">
         <TouchableOpacity
           onPress={handleHeaderBack}
@@ -367,7 +414,9 @@ export default function WorkerDetailsScreen() {
         >
           <ArrowLeft size={20} color="#1F2937" />
         </TouchableOpacity>
-        <Text className="text-neutral-900 text-base font-extrabold">Worker Details</Text>
+        <Text className="text-neutral-900 text-base font-extrabold">
+          Worker Details
+        </Text>
         <TouchableOpacity className="w-10 h-10 rounded-full bg-neutral-900 items-center justify-center active:opacity-85">
           <Bookmark size={18} color="#FFFFFF" fill="#FFFFFF" />
         </TouchableOpacity>
@@ -379,7 +428,9 @@ export default function WorkerDetailsScreen() {
             <View className="w-20 h-20 rounded-full bg-orange-50 items-center justify-center mb-5">
               <MessageCircle size={34} color={Colors.common.BRAND} />
             </View>
-            <Text className="text-neutral-900 text-xl font-extrabold">No reviews yet</Text>
+            <Text className="text-neutral-900 text-xl font-extrabold">
+              No reviews yet
+            </Text>
             <Text className="text-neutral-500 text-sm text-center mt-3 leading-6">
               Be the first to share your thoughts and help others decide.
             </Text>
@@ -392,30 +443,41 @@ export default function WorkerDetailsScreen() {
               <View className="items-center">
                 <View className="relative">
                   <Image
-                    source={{ uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&h=240&fit=crop" }}
+                    source={{
+                      uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&h=240&fit=crop",
+                    }}
                     className="w-24 h-24 rounded-full"
                   />
                   <View
                     style={{ left: "50%", transform: [{ translateX: -42 }] }}
                     className="absolute -bottom-2 bg-emerald-50 border border-emerald-300 px-3 py-1 rounded-full"
                   >
-                    <Text className="text-emerald-600 text-[10px] font-bold">{worker.status}</Text>
+                    <Text className="text-emerald-600 text-[10px] font-bold">
+                      {worker.status}
+                    </Text>
                   </View>
                 </View>
 
-                <Text className="text-neutral-900 text-3xl font-extrabold mt-6">{worker.name}</Text>
-                <Text className="text-neutral-500 text-base mt-1">{worker.role}</Text>
+                <Text className="text-neutral-900 text-3xl font-extrabold mt-6">
+                  {worker.name}
+                </Text>
+                <Text className="text-neutral-500 text-base mt-1">
+                  {worker.role}
+                </Text>
 
                 <View className="flex-row items-center gap-2 mt-2">
                   <RatingStars rating={worker.rating} />
                   <Text className="text-neutral-700 text-sm font-medium">
-                    <Text className="font-extrabold">{worker.rating}</Text> ({worker.reviews})
+                    <Text className="font-extrabold">{worker.rating}</Text> (
+                    {worker.reviews})
                   </Text>
                 </View>
 
                 <View className="flex-row items-center gap-2 mt-5">
                   <MapPin size={14} color="#C81E1E" />
-                  <Text className="text-neutral-500 text-sm font-medium">{worker.location}</Text>
+                  <Text className="text-neutral-500 text-sm font-medium">
+                    {worker.location}
+                  </Text>
                 </View>
               </View>
 
@@ -435,16 +497,24 @@ export default function WorkerDetailsScreen() {
                           key={item.label}
                           className={`flex-1 items-center py-2 ${index < worker.stats.length - 1 ? "border-r border-neutral-100" : ""}`}
                         >
-                          <Text className="text-neutral-900 text-3xl font-extrabold">{item.value}</Text>
-                          <Text className="text-neutral-500 text-[11px] mt-1 text-center">{item.label}</Text>
+                          <Text className="text-neutral-900 text-3xl font-extrabold">
+                            {item.value}
+                          </Text>
+                          <Text className="text-neutral-500 text-[11px] mt-1 text-center">
+                            {item.label}
+                          </Text>
                         </View>
                       ))}
                     </View>
                   </View>
 
                   <View className="bg-white rounded-3xl p-4 border border-neutral-100 shadow-sm mt-4">
-                    <Text className="text-neutral-900 text-base font-extrabold mb-3">About</Text>
-                    <Text className="text-neutral-600 text-sm leading-6">{worker.about}</Text>
+                    <Text className="text-neutral-900 text-base font-extrabold mb-3">
+                      About
+                    </Text>
+                    <Text className="text-neutral-600 text-sm leading-6">
+                      {worker.about}
+                    </Text>
                   </View>
 
                   <ScrollView
@@ -461,32 +531,46 @@ export default function WorkerDetailsScreen() {
                         <View className="w-9 h-9 rounded-xl bg-red-50 items-center justify-center mb-3">
                           <FileText size={18} color="#FB7185" />
                         </View>
-                        <Text className="text-neutral-900 font-bold text-sm" numberOfLines={1}>
+                        <Text
+                          className="text-neutral-900 font-bold text-sm"
+                          numberOfLines={1}
+                        >
                           {document.name}
                         </Text>
-                        <Text className="text-neutral-400 text-[11px] mt-1">{document.size}</Text>
+                        <Text className="text-neutral-400 text-[11px] mt-1">
+                          {document.size}
+                        </Text>
                       </View>
                     ))}
                   </ScrollView>
 
                   <View className="mt-6">
                     <View className="flex-row justify-between items-center mb-3">
-                      <Text className="text-neutral-900 text-base font-extrabold">Work History</Text>
+                      <Text className="text-neutral-900 text-base font-extrabold">
+                        Work History
+                      </Text>
                       <TouchableOpacity className="flex-row items-center gap-1">
-                        <Text className="text-neutral-900 text-xs font-bold">View All</Text>
+                        <Text className="text-neutral-900 text-xs font-bold">
+                          View All
+                        </Text>
                         <ChevronRight size={16} color="#111827" />
                       </TouchableOpacity>
                     </View>
 
                     <View className="bg-white rounded-3xl border border-neutral-100 shadow-sm divide-y divide-neutral-100">
                       {worker.workHistory.map((item) => (
-                        <View key={item.id} className="px-4 py-4 flex-row items-start justify-between">
+                        <View
+                          key={item.id}
+                          className="px-4 py-4 flex-row items-start justify-between"
+                        >
                           <View className="flex-row items-start gap-3 flex-1 pr-3">
                             <View className="w-10 h-10 rounded-xl bg-slate-100 items-center justify-center">
                               <Briefcase size={18} color="#64748B" />
                             </View>
                             <View className="flex-1">
-                              <Text className="text-neutral-900 font-bold text-sm">{item.title}</Text>
+                              <Text className="text-neutral-900 font-bold text-sm">
+                                {item.title}
+                              </Text>
                               <Text className="text-neutral-500 text-xs mt-0.5">
                                 {item.company} • {item.duration}
                               </Text>
@@ -494,7 +578,9 @@ export default function WorkerDetailsScreen() {
                           </View>
                           <View className="flex-row items-center gap-1">
                             <Star size={14} color="#FBBF24" fill="#FBBF24" />
-                            <Text className="text-neutral-900 font-extrabold text-sm">{item.rating}</Text>
+                            <Text className="text-neutral-900 font-extrabold text-sm">
+                              {item.rating}
+                            </Text>
                           </View>
                         </View>
                       ))}
@@ -502,30 +588,45 @@ export default function WorkerDetailsScreen() {
                   </View>
 
                   <View className="mt-6">
-                    <Text className="text-neutral-900 text-base font-extrabold mb-3">Rating & Feedback</Text>
+                    <Text className="text-neutral-900 text-base font-extrabold mb-3">
+                      Rating & Feedback
+                    </Text>
 
                     <View className="bg-white rounded-3xl p-4 border border-neutral-100 shadow-sm">
                       <View className="flex-row items-center gap-4">
                         <View className="items-center">
-                          <Text className="text-neutral-900 text-4xl font-extrabold">{worker.rating}</Text>
+                          <Text className="text-neutral-900 text-4xl font-extrabold">
+                            {worker.rating}
+                          </Text>
                           <Text className="text-neutral-400 text-xs">/5</Text>
                           <View className="mt-2">
                             <RatingStars rating={worker.rating} />
                           </View>
-                          <Text className="text-neutral-400 text-xs mt-2">{worker.reviews}</Text>
+                          <Text className="text-neutral-400 text-xs mt-2">
+                            {worker.reviews}
+                          </Text>
                         </View>
 
                         <View className="flex-1 gap-2">
                           {[200, 40, 32, 19, 7].map((value, index) => (
-                            <View key={`${value}-${index}`} className="flex-row items-center gap-2">
-                              <Text className="text-neutral-400 text-xs w-4 text-right">{5 - index}</Text>
+                            <View
+                              key={`${value}-${index}`}
+                              className="flex-row items-center gap-2"
+                            >
+                              <Text className="text-neutral-400 text-xs w-4 text-right">
+                                {5 - index}
+                              </Text>
                               <View className="flex-1 h-1.5 bg-neutral-100 rounded-full overflow-hidden">
                                 <View
                                   className="h-full bg-slate-500 rounded-full"
-                                  style={{ width: `${Math.max(15, value / 2)}%` }}
+                                  style={{
+                                    width: `${Math.max(15, value / 2)}%`,
+                                  }}
                                 />
                               </View>
-                              <Text className="text-neutral-400 text-xs w-8 text-right">{value}</Text>
+                              <Text className="text-neutral-400 text-xs w-8 text-right">
+                                {value}
+                              </Text>
                             </View>
                           ))}
                         </View>
@@ -537,13 +638,18 @@ export default function WorkerDetailsScreen() {
                       style={{ backgroundColor: Colors.common.GRAY_DARK }}
                       className="w-full py-4 rounded-2xl items-center justify-center active:opacity-90 shadow-sm mt-4"
                     >
-                      <Text className="text-white font-extrabold text-sm">Write Review</Text>
+                      <Text className="text-white font-extrabold text-sm">
+                        Write Review
+                      </Text>
                     </TouchableOpacity>
                   </View>
 
                   <View className="mt-4 gap-3">
                     {worker.feedback.map((item) => (
-                      <View key={item.id} className="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm">
+                      <View
+                        key={item.id}
+                        className="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm"
+                      >
                         <View className="flex-row items-start justify-between">
                           <View className="flex-row items-center gap-3 flex-1">
                             <View className="w-11 h-11 rounded-full bg-neutral-100 items-center justify-center">
@@ -556,16 +662,28 @@ export default function WorkerDetailsScreen() {
                               </Text>
                             </View>
                             <View className="flex-1">
-                              <Text className="text-neutral-900 font-bold text-sm">{item.name}</Text>
+                              <Text className="text-neutral-900 font-bold text-sm">
+                                {item.name}
+                              </Text>
                               <View className="flex-row items-center gap-1 mt-1">
-                                <Star size={13} color="#FBBF24" fill="#FBBF24" />
-                                <Text className="text-neutral-900 font-bold text-xs">{item.rating}</Text>
+                                <Star
+                                  size={13}
+                                  color="#FBBF24"
+                                  fill="#FBBF24"
+                                />
+                                <Text className="text-neutral-900 font-bold text-xs">
+                                  {item.rating}
+                                </Text>
                               </View>
                             </View>
                           </View>
-                          <Text className="text-neutral-400 text-xs">{item.date}</Text>
+                          <Text className="text-neutral-400 text-xs">
+                            {item.date}
+                          </Text>
                         </View>
-                        <Text className="text-neutral-600 text-sm leading-6 mt-3">{item.text}</Text>
+                        <Text className="text-neutral-600 text-sm leading-6 mt-3">
+                          {item.text}
+                        </Text>
                       </View>
                     ))}
                   </View>
@@ -581,13 +699,17 @@ export default function WorkerDetailsScreen() {
                 style={{ backgroundColor: Colors.common.GRAY_DARK }}
                 className="flex-1 py-4 rounded-2xl items-center justify-center active:opacity-90 shadow-sm"
               >
-                <Text className="text-white font-extrabold text-sm">Submit</Text>
+                <Text className="text-white font-extrabold text-sm">
+                  Submit
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={closeReviewComposer}
                 className="flex-1 py-4 border border-neutral-200 rounded-2xl items-center justify-center bg-white active:opacity-75"
               >
-                <Text className="text-neutral-900 font-extrabold text-sm">Discard</Text>
+                <Text className="text-neutral-900 font-extrabold text-sm">
+                  Discard
+                </Text>
               </TouchableOpacity>
             </View>
           ) : (
@@ -597,13 +719,17 @@ export default function WorkerDetailsScreen() {
                 style={{ backgroundColor: Colors.common.GRAY_DARK }}
                 className="flex-1 py-4 rounded-2xl items-center justify-center active:opacity-90 shadow-sm"
               >
-                <Text className="text-white font-extrabold text-sm">Accept</Text>
+                <Text className="text-white font-extrabold text-sm">
+                  Accept
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={goBackToOrigin}
                 className="flex-1 py-4 border border-neutral-200 rounded-2xl items-center justify-center bg-white active:opacity-75"
               >
-                <Text className="text-neutral-900 font-extrabold text-sm">Decline</Text>
+                <Text className="text-neutral-900 font-extrabold text-sm">
+                  Decline
+                </Text>
               </TouchableOpacity>
             </View>
           )}

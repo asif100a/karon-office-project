@@ -5,14 +5,17 @@ import { Text } from '@/components/ui/text';
 import LogoWhite from '@/assets/icons/LogoWhite';
 import { useForm } from 'react-hook-form';
 import StandardInputField from '@/components/standard_ui/form_fields/StandardInputField';
+import { getDashboardRouteForRole, normalizeUserRole, UserRole } from '@/constants/Routes';
 
 interface LoginScreenProps {
+  role?: UserRole;
   onRegisterPress?: () => void;
   onLoginPress?: (email: string) => void;
 }
 
-export default function LoginScreen({ onRegisterPress, onLoginPress }: LoginScreenProps) {
+export default function LoginScreen({ role, onRegisterPress, onLoginPress }: LoginScreenProps) {
   const router = useRouter();
+  const activeRole = normalizeUserRole(role);
   
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -25,7 +28,7 @@ export default function LoginScreen({ onRegisterPress, onLoginPress }: LoginScre
     if (onLoginPress) {
       onLoginPress(data.email);
     } else {
-      router.replace('/tabs/(worker-tabs)');
+      router.replace(getDashboardRouteForRole(activeRole));
     }
   };
 
@@ -33,7 +36,13 @@ export default function LoginScreen({ onRegisterPress, onLoginPress }: LoginScre
     if (onRegisterPress) {
       onRegisterPress();
     } else {
-      router.push({ pathname: '/auth', params: { step: 'register_general' } });
+      router.push({
+        pathname: '/auth',
+        params: {
+          step: activeRole === 'employer' ? 'register_employer' : 'register_general',
+          role: activeRole,
+        },
+      });
     }
   };
 

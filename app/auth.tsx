@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
@@ -13,6 +13,7 @@ import RegisterEmployerScreen from './screens/auth/RegisterEmployerScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/Colors';
 import BackButton from '@/components/standard_ui/buttons/BackButton';
+import { getDashboardRouteForRole, normalizeUserRole, UserRole } from '@/constants/Routes';
 
 type AuthStep = 'login' | 'register_general' | 'register_employer' | 'register_documents' | 'register_password' | 'complete_payroll' | 'review';
 
@@ -22,7 +23,15 @@ export default function AuthFlow() {
   const initialStep = (params.step as AuthStep) || 'login';
 
   const [step, setStep] = useState<AuthStep>(initialStep);
-  const [role, setRole] = useState<string>((params.role as string) || 'worker');
+  const [role, setRole] = useState<UserRole>(normalizeUserRole(params.role));
+
+  useEffect(() => {
+    setRole(normalizeUserRole(params.role));
+  }, [params.role]);
+
+  const goToRoleDashboard = () => {
+    router.replace(getDashboardRouteForRole(role));
+  };
 
   // Go back to the previous screen in the flow
   const handleBack = () => {
@@ -56,20 +65,15 @@ export default function AuthFlow() {
       case 'login':
         return (
           <LoginScreen
+            role={role}
             onRegisterPress={() => setStep(role === 'employer' ? 'register_employer' : 'register_general')}
-            onLoginPress={(email) => {
-              // Redirect based on selected user role
-              if (role === 'employer') {
-                router.replace('/tabs/(employer-tabs)');
-              } else {
-                router.replace('/tabs/(worker-tabs)');
-              }
-            }}
+            onLoginPress={goToRoleDashboard}
           />
         );
       case 'register_general':
         return (
           <RegisterGeneralScreen
+            role={role}
             onContinue={(data) => {
               console.log('General register data:', data);
               setStep('register_documents');
@@ -80,6 +84,7 @@ export default function AuthFlow() {
       case 'register_documents':
         return (
           <RegisterDocumentsScreen
+            role={role}
             onContinue={(docs) => {
               console.log('Uploaded documents:', docs);
               setStep('register_password');
@@ -89,6 +94,7 @@ export default function AuthFlow() {
       case 'register_password':
         return (
           <RegisterPasswordScreen
+            role={role}
             onComplete={(password) => {
               console.log('Password complete registration');
               if (role === 'employer') {
@@ -106,7 +112,7 @@ export default function AuthFlow() {
               if (role === 'employer') {
                 setStep('review');
               } else {
-                router.replace('/tabs/(worker-tabs)');
+                goToRoleDashboard();
               }
             }}
           />
@@ -120,7 +126,13 @@ export default function AuthFlow() {
           />
         );
       default:
-        return <LoginScreen onRegisterPress={() => setStep(role === 'employer' ? 'register_employer' : 'register_general')} />;
+        return (
+          <LoginScreen
+            role={role}
+            onRegisterPress={() => setStep(role === 'employer' ? 'register_employer' : 'register_general')}
+            onLoginPress={goToRoleDashboard}
+          />
+        );
     }
   };
 

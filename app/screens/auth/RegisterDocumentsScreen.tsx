@@ -6,6 +6,7 @@ import LogoWhite from '@/assets/icons/LogoWhite';
 import { FileText, Trash2, Paperclip, Camera, Info } from 'lucide-react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from 'expo-image-picker';
+import { normalizeUserRole, UserRole } from '@/constants/Routes';
 
 interface DocumentItem {
   id: string;
@@ -14,11 +15,13 @@ interface DocumentItem {
 }
 
 interface RegisterDocumentsScreenProps {
+  role?: UserRole;
   onContinue?: (documents: DocumentItem[]) => void;
 }
 
-export default function RegisterDocumentsScreen({ onContinue }: RegisterDocumentsScreenProps) {
+export default function RegisterDocumentsScreen({ role, onContinue }: RegisterDocumentsScreenProps) {
   const router = useRouter();
+  const activeRole = normalizeUserRole(role);
   const [documents, setDocuments] = useState<DocumentItem[]>([
     { id: '1', name: 'CSCS Gold Card', size: '1.1 MB' },
     { id: '2', name: 'IPAF Certificate', size: '1.1 MB' },
@@ -79,7 +82,7 @@ export default function RegisterDocumentsScreen({ onContinue }: RegisterDocument
     if (onContinue) {
       onContinue(documents);
     } else {
-      router.push({ pathname: '/auth', params: { step: 'register_password' } });
+      router.push({ pathname: '/auth', params: { step: 'register_password', role: activeRole } });
     }
   };
 

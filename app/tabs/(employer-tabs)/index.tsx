@@ -1,16 +1,9 @@
 import React from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import { Text, ScrollView, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import {
-  Bell,
   Plus,
-  Search,
-  MapPin,
-  Clock,
-  Bookmark,
-  ChevronRight,
 } from "lucide-react-native";
-import { Colors } from "@/constants/Colors";
 import ScreenHeader from "@/components/layout/ScreenHeader";
 import ScreenWrapper from "@/components/layout/ScreenWrapper";
 import MarketRate from "@/components/modules/employer/home/MarketRate";
@@ -23,7 +16,7 @@ export default function EmployerHomeScreen() {
     router.push({
       pathname: "/screens/worker-details/[id]",
       params: { id: workerId, origin: "employer" },
-    } as any);
+    });
   };
 
   const handleCreateJobPost = () => {

@@ -1,6 +1,7 @@
 import { Href } from "expo-router";
 
 type RouteMap = Record<string, Href>;
+export type UserRole = "worker" | "employer";
 
 const AuthRoutes: Href = "/auth";
 
@@ -18,6 +19,17 @@ const EmployerRoutes: RouteMap = {
   EMPLOYER_HOME: "/tabs/(employer-tabs)",
   EMPLOYER_DETAILS: "/screens/employer-details/[id]",
   SEARCH_EMPLOYER: "/screens/search/SearchEmployer",
+};
+
+export const DEFAULT_USER_ROLE: UserRole = "worker";
+
+export const normalizeUserRole = (role?: string | string[]): UserRole => {
+  const roleValue = Array.isArray(role) ? role[0] : role;
+  return roleValue === "employer" ? "employer" : DEFAULT_USER_ROLE;
+};
+
+export const getDashboardRouteForRole = (role: UserRole): Href => {
+  return role === "employer" ? EmployerRoutes.EMPLOYER_HOME : WorkerRoutes.WORKER_HOME;
 };
 
 export const Routes = { AuthRoutes, CommonRoutes, WorkerRoutes, EmployerRoutes };
