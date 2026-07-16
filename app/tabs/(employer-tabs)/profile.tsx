@@ -1,58 +1,171 @@
-import React from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
-import { Bell, User, Settings, Lock, LogOut } from "lucide-react-native";
+import React, { useState, type ComponentType } from "react";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
+import {
+  User,
+  Clock,
+  Lock,
+  AlertCircle,
+  Star,
+  BellRing,
+  FileText,
+  HelpCircle,
+  MessageSquare,
+  LogOut,
+  ChevronRight,
+} from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
+import ScreenHeader from "@/components/layout/ScreenHeader";
 
-const MENU_ITEMS = [
-  { icon: User, label: "Edit profile" },
-  { icon: Settings, label: "Settings" },
-  { icon: Lock, label: "Security" },
-  { icon: LogOut, label: "Log out" },
-];
+type MenuItem = {
+  icon: ComponentType<{ size?: number; color?: string }>;
+  label: string;
+  onPress?: () => void;
+  type?: "switch";
+};
 
-export default function EmployerProfileScreen() {
+function AvailabilityToggle({ value }: { value: boolean }) {
+  return (
+    <View
+      pointerEvents="none"
+      className={`h-7 w-[44px] rounded-full p-[3px] ${value ? "items-end bg-neutral-200" : "items-start bg-neutral-200"}`}
+    >
+      <View
+        style={{ backgroundColor: value ? Colors.common.BRAND : "#FFFFFF" }}
+        className="h-[20px] w-[20px] rounded-full shadow-sm"
+      />
+    </View>
+  );
+}
+
+export default function ProfileScreen() {
+  const router = useRouter();
+  const [available, setAvailable] = useState(true);
+
+  const menuItems: { account: MenuItem[]; more: MenuItem[] } = {
+    account: [
+      {
+        icon: User,
+        label: "Profile",
+        onPress: () => router.push("/screens/profile/edit" as any),
+      },
+      { icon: Clock, label: "Available time", type: "switch" },
+      {
+        icon: Lock,
+        label: "Change Password",
+        onPress: () => router.push("/screens/profile/change-password" as any),
+      },
+      {
+        icon: AlertCircle,
+        label: "Dispute",
+        onPress: () => router.push("/screens/profile/disputes" as any),
+      },
+      {
+        icon: Star,
+        label: "Rating & Feedback",
+        onPress: () => router.push("/screens/profile/rating-feedback" as any),
+      },
+      { icon: BellRing, label: "Notification Settings", onPress: () => {} },
+    ],
+    more: [
+      {
+        icon: FileText,
+        label: "Terms & Conditions",
+        onPress: () => router.push("/screens/profile/terms" as any),
+      },
+      { icon: HelpCircle, label: "Privacy Policy", onPress: () => {} },
+      { icon: MessageSquare, label: "Contact Site Source", onPress: () => {} },
+      {
+        icon: LogOut,
+        label: "Log out",
+        onPress: () => {
+          return router.replace("/screens/auth/LoginScreen");
+        },
+      },
+    ],
+  };
+
   return (
     <View className="flex-1 bg-neutral-50">
-      <View
-        style={{ backgroundColor: Colors.common.BRAND }}
-        className="pt-16 pb-8 px-6 rounded-b-[32px] shadow-lg shadow-orange-500/10"
+      {/* Header */}
+      <ScreenHeader />
+
+      <ScrollView
+        className="flex-1 px-6"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100 }}
       >
-        <View className="flex-row justify-between items-center">
-          <View className="flex-row items-center gap-3">
-            <Image
-              source={{ uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" }}
-              className="w-12 h-12 rounded-full border-2 border-white/35"
-            />
-            <View>
-              <Text className="text-white text-base font-extrabold tracking-tight">Wade Warren</Text>
-              <Text className="text-white/85 text-xs font-semibold">Employer account</Text>
-            </View>
-          </View>
-
-          <TouchableOpacity className="w-10 h-10 rounded-full bg-white/15 items-center justify-center border border-white/10 active:opacity-75">
-            <Bell color="#FFFFFF" size={18} />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <ScrollView className="flex-1 px-5 pt-6" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
-        <View className="bg-white rounded-2xl border border-neutral-100/85 shadow-sm overflow-hidden">
-          {MENU_ITEMS.map((item, index) => (
-            <TouchableOpacity
-              key={item.label}
-              className={`flex-row items-center gap-3 px-5 py-4 active:opacity-70 ${
-                index === MENU_ITEMS.length - 1 ? "" : "border-b border-neutral-50"
-              }`}
-            >
-              <item.icon size={20} color={item.label === "Log out" ? Colors.common.BRAND : "#525252"} />
-              <Text
-                className="font-semibold text-base"
-                style={item.label === "Log out" ? { color: Colors.common.BRAND } : { color: "#171717" }}
+        {/* Account Section */}
+        <View className="mt-8">
+          <Text className="text-neutral-900 font-extrabold text-lg tracking-tight mb-4">
+            Account
+          </Text>
+          <View className="bg-white rounded-xl border border-neutral-200/80 overflow-hidden">
+            {menuItems.account.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={
+                  item.type === "switch"
+                    ? () => setAvailable((value) => !value)
+                    : item.onPress
+                }
+                className="flex-row items-center justify-between px-5 py-4 border-b border-neutral-50 last:border-b-0 active:opacity-70"
               >
-                {item.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
+                <View className="flex-row items-center gap-3">
+                  <item.icon
+                    size={20}
+                    color={
+                      item.label === "Log out" ? Colors.common.BRAND : "#525252"
+                    }
+                  />
+                  <Text className="text-neutral-900 font-semibold text-base">
+                    {item.label}
+                  </Text>
+                </View>
+                {item.type === "switch" ? (
+                  <AvailabilityToggle value={available} />
+                ) : (
+                  <ChevronRight size={20} color="#737373" />
+                )}
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        {/* More Section */}
+        <View className="mt-8">
+          <Text className="text-neutral-900 font-extrabold text-lg tracking-tight mb-4">
+            More
+          </Text>
+          <View className="bg-white rounded-xl border border-neutral-200/80 overflow-hidden">
+            {menuItems.more.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={item.onPress}
+                className="flex-row items-center justify-between px-5 py-4 border-b border-neutral-50 last:border-b-0 active:opacity-70"
+              >
+                <View className="flex-row items-center gap-3">
+                  <item.icon
+                    size={20}
+                    color={
+                      item.label === "Log out" ? Colors.common.BRAND : "#525252"
+                    }
+                  />
+                  <Text
+                    className="font-semibold text-base"
+                    style={
+                      item.label === "Log out"
+                        ? { color: Colors.common.BRAND }
+                        : { color: "#171717" }
+                    }
+                  >
+                    {item.label}
+                  </Text>
+                </View>
+                <ChevronRight size={20} color="#737373" />
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
       </ScrollView>
     </View>

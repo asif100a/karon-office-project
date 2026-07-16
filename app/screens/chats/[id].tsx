@@ -7,13 +7,17 @@ import ChatHeader from '@/components/modules/common/chat/ChatHeader';
 import MessagesLog from '@/components/modules/common/chat/MessagesLog';
 
 export default function ChatDetailScreen() {
-  const { id } = useLocalSearchParams();
+  const { id, origin } = useLocalSearchParams<{
+    id?: string;
+    origin?: string;
+  }>();
+  const originRoute = Array.isArray(origin) ? origin[0] : origin;
   const [inputText, setInputText] = useState('');
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={[]}>
       {/* Brand Header */}
-      <ChatHeader />
+      <ChatHeader origin={originRoute} />
 
       <KeyboardAvoidingView 
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}

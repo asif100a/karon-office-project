@@ -72,7 +72,10 @@ export default function WorkerChatsScreen() {
   const router = useRouter();
 
   const handleOpenChat = (id: string) => {
-    router.push(`/screens/chats/${id}` as any);
+    router.push({
+      pathname: "/screens/chats/[id]",
+      params: { id, origin: "worker" },
+    });
   };
 
   return (
