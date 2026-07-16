@@ -1,6 +1,6 @@
 import { View, Text, ScrollView } from "react-native";
 import React from "react";
-import { ChevronRight } from "lucide-react-native";
+import { ArrowRight } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 
 const MARKET_RATES = [
@@ -25,7 +25,7 @@ export default function MarketRate() {
         <Text className="text-neutral-950 text-[18px] font-semibold">
           Market Rate
         </Text>
-        <ChevronRight size={22} color="#1F2937" />
+        <ArrowRight size={20} color="#1F2937" />
       </View>
 
       <ScrollView

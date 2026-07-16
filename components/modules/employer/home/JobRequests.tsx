@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import { Bookmark, ChevronRight, Clock, MapPin } from "lucide-react-native";
+import { ArrowRight, Bookmark, Clock, MapPin } from "lucide-react-native";
 import { Image } from "expo-image";
 import { Colors } from "@/constants/Colors";
 
@@ -34,7 +34,7 @@ export default function JobRequests({
         <Text className="text-neutral-950 text-[18px] font-semibold">
           Job Requests
         </Text>
-        <ChevronRight size={22} color="#1F2937" />
+        <ArrowRight size={20} color="#1F2937" />
       </View>
 
       <View className="gap-4">
