@@ -15,10 +15,20 @@ import { Colors } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CommonHeader from "@/components/modules/common/CommonHeader";
 import ScreenWrapper from "@/components/layout/ScreenWrapper";
+import {
+  getDashboardRouteForRole,
+  normalizeUserRole,
+} from "@/constants/Routes";
 
 export default function CancelledJobDetailScreen() {
   const router = useRouter();
-  const { id } = useLocalSearchParams();
+  const { id, origin, status } = useLocalSearchParams<{
+    id?: string;
+    origin?: string;
+    status?: string;
+  }>();
+  const originRoute = Array.isArray(origin) ? origin[0] : origin;
+  const statusRoute = Array.isArray(status) ? status[0] : status;
 
   const jobDetails = {
     title: "Labourer",
@@ -35,10 +45,39 @@ export default function CancelledJobDetailScreen() {
     compensationStatus: "Eligible",
   };
 
+  const handleNavigateBack = () => {
+    if (originRoute === "employer") {
+      router.replace({
+        pathname: "/tabs/(employer-tabs)/my-jobs",
+        params: { tab: statusRoute ?? "cancelled" },
+      });
+      return;
+    }
+
+    if (originRoute === "worker") {
+      router.replace({
+        pathname: "/tabs/(worker-tabs)/my-jobs",
+        params: { tab: statusRoute ?? "cancelled" },
+      });
+      return;
+    }
+
+    if (originRoute) {
+      router.replace(getDashboardRouteForRole(normalizeUserRole(originRoute)));
+      return;
+    }
+
+    router.back();
+  };
+
   return (
     <ScreenWrapper>
       {/* Header */}
-      <CommonHeader headerTitle={"Cancelled Job"} withBackButton />
+      <CommonHeader
+        headerTitle={"Cancelled Job"}
+        withBackButton
+        onPress={handleNavigateBack}
+      />
 
       <ScrollView
         className="flex-1 bg-neutral-50/50"

@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ScrollView,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import SearchAndFilterInput from "@/components/modules/common/job/SearchAndFilterInput";
 import MyJobToggleChips from "@/components/modules/worker/my-jobs/MyJobToggleChips";
 import JobsList from "@/components/modules/worker/my-jobs/JobsList";
@@ -11,18 +11,39 @@ import ScreenWrapper from "@/components/layout/ScreenWrapper";
 
 export default function MyJobsScreen() {
   const router = useRouter();
+  const { tab } = useLocalSearchParams<{ tab?: string }>();
   const [activeTab, setActiveTab] = useState<
     "active" | "completed" | "cancelled"
   >("active");
   const [searchQuery, setSearchQuery] = useState("");
 
+  useEffect(() => {
+    const requestedTab = Array.isArray(tab) ? tab[0] : tab;
+    if (
+      requestedTab === "active" ||
+      requestedTab === "completed" ||
+      requestedTab === "cancelled"
+    ) {
+      setActiveTab(requestedTab);
+    }
+  }, [tab]);
+
   const handleOpenJobDetails = (id: string, status: string) => {
     if (status === "completed") {
-      router.push(`/screens/completed-jobs/${id}` as any);
+      router.push({
+        pathname: "/screens/completed-jobs/[id]",
+        params: { id, origin: "worker", status: activeTab },
+      });
     } else if (status === "cancelled") {
-      router.push(`/screens/cancelled-jobs/${id}` as any);
+      router.push({
+        pathname: "/screens/cancelled-jobs/[id]",
+        params: { id, origin: "worker", status: activeTab },
+      });
     } else {
-      router.push(`/screens/active-jobs/${id}` as any);
+      router.push({
+        pathname: "/screens/active-jobs/[id]",
+        params: { id, origin: "worker", status: activeTab },
+      });
     }
   };
 

@@ -23,7 +23,7 @@ export default function EmployerWorkers({ openWorkerDetails }: {
             key={worker.id}
             onPress={() => openWorkerDetails(worker.id)}
             activeOpacity={0.9}
-            className="bg-white rounded-2xl border border-neutral-100 px-3 py-3.5 shadow-sm"
+            className="bg-white rounded-xl border border-neutral-200/80 px-3 py-3.5"
           >
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center gap-3">

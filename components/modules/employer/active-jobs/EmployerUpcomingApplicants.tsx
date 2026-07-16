@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import { Bookmark, ChevronRight, Clock, MapPin } from "lucide-react-native";
+import { ArrowRight, Bookmark, Clock, MapPin } from "lucide-react-native";
 import { Image } from "expo-image";
 import { Colors } from "@/constants/Colors";
 
@@ -42,14 +42,14 @@ export default function EmployerUpcomingApplicants({
         <Text className="text-neutral-900 text-[18px] font-semibold">
           Applicants
         </Text>
-        <ChevronRight size={18} color="#111827" />
+        <ArrowRight size={20} color="#111827" />
       </View>
 
       <View className="gap-4">
         {EMPLOYER_UPCOMING_APPLICANTS.map((applicant) => (
           <View
             key={applicant.id}
-            className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden"
+            className="bg-white rounded-xl border border-neutral-200/80 overflow-hidden"
           >
             <View className="px-4 pt-4 pb-3">
               <View className="flex-row items-start justify-between">

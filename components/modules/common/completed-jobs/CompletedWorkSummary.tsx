@@ -14,7 +14,7 @@ export default function CompletedWorkSummary() {
       <Text className="text-neutral-900 font-extrabold text-base mb-4">
         Work Summary
       </Text>
-      <View className="border border-neutral-200/80 rounded-xl bg-white shadow-sm overflow-hidden divide-y divide-neutral-50">
+      <View className="border border-neutral-200/80 rounded-xl bg-white overflow-hidden divide-y divide-neutral-50">
         {mockWeeklyWork.map((item, idx) => (
           <View key={idx} className="flex-row justify-between items-center p-4">
             <View>

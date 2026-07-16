@@ -1,14 +1,7 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import {
-  Headphones,
-} from "lucide-react-native";
+import { Headphones } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 import CommonHeader from "@/components/modules/common/CommonHeader";
 import EmployerJobDetails from "@/components/modules/employer/active-jobs/EmployerJobDetails";
@@ -91,13 +84,15 @@ export default function ActiveJobDetailScreen() {
     return (
       <ScreenWrapper>
         <CommonHeader
-          headerTitle={"Active Job"}
+          headerTitle={
+            statusRoute === "upcoming" ? "Upcoming Job" : "Active Job"
+          }
           withBackButton
           onPress={handleNavigateBack}
         />
 
         <ScrollView
-          className="flex-1 bg-neutral-50"
+          className="flex-1"
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 120 }}
         >
@@ -155,10 +150,7 @@ export default function ActiveJobDetailScreen() {
         onPress={handleNavigateBack}
       />
 
-      <ScrollView
-        className="flex-1 bg-neutral-50/50"
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <View className="px-5 pt-4 pb-20">
           <WorkerJobDetails jobDetails={jobDetails} />
 

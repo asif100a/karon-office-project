@@ -14,13 +14,13 @@ export default function ProjectSchedule() {
       <Text className="text-neutral-900 text-sm font-extrabold mb-3">
         Project Schedule
       </Text>
-      <View className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden">
+      <View className="bg-white rounded-xl border border-neutral-200/80 overflow-hidden">
         {EMPLOYER_SCHEDULE.map((item, index) => (
           <View 
             key={item.label}
             className={`flex-row items-center justify-between px-4 py-4 ${index < EMPLOYER_SCHEDULE.length - 1 ? "border-b border-neutral-100" : ""}`}
           >
-            <Text className="text-neutral-400 text-sm">{item.label}</Text>
+            <Text className="text-neutral-600 text-sm">{item.label}</Text>
             <Text className="text-neutral-700 text-sm font-medium">
               {item.value}
             </Text>

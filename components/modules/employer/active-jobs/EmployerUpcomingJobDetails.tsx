@@ -15,7 +15,7 @@ const EMPLOYER_UPCOMING_JOB_DETAILS = {
 
 export default function EmployerUpcomingJobDetails() {
   return (
-    <View className="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm">
+    <View className="bg-white rounded-xl p-4 border border-neutral-200/80">
       <View className="flex-row justify-between items-start mb-4">
         <View className="flex-row items-center gap-3 flex-1 pr-3">
           <View className="w-11 h-11 bg-blue-600 rounded-xl items-center justify-center">

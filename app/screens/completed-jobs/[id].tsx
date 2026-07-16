@@ -8,6 +8,10 @@ import CompletedEmployerContact from "@/components/modules/common/completed-jobs
 import CompletedToggleChips from "@/components/modules/common/completed-jobs/CompletedToggleChips";
 import CompletedSchedule from "@/components/modules/common/completed-jobs/CompletedSchedule";
 import CompletedWorkSummary from "@/components/modules/common/completed-jobs/CompletedWorkSummary";
+import {
+  getDashboardRouteForRole,
+  normalizeUserRole,
+} from "@/constants/Routes";
 
 export default function CompletedJobDetailScreen() {
   const router = useRouter();
@@ -47,6 +51,19 @@ export default function CompletedJobDetailScreen() {
         pathname: "/tabs/(employer-tabs)/my-jobs",
         params: { tab: statusRoute ?? "completed" },
       });
+      return;
+    }
+
+    if (originRoute === "worker") {
+      router.replace({
+        pathname: "/tabs/(worker-tabs)/my-jobs",
+        params: { tab: statusRoute ?? "completed" },
+      });
+      return;
+    }
+
+    if (originRoute) {
+      router.replace(getDashboardRouteForRole(normalizeUserRole(originRoute)));
       return;
     }
 
