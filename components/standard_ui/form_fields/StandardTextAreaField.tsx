@@ -59,7 +59,7 @@ export default function StandardTextAreaField<T extends FieldValues>({
             <Textarea
               size="md"
               variant="default"
-              className={`min-h-[120px] rounded-xl bg-transparent px-0`}
+              className={`min-h-30 rounded-xl bg-transparent px-0`}
               style={{
                 borderWidth: 1,
                 borderColor: error

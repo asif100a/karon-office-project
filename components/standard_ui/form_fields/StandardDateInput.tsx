@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import type { Dispatch, SetStateAction } from "react";
 
 export default function StandardDateInput({
   label = "Text",
@@ -23,7 +24,7 @@ export default function StandardDateInput({
 }: {
   label?: string;
   date: Date | null;
-  onDateChange: (value: Date) => void;
+  onDateChange: Dispatch<SetStateAction<Date | null>>;
   placeholder?: string;
   required?: boolean;
   readonly?: boolean;
