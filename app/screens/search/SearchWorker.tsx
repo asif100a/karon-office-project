@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useForm } from "react-hook-form";
 import {
   Search,
@@ -149,6 +149,8 @@ function WorkerCardRow({
 
 export default function SearchWorkerScreen() {
   const router = useRouter();
+  const { origin } = useLocalSearchParams<{ origin?: string | string[] }>();
+  const originRoute = Array.isArray(origin) ? origin[0] : origin;
   const [viewType, setViewType] = useState<"list" | "map">("list");
   const [showFilters, setShowFilters] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -168,6 +170,20 @@ export default function SearchWorkerScreen() {
     } as any);
   };
 
+  const goBackToOrigin = () => {
+    if (originRoute === "employer") {
+      router.replace("/tabs/(employer-tabs)/workers" as any);
+      return;
+    }
+
+    if (originRoute === "worker") {
+      router.replace("/tabs/(worker-tabs)/offers" as any);
+      return;
+    }
+
+    router.back();
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }} edges={["top"]}>
       <View
@@ -176,7 +192,7 @@ export default function SearchWorkerScreen() {
       >
         <View className="flex-row justify-between items-center">
           <TouchableOpacity
-            onPress={() => router.back()}
+            onPress={goBackToOrigin}
             className="flex-row items-center gap-1 active:opacity-75"
           >
             <ChevronLeft size={20} color="#FFFFFF" />

@@ -5,7 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   Search,
   Map,
@@ -21,6 +21,8 @@ import SearchEmployerFilterModal from "@/components/modules/employer/search-empl
 
 export default function WorkerSearchScreen() {
   const router = useRouter();
+  const { origin } = useLocalSearchParams<{ origin?: string | string[] }>();
+  const originRoute = Array.isArray(origin) ? origin[0] : origin;
   const [viewType, setViewType] = useState<"list" | "map">("list");
   const [showFilters, setShowFilters] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,6 +36,20 @@ export default function WorkerSearchScreen() {
     router.push(`/screens/employer-details/${id}` as any);
   };
 
+  const goBackToOrigin = () => {
+    if (originRoute === "worker") {
+      router.replace("/tabs/(worker-tabs)/offers" as any);
+      return;
+    }
+
+    if (originRoute === "employer") {
+      router.replace("/tabs/(employer-tabs)/workers" as any);
+      return;
+    }
+
+    router.back();
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }} edges={[]}>
       {/* Search Header */}
@@ -44,7 +60,7 @@ export default function WorkerSearchScreen() {
         <View className="flex-row justify-between items-center">
           {/* Back button and title */}
           <TouchableOpacity
-            onPress={() => router.back()}
+            onPress={goBackToOrigin}
             className="flex-row items-center gap-1 active:opacity-75"
           >
             <ChevronLeft size={20} color="#FFFFFF" />

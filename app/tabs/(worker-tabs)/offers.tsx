@@ -18,7 +18,10 @@ export default function WorkerOffersTabLanding() {
   );
 
   const handleOpenSearch = () => {
-    router.push("/screens/search/SearchEmployer" as any);
+    router.push({
+      pathname: "/screens/search/SearchEmployer",
+      params: { origin: "worker" },
+    } as any);
   };
 
   const handleViewDetails = (id: string) => {
