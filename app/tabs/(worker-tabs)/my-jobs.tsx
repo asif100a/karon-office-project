@@ -3,7 +3,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useRouter } from "expo-router";
-import SearchAndFilterInput from "@/components/modules/worker/my-jobs/SearchAndFilterInput";
+import SearchAndFilterInput from "@/components/modules/common/job/SearchAndFilterInput";
 import MyJobToggleChips from "@/components/modules/worker/my-jobs/MyJobToggleChips";
 import JobsList from "@/components/modules/worker/my-jobs/JobsList";
 import CommonHeader from "@/components/modules/common/CommonHeader";
