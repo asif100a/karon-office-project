@@ -3,15 +3,10 @@ import {
   View,
   Text,
   ScrollView,
-  TextInput,
-  TouchableOpacity,
-  Modal,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useForm } from "react-hook-form";
-import { X } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
-import StandardSelectField from "@/components/standard_ui/form_fields/StandardSelectField";
 import ScreenWrapper from "@/components/layout/ScreenWrapper";
 import SearchWorkerHeader from "@/components/modules/worker/search-workers/SearchWorkerHeader";
 import WorkerSearchCardRow from "@/components/modules/worker/search-workers/WorkerSearchCardRow";

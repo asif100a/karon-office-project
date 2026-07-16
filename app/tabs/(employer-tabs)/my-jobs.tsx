@@ -11,6 +11,9 @@ import {
   Users,
 } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
+import ScreenHeader from "@/components/layout/ScreenHeader";
+import CommonHeader from "@/components/modules/common/CommonHeader";
+import ScreenWrapper from "@/components/layout/ScreenWrapper";
 
 type JobStatus = "active" | "upcoming" | "completed" | "cancelled";
 
@@ -262,19 +265,12 @@ export default function EmployerMyJobsScreen() {
   };
 
   return (
-    <View className="flex-1 bg-neutral-50">
-      <View style={{ backgroundColor: Colors.common.BRAND }} className="pb-6 pt-4 px-6 rounded-b-[34px] shadow-lg shadow-orange-500/10">
-        <View className="flex-row justify-between items-center">
-          <Text className="text-white text-2xl font-extrabold tracking-tight">My Jobs</Text>
-          <TouchableOpacity className="w-11 h-11 rounded-full bg-white/14 items-center justify-center border border-white/10 active:opacity-75">
-            <Bell color="#FFFFFF" size={18} />
-          </TouchableOpacity>
-        </View>
-      </View>
+    <ScreenWrapper>
+      <CommonHeader headerTitle="My Jobs" />
 
       <ScrollView className="flex-1 px-5 pt-5" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 120 }}>
         <View className="flex-row items-center gap-3">
-          <View className="flex-1 flex-row items-center bg-white border border-neutral-200/90 rounded-2xl px-4 py-3.5 shadow-sm">
+          <View className="flex-1 flex-row items-center bg-white border border-neutral-200/80 rounded-xl px-4 py-0">
             <Search size={18} color="#A3A3A3" className="mr-2" />
             <TextInput
               className="flex-1 text-neutral-800 text-sm font-medium py-0"
@@ -284,7 +280,7 @@ export default function EmployerMyJobsScreen() {
               onChangeText={setSearchQuery}
             />
           </View>
-          <TouchableOpacity className="w-12 h-12 bg-white border border-neutral-200/90 rounded-2xl items-center justify-center shadow-sm active:opacity-85">
+          <TouchableOpacity className="w-12 h-12 bg-white border border-neutral-200/80 rounded-xl items-center justify-center active:opacity-85">
             <SlidersHorizontal size={18} color="#333333" />
           </TouchableOpacity>
         </View>
@@ -302,7 +298,7 @@ export default function EmployerMyJobsScreen() {
                 key={tab.key}
                 onPress={() => setActiveTab(tab.key)}
                 style={isActive ? { backgroundColor: Colors.common.GRAY_DARK } : { backgroundColor: "#FFFFFF" }}
-                className={`px-4 py-2.5 rounded-xl shadow-sm ${isActive ? "" : "border border-neutral-200/70"}`}
+                className={`px-4 py-2.5 rounded-lg ${isActive ? "" : "border border-neutral-200/80"}`}
               >
                 <Text className={`text-xs font-bold ${isActive ? "text-white" : "text-neutral-500"}`}>{tab.label}</Text>
               </TouchableOpacity>
@@ -317,7 +313,7 @@ export default function EmployerMyJobsScreen() {
                 key={job.id}
                 onPress={() => openJobDetails(job.id)}
                 activeOpacity={0.9}
-                className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden"
+                className="bg-white rounded-xl border border-neutral-200/80 overflow-hidden"
               >
                 <View className="px-4 pt-4 pb-3">
                   <View className="flex-row items-start justify-between">
@@ -331,7 +327,7 @@ export default function EmployerMyJobsScreen() {
                       </View>
                     </View>
 
-                    <View className="bg-orange-50 border border-orange-100 px-2.5 py-1 rounded-full">
+                    <View className="bg-orange-50 border border-orange-100 px-2.5 py-1 rounded-md">
                       <Text style={{ color: Colors.common.BRAND }} className="text-[10px] font-extrabold">
                         {job.badge}
                       </Text>
@@ -507,6 +503,6 @@ export default function EmployerMyJobsScreen() {
         </View>
       </ScrollView>
 
-    </View>
+    </ScreenWrapper>
   );
 }
