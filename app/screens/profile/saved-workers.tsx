@@ -71,14 +71,14 @@ export default function SavedWorkers() {
         contentContainerStyle={{ padding: 16, paddingBottom: 34 }}
       >
         <View className="flex-row gap-3 mb-6">
-          <View className="flex-1 h-12 rounded-2xl bg-white border border-neutral-200/80 px-4 flex-row items-center shadow-sm">
+          <View className="flex-1 h-12 rounded-xl bg-white border border-neutral-200/80 px-4 flex-row items-center">
             <Search size={18} color="#7B8794" />
             <Text className="ml-2 text-sm text-neutral-400 font-medium">
               Search Offers
             </Text>
           </View>
 
-          <TouchableOpacity className="w-12 h-12 rounded-2xl bg-white border border-neutral-200/80 items-center justify-center shadow-sm active:opacity-80">
+          <TouchableOpacity className="w-12 h-12 rounded-xl bg-white border border-neutral-200/80 items-center justify-center active:opacity-80">
             <SlidersHorizontal size={18} color="#1F2937" />
           </TouchableOpacity>
         </View>

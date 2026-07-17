@@ -1,25 +1,24 @@
 import React from 'react';
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { useForm } from 'react-hook-form';
 import { ChevronDown, Upload } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
+import StandardInputField from '@/components/standard_ui/form_fields/StandardInputField';
 import { Avatar, FileChip, profilePhoto, ScreenShell } from './_components';
 
-function Field({ label, placeholder }: { label: string; placeholder: string }) {
-  return (
-    <View className="mb-5">
-      <Text className="text-neutral-500 text-xs font-semibold mb-2">{label}</Text>
-      <View className="h-14 rounded-xl bg-white border border-neutral-200 px-4 justify-center">
-        <TextInput
-          className="text-neutral-900 text-sm font-semibold py-0"
-          placeholder={placeholder}
-          placeholderTextColor="#A8A8A8"
-        />
-      </View>
-    </View>
-  );
-}
+type EditProfileFormValues = {
+  fullName: string;
+  email: string;
+};
 
 export default function EditProfileScreen() {
+  const { control } = useForm<EditProfileFormValues>({
+    defaultValues: {
+      fullName: '',
+      email: '',
+    },
+  });
+
   return (
     <ScreenShell
       title="Profile"
@@ -55,8 +54,22 @@ export default function EditProfileScreen() {
           </TouchableOpacity>
         </View>
 
-        <Field label="Full Name" placeholder="Enter Your Full Name" />
-        <Field label="Email Address" placeholder="Enter Your Email" />
+        <StandardInputField<EditProfileFormValues>
+          label="Full Name"
+          id="fullName"
+          control={control}
+          placeholder="Enter Your Full Name"
+          textInputProps={{ className: 'text-neutral-900 text-sm font-semibold' }}
+        />
+
+        <StandardInputField<EditProfileFormValues>
+          label="Email Address"
+          id="email"
+          type="email"
+          control={control}
+          placeholder="Enter Your Email"
+          textInputProps={{ className: 'text-neutral-900 text-sm font-semibold' }}
+        />
 
         <View className="mb-5">
           <Text className="text-neutral-500 text-xs font-semibold mb-2">Trade / Skill</Text>

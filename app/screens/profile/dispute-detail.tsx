@@ -17,7 +17,7 @@ export default function DisputeDetailScreen() {
   const resolved = status === 'resolved';
 
   return (
-    <ScreenShell title="Details">
+    <ScreenShell title="Dispute Details">
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 16, paddingBottom: 34 }}>
         <DisputeSummary resolved={resolved} />
 

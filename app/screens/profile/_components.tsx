@@ -37,7 +37,7 @@ export function ProfileHeader({ title }: { title: string }) {
   };
 
   return (
-    <View style={{ backgroundColor: Colors.common.BRAND }} className="pt-16 pb-7 px-5">
+    <View style={{ backgroundColor: Colors.common.BRAND }} className="pt-14 pb-4 px-5">
       <View className="flex-row justify-between items-center">
         <TouchableOpacity
           onPress={handleBackPress}
@@ -75,7 +75,7 @@ export function ScreenShell({
 
 export function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <View className={`bg-white rounded-2xl border border-neutral-100 shadow-sm ${className}`}>
+    <View className={`bg-white rounded-xl border border-neutral-200/80 ${className}`}>
       {children}
     </View>
   );
