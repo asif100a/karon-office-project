@@ -48,13 +48,21 @@ export default function ProfileScreen() {
       {
         icon: User,
         label: "Profile",
-        onPress: () => router.push("/screens/profile/edit" as any),
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/edit",
+            params: { origin: "employer" },
+          }),
       },
       { icon: Clock, label: "Available time", type: "switch" },
       {
         icon: Lock,
         label: "Change Password",
-        onPress: () => router.push("/screens/profile/change-password" as any),
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/change-password",
+            params: { origin: "employer" },
+          }),
       },
       {
         icon: AlertCircle,
@@ -63,7 +71,7 @@ export default function ProfileScreen() {
           router.push({
             pathname: "/screens/profile/disputes",
             params: { origin: "employer" },
-          } as any),
+          }),
       },
       {
         icon: Star,
@@ -72,7 +80,7 @@ export default function ProfileScreen() {
           router.push({
             pathname: "/screens/profile/rating-feedback",
             params: { origin: "employer" },
-          } as any),
+          }),
       },
       {
         icon: Copy,
@@ -93,7 +101,7 @@ export default function ProfileScreen() {
           router.push({
             pathname: "/screens/profile/terms",
             params: { origin: "employer" },
-          } as any),
+          }),
       },
       {
         icon: HelpCircle,

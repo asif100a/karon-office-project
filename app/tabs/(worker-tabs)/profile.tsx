@@ -47,13 +47,21 @@ export default function ProfileScreen() {
       {
         icon: User,
         label: "Profile",
-        onPress: () => router.push("/screens/profile/edit" as any),
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/edit",
+            params: { origin: "worker" },
+          }),
       },
       { icon: Clock, label: "Available time", type: "switch" },
       {
         icon: Lock,
         label: "Change Password",
-        onPress: () => router.push("/screens/profile/change-password" as any),
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/change-password",
+            params: { origin: "worker" },
+          }),
       },
       {
         icon: AlertCircle,
@@ -62,7 +70,7 @@ export default function ProfileScreen() {
           router.push({
             pathname: "/screens/profile/disputes",
             params: { origin: "worker" },
-          } as any),
+          }),
       },
       {
         icon: Star,
@@ -71,7 +79,7 @@ export default function ProfileScreen() {
           router.push({
             pathname: "/screens/profile/rating-feedback",
             params: { origin: "worker" },
-          } as any),
+          }),
       },
       { icon: BellRing, label: "Notification Settings", onPress: () => {} },
     ],
@@ -83,7 +91,7 @@ export default function ProfileScreen() {
           router.push({
             pathname: "/screens/profile/terms",
             params: { origin: "worker" },
-          } as any),
+          }),
       },
       {
         icon: HelpCircle,
@@ -107,7 +115,7 @@ export default function ProfileScreen() {
         icon: LogOut,
         label: "Log out",
         onPress: () => {
-          return router.replace("/auth/login" as any);
+          return router.replace("/screens/auth/LoginScreen");
         },
       },
     ],

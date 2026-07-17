@@ -47,8 +47,8 @@ export default function EditProfileScreen() {
         </View>
 
         <View className="h-32 border border-dashed border-neutral-300 rounded-2xl bg-neutral-50 items-center justify-center mb-6">
-          <Text className="text-neutral-400 text-[10px] font-extrabold tracking-[2px] uppercase">Upload PDF or Photo</Text>
-          <Text className="text-neutral-400 text-[10px] font-bold mt-2 mb-3">JPG . PNG . PDF . MAX 10MB</Text>
+          <Text className="text-neutral-400 text-[10px] font-extrabold tracking-[2px] uppercase">Upload Photo</Text>
+          <Text className="text-neutral-400 text-[10px] font-bold mt-2 mb-3">JPG . PNG . MAX 10MB</Text>
           <TouchableOpacity className="bg-neutral-800 px-5 py-2.5 rounded-full flex-row items-center gap-2">
             <Upload size={14} color="#FFFFFF" />
             <Text className="text-white text-xs font-extrabold">Upload</Text>
