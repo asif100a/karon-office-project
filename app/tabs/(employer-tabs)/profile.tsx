@@ -13,6 +13,7 @@ import {
   MessageSquare,
   LogOut,
   ChevronRight,
+  Copy,
 } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 import ScreenHeader from "@/components/layout/ScreenHeader";
@@ -65,16 +66,41 @@ export default function ProfileScreen() {
         label: "Rating & Feedback",
         onPress: () => router.push("/screens/profile/rating-feedback" as any),
       },
+      {
+        icon: Copy,
+        label: "Saved Workers",
+        onPress: () => router.push("/screens/profile/rating-feedback" as any),
+      },
       { icon: BellRing, label: "Notification Settings", onPress: () => {} },
     ],
     more: [
       {
         icon: FileText,
         label: "Terms & Conditions",
-        onPress: () => router.push("/screens/profile/terms" as any),
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/terms",
+            params: { origin: "employer" },
+          } as any),
       },
-      { icon: HelpCircle, label: "Privacy Policy", onPress: () => {} },
-      { icon: MessageSquare, label: "Contact Site Source", onPress: () => {} },
+      {
+        icon: HelpCircle,
+        label: "Privacy Policy",
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/privacy-policy",
+            params: { origin: "employer" },
+          }),
+      },
+      {
+        icon: MessageSquare,
+        label: "Contact Site Source",
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/contact",
+            params: { origin: "employer" },
+          }),
+      },
       {
         icon: LogOut,
         label: "Log out",

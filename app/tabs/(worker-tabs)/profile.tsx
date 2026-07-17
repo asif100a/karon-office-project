@@ -71,10 +71,30 @@ export default function ProfileScreen() {
       {
         icon: FileText,
         label: "Terms & Conditions",
-        onPress: () => router.push("/screens/profile/terms" as any),
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/terms",
+            params: { origin: "worker" },
+          } as any),
       },
-      { icon: HelpCircle, label: "Privacy Policy", onPress: () => {} },
-      { icon: MessageSquare, label: "Contact Site Source", onPress: () => {} },
+      {
+        icon: HelpCircle,
+        label: "Privacy Policy",
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/privacy-policy",
+            params: { origin: "worker" },
+          }),
+      },
+      {
+        icon: MessageSquare,
+        label: "Contact Site Source",
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/contact",
+            params: { origin: "worker" },
+          }),
+      },
       {
         icon: LogOut,
         label: "Log out",

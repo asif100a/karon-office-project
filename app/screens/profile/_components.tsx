@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import {
   AlertTriangle,
   Bell,
@@ -19,13 +19,29 @@ export const proofPhoto =
 
 export function ProfileHeader({ title }: { title: string }) {
   const router = useRouter();
+  const { origin } = useLocalSearchParams<{ origin?: string | string[] }>();
+  const originRoute = Array.isArray(origin) ? origin[0] : origin;
+
+  const handleBackPress = () => {
+    if (originRoute === 'employer') {
+      router.replace('/tabs/(employer-tabs)/profile');
+      return;
+    }
+
+    if (originRoute === 'worker') {
+      router.replace('/tabs/(worker-tabs)/profile');
+      return;
+    }
+
+    router.back();
+  };
 
   return (
     <View style={{ backgroundColor: Colors.common.BRAND }} className="pt-16 pb-7 px-5">
       <View className="flex-row justify-between items-center">
         <TouchableOpacity
-          onPress={() => router.replace('/tabs/(worker-tabs)/profile')}
-          className="flex-row items-center gap-2 active:opacity-75"
+          onPress={handleBackPress}
+          className="flex-row items-center gap-1 active:opacity-75"
         >
           <ChevronLeft size={22} color="#FFFFFF" />
           <Text className="text-white text-lg font-extrabold tracking-tight">{title}</Text>
