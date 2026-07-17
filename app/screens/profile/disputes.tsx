@@ -1,11 +1,13 @@
 import React from 'react';
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Search, SlidersHorizontal } from 'lucide-react-native';
 import { DisputeLogo, ScreenShell, StatusPill } from './_components';
 
 export default function DisputesScreen() {
   const router = useRouter();
+  const { origin } = useLocalSearchParams<{ origin?: string | string[] }>();
+  const originRoute = Array.isArray(origin) ? origin[0] : origin;
   const items = Array.from({ length: 6 });
 
   return (
@@ -29,7 +31,15 @@ export default function DisputesScreen() {
           {items.map((_, index) => (
             <TouchableOpacity
               key={index}
-              onPress={() => router.push(`/screens/profile/dispute-detail?status=${index === 5 ? 'resolved' : 'review'}` as any)}
+              onPress={() =>
+                router.push({
+                  pathname: "/screens/profile/dispute-detail",
+                  params: {
+                    status: index === 5 ? "resolved" : "review",
+                    origin: originRoute,
+                  },
+                } as any)
+              }
               className="bg-white rounded-xl border border-neutral-100 p-4 flex-row items-center justify-between"
               activeOpacity={0.85}
             >

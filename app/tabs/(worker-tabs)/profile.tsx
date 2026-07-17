@@ -58,12 +58,20 @@ export default function ProfileScreen() {
       {
         icon: AlertCircle,
         label: "Dispute",
-        onPress: () => router.push("/screens/profile/disputes" as any),
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/disputes",
+            params: { origin: "worker" },
+          } as any),
       },
       {
         icon: Star,
         label: "Rating & Feedback",
-        onPress: () => router.push("/screens/profile/rating-feedback" as any),
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/rating-feedback",
+            params: { origin: "worker" },
+          } as any),
       },
       { icon: BellRing, label: "Notification Settings", onPress: () => {} },
     ],

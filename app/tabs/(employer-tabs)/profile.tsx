@@ -59,17 +59,29 @@ export default function ProfileScreen() {
       {
         icon: AlertCircle,
         label: "Dispute",
-        onPress: () => router.push("/screens/profile/disputes" as any),
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/disputes",
+            params: { origin: "employer" },
+          } as any),
       },
       {
         icon: Star,
         label: "Rating & Feedback",
-        onPress: () => router.push("/screens/profile/rating-feedback" as any),
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/rating-feedback",
+            params: { origin: "employer" },
+          } as any),
       },
       {
         icon: Copy,
         label: "Saved Workers",
-        onPress: () => router.push("/screens/profile/rating-feedback" as any),
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/saved-workers",
+            params: { origin: "employer" },
+          }),
       },
       { icon: BellRing, label: "Notification Settings", onPress: () => {} },
     ],
