@@ -8,14 +8,14 @@ const MOCK_JOB_OFFERS = [
     id: '1',
     title: 'Labourer',
     company: 'London builder limited',
-    payRate: '$100 - $120/hour',
+    payRate: '120',
     tag: 'Market Rate',
   },
   {
     id: '2',
     title: 'Labourer',
     company: 'London builder limited',
-    payRate: '$100 - $120/hour',
+    payRate: '120',
     tag: 'Market Rate',
   },
 ];
@@ -70,7 +70,7 @@ export default function JobOfferHorizontalCarousel({ handleViewDetails }: { hand
 
             <View className="flex-row justify-between items-center pt-2 border-t border-neutral-50/80">
               <Text className="text-neutral-800 font-bold text-sm">
-                {job.payRate}
+                £{job.payRate}/hour
               </Text>
               {/* <View
                 style={{ backgroundColor: Colors.common.BRAND_LIGHT }}

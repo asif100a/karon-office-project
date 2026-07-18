@@ -26,7 +26,7 @@ export default function LabourerCard({ job, handleViewDetails }: { job: any; han
 
         <View className="items-end">
           <Text className="text-neutral-900 font-extrabold text-sm">
-            {job.payRate}
+            £{job.payRate}/hour
           </Text>
           {/* <View
             style={{ backgroundColor: Colors.common.BRAND_LIGHT }}

@@ -15,14 +15,7 @@ export default function StickyActions({
         style={{ backgroundColor: Colors.common.GRAY_DARK }}
         className="flex-1 items-center justify-center rounded-2xl py-4 active:opacity-90 shadow-sm shadow-black/10"
       >
-        <Text className="text-sm font-extrabold text-white">Send Request</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={onSecondaryPress}
-        className="flex-1 items-center justify-center rounded-2xl border border-neutral-200 bg-white py-4 active:opacity-75"
-      >
-        <Text className="text-sm font-extrabold text-neutral-900">Accept</Text>
+        <Text className="text-sm font-extrabold text-white">Apply</Text>
       </TouchableOpacity>
     </View>
   );
