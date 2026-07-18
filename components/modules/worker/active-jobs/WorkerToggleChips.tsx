@@ -4,7 +4,7 @@ import { Colors } from "@/constants/Colors";
 
 const TABS = [
   { key: "schedule", label: "Schedule", minWidth: 64 },
-  { key: "summary", label: "Work Summary", minWidth: 104 },
+  { key: "timesheet", label: "Timesheet", minWidth: 104 },
   { key: "policy", label: "Worker Policy", minWidth: 104 },
 ] as const;
 
@@ -12,8 +12,8 @@ export default function WorkerToggleChips({
   activeSubTab,
   setActiveSubTab,
 }: {
-  activeSubTab: "schedule" | "summary" | "policy";
-  setActiveSubTab: React.Dispatch<React.SetStateAction<"schedule" | "summary" | "policy">>;
+  activeSubTab: "schedule" | "timesheet" | "policy";
+  setActiveSubTab: React.Dispatch<React.SetStateAction<"schedule" | "timesheet" | "policy">>;
 }) {
   return (
     <View className="flex-row gap-2 mb-6">

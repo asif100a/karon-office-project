@@ -19,20 +19,8 @@ export default function WorkerWorkSummary({
     <View>
       <View className="flex-row justify-between items-center mb-4">
         <Text className="text-neutral-900 font-extrabold text-base">
-          Work Summary
+          Timesheet
         </Text>
-        <TouchableOpacity
-          onPress={() => setShowApprovalModal(true)}
-          style={{ borderColor: Colors.common.BRAND }}
-          className="border px-3 py-1.5 rounded-lg active:opacity-75 bg-white"
-        >
-          <Text
-            style={{ color: Colors.common.BRAND }}
-            className="text-xs font-bold"
-          >
-            Request Approval
-          </Text>
-        </TouchableOpacity>
       </View>
 
       <View className="border border-neutral-200/80 rounded-2xl bg-white overflow-hidden divide-y divide-neutral-50">
@@ -46,15 +34,26 @@ export default function WorkerWorkSummary({
                 {item.dates}
               </Text>
             </View>
-            <View
-              className={`px-3 py-1 rounded-full ${item.status === "Approved" ? "bg-green-50" : "bg-neutral-100"}`}
-            >
-              <Text
-                className={`text-[10px] font-extrabold ${item.status === "Approved" ? "text-green-600" : "text-neutral-500"}`}
+            {item.status === "Approved" ? (
+              <View className="px-3 py-1 rounded-full bg-green-50">
+                <Text className="text-[10px] font-extrabold text-green-600">
+                  Approved
+                </Text>
+              </View>
+            ) : (
+              <TouchableOpacity
+                onPress={() => setShowApprovalModal(true)}
+                style={{ borderColor: Colors.common.BRAND }}
+                className="border px-3 py-1 rounded-full active:opacity-75 bg-white"
               >
-                {item.status}
-              </Text>
-            </View>
+                <Text
+                  style={{ color: Colors.common.BRAND }}
+                  className="text-[10px] font-extrabold"
+                >
+                  Submit Timesheet
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         ))}
       </View>

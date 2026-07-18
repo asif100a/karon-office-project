@@ -33,17 +33,17 @@ export default function WorkerSearchScreen() {
   const [radius, setRadius] = useState("1 - 10 miles");
 
   const handleViewDetails = (id: string) => {
-    router.push(`/screens/employer-details/${id}` as any);
+    router.push(`/screens/employer-details/${id}`);
   };
 
   const goBackToOrigin = () => {
     if (originRoute === "worker") {
-      router.replace("/tabs/(worker-tabs)/offers" as any);
+      router.replace("/tabs/(worker-tabs)/jobs");
       return;
     }
 
     if (originRoute === "employer") {
-      router.replace("/tabs/(employer-tabs)/workers" as any);
+      router.replace("/tabs/(employer-tabs)/workers");
       return;
     }
 

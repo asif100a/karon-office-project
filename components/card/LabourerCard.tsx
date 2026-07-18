@@ -28,7 +28,7 @@ export default function LabourerCard({ job, handleViewDetails }: { job: any; han
           <Text className="text-neutral-900 font-extrabold text-sm">
             {job.payRate}
           </Text>
-          <View
+          {/* <View
             style={{ backgroundColor: Colors.common.BRAND_LIGHT }}
             className="px-2.5 py-0.5 rounded-md mt-1.5"
           >
@@ -38,7 +38,7 @@ export default function LabourerCard({ job, handleViewDetails }: { job: any; han
             >
               {job.tag}
             </Text>
-          </View>
+          </View> */}
         </View>
       </View>
 

@@ -11,7 +11,7 @@ import CategoryToggles from "@/components/modules/worker/offers/CategoryToggles"
 import VerticalJobListings from "@/components/modules/worker/offers/VerticalJobListings";
 import ScreenWrapper from "@/components/layout/ScreenWrapper";
 
-export default function WorkerOffersTabLanding() {
+export default function WorkerJobsTabLanding() {
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<"browse" | "offers">(
     "browse",

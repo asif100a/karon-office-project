@@ -31,7 +31,7 @@ export default function ActiveJobDetailScreen() {
   const employerJobStatus = statusRoute === "upcoming" ? "upcoming" : "active";
 
   const [activeSubTab, setActiveSubTab] = useState<
-    "schedule" | "summary" | "policy"
+    "schedule" | "timesheet" | "policy"
   >("schedule");
   const [showApprovalModal, setShowApprovalModal] = useState(false);
   const [showSupportModal, setShowSupportModal] = useState(false);
@@ -169,7 +169,7 @@ export default function ActiveJobDetailScreen() {
           )}
 
           {/* Worker Work Summary */}
-          {activeSubTab === "summary" && (
+          {activeSubTab === "timesheet" && (
             <WorkerWorkSummary setShowApprovalModal={setShowApprovalModal} />
           )}
 

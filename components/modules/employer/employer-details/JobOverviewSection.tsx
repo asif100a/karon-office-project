@@ -38,7 +38,7 @@ export default function JobOverviewSection({ jobDetails }: { jobDetails: Employe
 
         <View className="items-end gap-2">
           <Text className="text-sm font-extrabold text-neutral-900">{jobDetails.payRate}</Text>
-          <View
+          {/* <View
             style={{ backgroundColor: Colors.common.BRAND_LIGHT }}
             className="rounded px-2 py-0.5"
           >
@@ -48,7 +48,7 @@ export default function JobOverviewSection({ jobDetails }: { jobDetails: Employe
             >
               {jobDetails.tag}
             </Text>
-          </View>
+          </View> */}
         </View>
       </View>
     </View>

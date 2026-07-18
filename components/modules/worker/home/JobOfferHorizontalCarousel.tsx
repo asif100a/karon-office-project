@@ -27,7 +27,7 @@ export default function JobOfferHorizontalCarousel({ handleViewDetails }: { hand
         <View className="flex-row items-center gap-2">
           <Sparkles size={18} color={Colors.common.BRAND} />
           <Text className="text-neutral-900 font-extrabold text-lg tracking-tight">
-            Job Offer
+            Job Offers
           </Text>
         </View>
         <TouchableOpacity className="flex-row items-center">
@@ -72,7 +72,7 @@ export default function JobOfferHorizontalCarousel({ handleViewDetails }: { hand
               <Text className="text-neutral-800 font-bold text-sm">
                 {job.payRate}
               </Text>
-              <View
+              {/* <View
                 style={{ backgroundColor: Colors.common.BRAND_LIGHT }}
                 className="px-2.5 py-1 rounded-md"
               >
@@ -82,7 +82,7 @@ export default function JobOfferHorizontalCarousel({ handleViewDetails }: { hand
                 >
                   {job.tag}
                 </Text>
-              </View>
+              </View> */}
             </View>
           </TouchableOpacity>
         ))}

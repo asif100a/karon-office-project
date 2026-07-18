@@ -21,7 +21,7 @@ export default function JobSummaryCard({ jobDetails }: { jobDetails: EmployerJob
 
         <View className="items-end">
           <Text className="text-sm font-extrabold text-neutral-900">{jobDetails.payRate}</Text>
-          <View
+          {/* <View
             style={{ backgroundColor: Colors.common.BRAND_LIGHT }}
             className="mt-1.5 rounded-md px-2.5 py-0.5"
           >
@@ -31,7 +31,7 @@ export default function JobSummaryCard({ jobDetails }: { jobDetails: EmployerJob
             >
               {jobDetails.tag}
             </Text>
-          </View>
+          </View> */}
         </View>
       </View>
 

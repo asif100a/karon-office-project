@@ -76,17 +76,17 @@ export default function SearchWorkerScreen() {
     router.push({
       pathname: "/screens/worker-details/[id]",
       params: { id, origin: "employer" },
-    } as any);
+    });
   };
 
   const goBackToOrigin = () => {
     if (originRoute === "employer") {
-      router.replace("/tabs/(employer-tabs)/workers" as any);
+      router.replace("/tabs/(employer-tabs)/workers");
       return;
     }
 
     if (originRoute === "worker") {
-      router.replace("/tabs/(worker-tabs)/offers" as any);
+      router.replace("/tabs/(worker-tabs)/jobs");
       return;
     }
 

@@ -18,9 +18,9 @@ export default function WorkerTabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="offers"
+        name="jobs"
         options={{
-          title: "Offers",
+          title: "Jobs",
           tabBarIcon: ({ color, size }) => <TabIcons.DocumentIcon color={color} size={size} />,
         }}
       />
