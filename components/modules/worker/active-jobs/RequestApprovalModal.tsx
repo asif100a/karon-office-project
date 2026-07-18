@@ -31,7 +31,7 @@ export default function RequestApprovalModal({
       onRequestClose={() => setShowApprovalModal(false)}
     >
       <View className="flex-1 bg-neutral-500/50 justify-end">
-        <View className="bg-white rounded-t-[32px] p-6 pb-12 shadow-2xl border-t border-neutral-100">
+        <View className="bg-white rounded-t-4xl p-6 pb-12 shadow-2xl border-t border-neutral-100">
           <View className="flex-row justify-between items-center mb-6">
             <Text className="text-neutral-900 font-extrabold text-lg tracking-tight">
               Submit Timesheet
