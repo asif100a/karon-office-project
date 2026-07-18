@@ -111,9 +111,11 @@ export default function JobsList({
   activeTab
 }: {
   handleOpenJobDetails: (id: string, status: string) => void;
-  activeTab: 'active' | 'completed' | 'cancelled';
+  activeTab: 'active' | 'completed';
 }) {
-      const filteredJobs = MOCK_MY_JOBS.filter(job => job.status === activeTab);
+      const filteredJobs = MOCK_MY_JOBS.filter(job =>
+        activeTab === "completed" ? job.status === "completed" || job.status === "cancelled" : job.status === activeTab
+      );
 
   return (
     <View className="gap-4">

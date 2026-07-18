@@ -12,9 +12,7 @@ import ScreenWrapper from "@/components/layout/ScreenWrapper";
 export default function MyJobsScreen() {
   const router = useRouter();
   const { tab } = useLocalSearchParams<{ tab?: string }>();
-  const [activeTab, setActiveTab] = useState<
-    "active" | "completed" | "cancelled"
-  >("active");
+  const [activeTab, setActiveTab] = useState<"active" | "completed">("active");
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -24,7 +22,7 @@ export default function MyJobsScreen() {
       requestedTab === "completed" ||
       requestedTab === "cancelled"
     ) {
-      setActiveTab(requestedTab);
+      setActiveTab(requestedTab === "cancelled" ? "completed" : requestedTab);
     }
   }, [tab]);
 
@@ -32,17 +30,17 @@ export default function MyJobsScreen() {
     if (status === "completed") {
       router.push({
         pathname: "/screens/completed-jobs/[id]",
-        params: { id, origin: "worker", status: activeTab },
+        params: { id, origin: "worker", status },
       });
     } else if (status === "cancelled") {
       router.push({
         pathname: "/screens/cancelled-jobs/[id]",
-        params: { id, origin: "worker", status: activeTab },
+        params: { id, origin: "worker", status },
       });
     } else {
       router.push({
         pathname: "/screens/active-jobs/[id]",
-        params: { id, origin: "worker", status: activeTab },
+        params: { id, origin: "worker", status },
       });
     }
   };

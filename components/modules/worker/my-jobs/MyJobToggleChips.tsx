@@ -6,8 +6,8 @@ export default function MyJobToggleChips({
     activeTab,
     setActiveTab
 }: {
-    activeTab: "active" | "completed" | "cancelled";
-    setActiveTab: React.Dispatch<React.SetStateAction<"active" | "completed" | "cancelled">>;
+    activeTab: "active" | "completed";
+    setActiveTab: React.Dispatch<React.SetStateAction<"active" | "completed">>;
 }) {
   return (
     <View className="flex-row gap-2.5 mb-6">
@@ -40,22 +40,6 @@ export default function MyJobToggleChips({
           className={`text-xs font-bold ${activeTab === "completed" ? "text-white" : "text-neutral-500"}`}
         >
           Completed
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => setActiveTab("cancelled")}
-        style={
-          activeTab === "cancelled"
-            ? { backgroundColor: Colors.common.GRAY_DARK }
-            : { backgroundColor: "#FFFFFF" }
-        }
-        className={`px-4 py-2 rounded-lg ${activeTab === "cancelled" ? "" : "border border-neutral-200/60"}`}
-      >
-        <Text
-          className={`text-xs font-bold ${activeTab === "cancelled" ? "text-white" : "text-neutral-500"}`}
-        >
-          Cancelled
         </Text>
       </TouchableOpacity>
     </View>
