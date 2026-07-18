@@ -50,16 +50,16 @@ export default function RegisterPasswordScreen({ role, onComplete }: RegisterPas
       bounces={false}
     >
       {/* Orange Header Section - Styled "Register Your Account" */}
-      <View className="bg-[#FF5500] pb-10 px-6 items-start justify-end min-h-[220px]">
+      <View className="bg-[#FF5500] pb-10 px-6 items-start justify-end min-h-55">
         <View className="mb-4">
           <LogoWhite />
         </View>
         <Text className="text-white text-3xl font-bold tracking-tight">
-          Create Your Account
+          Create Your Password
         </Text>
-        <Text className="text-white/85 text-sm mt-1.5 font-medium">
+        {/* <Text className="text-white/85 text-sm mt-1.5 font-medium">
           Register to continue your journey with Sitesource
-        </Text>
+        </Text> */}
       </View>
 
       {/* Password Setup Form */}

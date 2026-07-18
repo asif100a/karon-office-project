@@ -3,7 +3,7 @@ import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { MoonIcon, SunIcon } from "@/components/ui/icon";
 import "@/global.css";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { DarkTheme, DefaultTheme, ThemeProvider } from "expo-router";
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import { useFonts } from "expo-font";
 import { Slot, usePathname } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -50,7 +50,16 @@ function RootLayoutNav() {
       <GluestackUIProvider mode={colorMode}>
         {/* <StatusBar style={colorMode === 'dark' ? 'light' : 'dark'} /> */}
         <StatusBar style={"light"} />
-        <Slot />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            animation: "slide_from_left",
+            animationDuration: 200,
+          }}
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="auth" />
+        </Stack>
         <Toast />
       </GluestackUIProvider>
       {/*

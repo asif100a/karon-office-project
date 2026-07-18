@@ -21,7 +21,7 @@ export default function SearchAndFilterInput({
           onChangeText={setSearchQuery}
         />
       </View>
-      <TouchableOpacity className="p-4 bg-white border border-neutral-200/80 rounded-xl items-center justify-center active:opacity-85">
+      <TouchableOpacity className="p-3 bg-white border border-neutral-200/80 rounded-xl items-center justify-center active:opacity-85">
         <SlidersHorizontal size={18} color="#333333" />
       </TouchableOpacity>
     </View>

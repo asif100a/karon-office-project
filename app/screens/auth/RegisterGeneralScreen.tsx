@@ -87,9 +87,9 @@ export default function RegisterGeneralScreen({ role, onContinue, onLoginPress }
           <Text className="text-white text-3xl font-bold tracking-tight">
             Create Your Account
           </Text>
-          <Text className="text-white/85 text-sm mt-1.5 font-medium">
+          {/* <Text className="text-white/85 text-sm mt-1.5 font-medium">
             Register to continue your journey with Sitesource
-          </Text>
+          </Text> */}
         </View>
 
         {/* Form Fields Section */}
@@ -135,11 +135,11 @@ export default function RegisterGeneralScreen({ role, onContinue, onLoginPress }
 
           {/* Available Time Dropdown */}
           <StandardSelectField
-            label="Available time"
+            label="Available times"
             id="availableTime"
             control={control}
             options={times}
-            placeholder="Select Available time"
+            placeholder="Select Available times"
             required={true}
           />
 
