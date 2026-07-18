@@ -8,9 +8,9 @@ export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
-  useEffect(() => {
-    router.push("/tabs/(employer-tabs)");
-  }, []);
+  // useEffect(() => {
+  //   router.push("/tabs/(employer-tabs)");
+  // }, []);
 
   useEffect(() => {
     // Show splash for 2.5s, then fade out and render the onboarding screens
