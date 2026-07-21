@@ -17,6 +17,7 @@ import {
 } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 import ScreenHeader from "@/components/layout/ScreenHeader";
+import StandardToggle from "@/components/standard_ui/StandardToggle";
 
 type MenuItem = {
   icon: ComponentType<{ size?: number; color?: string }>;
@@ -24,20 +25,6 @@ type MenuItem = {
   onPress?: () => void;
   type?: "switch";
 };
-
-function AvailabilityToggle({ value }: { value: boolean }) {
-  return (
-    <View
-      pointerEvents="none"
-      className={`h-7 w-[44px] rounded-full p-[3px] ${value ? "items-end bg-neutral-200" : "items-start bg-neutral-200"}`}
-    >
-      <View
-        style={{ backgroundColor: value ? Colors.common.BRAND : "#FFFFFF" }}
-        className="h-[20px] w-[20px] rounded-full shadow-sm"
-      />
-    </View>
-  );
-}
 
 export default function ProfileScreen() {
   const router = useRouter();
@@ -91,7 +78,15 @@ export default function ProfileScreen() {
             params: { origin: "employer" },
           }),
       },
-      { icon: BellRing, label: "Notification Settings", onPress: () => {} },
+      {
+        icon: BellRing,
+        label: "Notification Settings",
+        onPress: () =>
+          router.push({
+            pathname: "/screens/profile/notification-settings",
+            params: { origin: "employer" },
+          }),
+      },
     ],
     more: [
       {
@@ -169,7 +164,7 @@ export default function ProfileScreen() {
                   </Text>
                 </View>
                 {item.type === "switch" ? (
-                  <AvailabilityToggle value={available} />
+                  <StandardToggle value={available} />
                 ) : (
                   <ChevronRight size={20} color="#737373" />
                 )}
