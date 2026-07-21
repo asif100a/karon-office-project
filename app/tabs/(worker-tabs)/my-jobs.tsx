@@ -59,6 +59,7 @@ export default function MyJobsScreen() {
         <SearchAndFilterInput
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
+          shouldHideFilters
         />
 
         {/* Toggle Chips */}

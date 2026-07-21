@@ -3,11 +3,13 @@ import React from "react";
 import { Search, SlidersHorizontal } from "lucide-react-native";
 
 export default function SearchAndFilterInput({
-    searchQuery,
-    setSearchQuery
+  searchQuery,
+  setSearchQuery,
+  shouldHideFilters = false,
 }: {
-    searchQuery: string;
-    setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+  searchQuery: string;
+  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+  shouldHideFilters?: boolean;
 }) {
   return (
     <View className="flex-row gap-3 mb-6">
@@ -21,9 +23,11 @@ export default function SearchAndFilterInput({
           onChangeText={setSearchQuery}
         />
       </View>
-      <TouchableOpacity className="p-3 bg-white border border-neutral-200/80 rounded-xl items-center justify-center active:opacity-85">
-        <SlidersHorizontal size={18} color="#333333" />
-      </TouchableOpacity>
+      {shouldHideFilters || (
+        <TouchableOpacity className="p-3 bg-white border border-neutral-200/80 rounded-xl items-center justify-center active:opacity-85">
+          <SlidersHorizontal size={18} color="#333333" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

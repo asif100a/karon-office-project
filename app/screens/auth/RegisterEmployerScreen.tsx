@@ -108,10 +108,10 @@ export default function RegisterEmployerScreen({
             style={{ borderStyle: "dashed" }}
           >
             <Text className="text-neutral-500 text-xs font-semibold uppercase tracking-wider mb-1">
-              Upload PDF or Photo
+              Upload Photo
             </Text>
             <Text className="text-neutral-400 text-[10px] font-medium tracking-wide mb-4">
-              JPG • PNG • PDF - MAX 10MB
+              JPG • PNG - MAX 10MB
             </Text>
             <TouchableOpacity
               onPress={handleUploadLogo}
