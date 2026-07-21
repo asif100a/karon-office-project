@@ -20,9 +20,9 @@ export default function TappableSearchTriggerBar({
         </Text>
       </TouchableOpacity>
 
-      <View className="bg-white rounded-xl items-center justify-center border border-neutral-200/80 p-4 w-auto h-auto">
+      <TouchableOpacity onPress={handleOpenSearch} className="bg-white rounded-xl items-center justify-center border border-neutral-200/80 p-4 w-auto h-auto">
         <SlidersHorizontal size={14} color="#737373" />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }

@@ -1,8 +1,25 @@
 import { Modal, Pressable, StyleSheet, View, Text, TouchableOpacity, TextInput } from "react-native";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { GlassView } from "expo-glass-effect";
 import { Colors } from "@/constants/Colors";
 import { ChevronDown, X } from "lucide-react-native";
+
+const TRADE_SKILL_OPTIONS = [
+  "Groundworker",
+  "Electrician",
+  "Plumber",
+  "Carpenter",
+  "Bricklayer",
+  "Painter",
+];
+
+const RADIUS_OPTIONS = [
+  "1 - 10 miles",
+  "10 - 25 miles",
+  "25 - 50 miles",
+  "50 - 100 miles",
+  "100+ miles",
+];
 
 export default function SearchEmployerFilterModal({
   showFilters,
@@ -23,7 +40,19 @@ export default function SearchEmployerFilterModal({
   radius: string;
   setRadius: Dispatch<SetStateAction<string>>;
 }) {
-  if(!showFilters) return null
+  const [openDropdown, setOpenDropdown] = useState<"trade" | "radius" | null>(
+    null
+  );
+
+  if (!showFilters) return null;
+
+  const handleSelect = (
+    value: string,
+    setter: Dispatch<SetStateAction<string>>
+  ) => {
+    setter(value);
+    setOpenDropdown(null);
+  };
 
   return (
     <Modal
@@ -34,7 +63,10 @@ export default function SearchEmployerFilterModal({
     >
       <View className="flex-1">
         <Pressable
-          onPress={() => setShowFilters(false)}
+          onPress={() => {
+            setOpenDropdown(null);
+            setShowFilters(false);
+          }}
           style={StyleSheet.absoluteFill}
         >
           <GlassView
@@ -80,29 +112,73 @@ export default function SearchEmployerFilterModal({
               </View>
 
               {/* Trade / Skill Dropdown Selection */}
-              <View>
+              <View className="relative z-20">
                 <Text className="text-neutral-400 text-xs font-bold uppercase mb-2 tracking-wider">
                   Trade / Skill
                 </Text>
-                <TouchableOpacity className="bg-neutral-50 border border-neutral-200/60 rounded-2xl px-4 py-3.5 flex-row justify-between items-center active:opacity-85">
+                <TouchableOpacity
+                  onPress={() =>
+                    setOpenDropdown(openDropdown === "trade" ? null : "trade")
+                  }
+                  className="bg-neutral-50 border border-neutral-200/60 rounded-2xl px-4 py-3.5 flex-row justify-between items-center active:opacity-85"
+                >
                   <Text className="text-neutral-800 text-sm font-semibold">
-                    {tradeSkill}
+                    {tradeSkill || "Select trade / skill"}
                   </Text>
                   <ChevronDown size={18} color="#737373" />
                 </TouchableOpacity>
+                {openDropdown === "trade" ? (
+                  <View className="mt-2 rounded-2xl border border-neutral-200 bg-white shadow-xl overflow-hidden">
+                    {TRADE_SKILL_OPTIONS.map((option) => (
+                      <TouchableOpacity
+                        key={option}
+                        onPress={() => handleSelect(option, setTradeSkill)}
+                        className={`px-4 py-3.5 active:bg-neutral-50 ${
+                          tradeSkill === option ? "bg-neutral-100" : "bg-white"
+                        }`}
+                      >
+                        <Text className="text-neutral-800 text-sm font-semibold">
+                          {option}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                ) : null}
               </View>
 
               {/* Radius Dropdown Selection */}
-              <View>
+              <View className="relative z-10">
                 <Text className="text-neutral-400 text-xs font-bold uppercase mb-2 tracking-wider">
                   Radius
                 </Text>
-                <TouchableOpacity className="bg-neutral-50 border border-neutral-200/60 rounded-2xl px-4 py-3.5 flex-row justify-between items-center active:opacity-85">
+                <TouchableOpacity
+                  onPress={() =>
+                    setOpenDropdown(openDropdown === "radius" ? null : "radius")
+                  }
+                  className="bg-neutral-50 border border-neutral-200/60 rounded-2xl px-4 py-3.5 flex-row justify-between items-center active:opacity-85"
+                >
                   <Text className="text-neutral-800 text-sm font-semibold">
-                    {radius}
+                    {radius || "Select radius"}
                   </Text>
                   <ChevronDown size={18} color="#737373" />
                 </TouchableOpacity>
+                {openDropdown === "radius" ? (
+                  <View className="mt-2 rounded-2xl border border-neutral-200 bg-white shadow-xl overflow-hidden">
+                    {RADIUS_OPTIONS.map((option) => (
+                      <TouchableOpacity
+                        key={option}
+                        onPress={() => handleSelect(option, setRadius)}
+                        className={`px-4 py-3.5 active:bg-neutral-50 ${
+                          radius === option ? "bg-neutral-100" : "bg-white"
+                        }`}
+                      >
+                        <Text className="text-neutral-800 text-sm font-semibold">
+                          {option}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                ) : null}
               </View>
             </View>
 
