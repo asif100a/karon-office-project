@@ -5,20 +5,18 @@ import { Briefcase, Calendar, MapPin, Users } from "lucide-react-native";
 export default function MyJobCompletedOrCanceledCards({
   filteredJobs,
   openJobDetails,
-  activeTab,
 }: {
   filteredJobs: any[];
-  openJobDetails: (id: string) => void;
-  activeTab: "active" | "completed" | "cancelled" | "upcoming";
+  openJobDetails: (id: string, status: "completed" | "cancelled") => void;
 }) {
   return filteredJobs.map((job) => {
-    const isCompleted = activeTab === "completed";
-    const isCancelled = activeTab === "cancelled";
+    const isCompleted = job.status === "completed";
+    const isCancelled = job.status === "cancelled";
 
     return (
       <TouchableOpacity
         key={job.id}
-        onPress={() => openJobDetails(job.id)}
+        onPress={() => openJobDetails(job.id, job.status)}
         activeOpacity={0.9}
         className="bg-white rounded-xl border border-neutral-200/80 overflow-hidden"
       >

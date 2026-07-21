@@ -6,9 +6,9 @@ export default function MyJobToggleChips({
   activeTab,
   setActiveTab,
 }: {
-  activeTab: "active" | "completed" | "cancelled" | "upcoming";
+  activeTab: "active" | "completed" | "upcoming";
   setActiveTab: React.Dispatch<
-    React.SetStateAction<"active" | "completed" | "cancelled" | "upcoming">
+    React.SetStateAction<"active" | "completed" | "upcoming">
   >;
 }) {
   return (
@@ -18,7 +18,6 @@ export default function MyJobToggleChips({
           { key: "active", label: "Active Jobs" },
           { key: "upcoming", label: "Upcoming" },
           { key: "completed", label: "Completed" },
-          { key: "cancelled", label: "Cancelled" },
         ] as const
       ).map((tab) => {
         const isActive = activeTab === tab.key;

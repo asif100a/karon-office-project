@@ -2,32 +2,19 @@ import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   Text,
-  TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import {
-  Bell,
-  Briefcase,
-  Calendar,
-  MapPin,
-  Search,
-  SlidersHorizontal,
-  Users,
-} from "lucide-react-native";
-import { Colors } from "@/constants/Colors";
-import ScreenHeader from "@/components/layout/ScreenHeader";
 import CommonHeader from "@/components/modules/common/CommonHeader";
 import ScreenWrapper from "@/components/layout/ScreenWrapper";
 import SearchAndFilterInput from "@/components/modules/common/job/SearchAndFilterInput";
 import MyJobToggleChips from "@/components/modules/employer/my-jobs/MyJobToggleChips";
 import MyJobActiveCards from "@/components/modules/employer/my-jobs/MyJobActiveCards";
-import AvatarStack from "@/components/modules/employer/my-jobs/_ui/AvatarStack";
 import MyJobUpcomingCards from "@/components/modules/employer/my-jobs/MyJobUpcomingCards";
 import MyJobCompletedOrCanceledCards from "@/components/modules/employer/my-jobs/MyJobCompletedOrCanceledCards";
 
 type JobStatus = "active" | "upcoming" | "completed" | "cancelled";
+type JobTab = "active" | "upcoming" | "completed";
 
 type JobCard = {
   id: string;
@@ -202,7 +189,7 @@ const CANCELLED_JOBS: JobCard[] = [
 export default function EmployerMyJobsScreen() {
   const router = useRouter();
   const { tab } = useLocalSearchParams<{ tab?: string }>();
-  const [activeTab, setActiveTab] = useState<JobStatus>("active");
+  const [activeTab, setActiveTab] = useState<JobTab>("active");
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -213,15 +200,14 @@ export default function EmployerMyJobsScreen() {
       requestedTab === "completed" ||
       requestedTab === "cancelled"
     ) {
-      setActiveTab(requestedTab);
+      setActiveTab(requestedTab === "cancelled" ? "completed" : requestedTab);
     }
   }, [tab]);
 
-  const jobsByTab: Record<JobStatus, JobCard[]> = {
+  const jobsByTab: Record<JobTab, JobCard[]> = {
     active: ACTIVE_JOBS,
     upcoming: UPCOMING_JOBS,
-    completed: COMPLETED_JOBS,
-    cancelled: CANCELLED_JOBS,
+    completed: [...COMPLETED_JOBS, ...CANCELLED_JOBS],
   };
 
   const filteredJobs = jobsByTab[activeTab].filter((job) => {
@@ -244,26 +230,26 @@ export default function EmployerMyJobsScreen() {
     return haystack.includes(query);
   });
 
-  const openJobDetails = (jobId: string) => {
-    if (activeTab === "completed") {
+  const openJobDetails = (jobId: string, status: JobStatus = activeTab) => {
+    if (status === "completed") {
       router.push({
         pathname: "/screens/completed-jobs/[id]",
-        params: { id: jobId, origin: "employer", status: activeTab },
+        params: { id: jobId, origin: "employer", status },
       });
       return;
     }
 
-    if (activeTab === "cancelled") {
+    if (status === "cancelled") {
       router.push({
         pathname: "/screens/cancelled-jobs/[id]",
-        params: { id: jobId, origin: "employer", status: activeTab },
+        params: { id: jobId, origin: "employer", status },
       });
       return;
     }
 
     router.push({
       pathname: "/screens/active-jobs/[id]",
-      params: { id: jobId, origin: "employer", status: activeTab },
+      params: { id: jobId, origin: "employer", status },
     });
   };
 
@@ -299,11 +285,10 @@ export default function EmployerMyJobsScreen() {
             />
           )}
 
-          {(activeTab === "completed" || activeTab === "cancelled") && (
+          {activeTab === "completed" && (
             <MyJobCompletedOrCanceledCards
               filteredJobs={filteredJobs}
               openJobDetails={openJobDetails}
-              activeTab={activeTab}
             />
           )}
 
