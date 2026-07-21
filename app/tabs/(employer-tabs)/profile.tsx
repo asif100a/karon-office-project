@@ -41,7 +41,7 @@ export default function ProfileScreen() {
             params: { origin: "employer" },
           }),
       },
-      { icon: Clock, label: "Available time", type: "switch" },
+      // { icon: Clock, label: "Available time", type: "switch" },
       {
         icon: Lock,
         label: "Change Password",
