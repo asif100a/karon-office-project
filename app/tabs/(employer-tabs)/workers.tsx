@@ -129,10 +129,20 @@ export default function EmployerWorkersScreen() {
 
                 <View className="flex-row items-center gap-3">
                   <TouchableOpacity>
-                    <Text className="text-neutral-700 text-xs font-medium">View Details</Text>
+                    <Text className="text-neutral-700 text-xs font-medium" numberOfLines={1}>
+                      View Details
+                    </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity className="bg-slate-900 px-4 py-2 rounded-md active:opacity-90">
-                    <Text className="text-white text-xs font-medium">Send Offer</Text>
+                  <TouchableOpacity
+                    className="bg-slate-900 px-4 py-2 rounded-md active:opacity-90"
+                    style={{ minWidth: 92, flexShrink: 0 }}
+                  >
+                    <Text
+                      className="text-white text-xs font-medium text-center"
+                      numberOfLines={1}
+                    >
+                      Send Offer
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
