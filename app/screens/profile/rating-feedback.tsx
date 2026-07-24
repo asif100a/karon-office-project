@@ -55,7 +55,7 @@ export default function RatingFeedbackScreen() {
 
   return (
     <ScreenShell title="Rating & Feedback">
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20, paddingBottom: 32 }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20, paddingBottom: 52 }}>
         <View className="flex-row items-center mb-5">
           <View className="w-24 items-center">
             <View className="flex-row items-end">

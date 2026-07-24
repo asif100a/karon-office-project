@@ -69,7 +69,7 @@ export default function Contact() {
     <ScreenShell title="Contact Us">
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
+        contentContainerStyle={{ padding: 20, paddingBottom: 52 }}
       >
         <Card className="p-5 mb-5">
           <View className="flex-row items-start justify-between gap-3">

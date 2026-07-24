@@ -49,7 +49,7 @@ export default function LoginScreen({ role, onRegisterPress, onLoginPress }: Log
   return (
     <ScrollView 
       className="flex-1 bg-white" 
-      contentContainerStyle={{ flexGrow: 1 }}
+      contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
       keyboardShouldPersistTaps="handled"
       bounces={false}
     >

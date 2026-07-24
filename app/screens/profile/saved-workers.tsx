@@ -68,7 +68,7 @@ export default function SavedWorkers() {
     <ScreenShell title="Saved Worker">
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ padding: 16, paddingBottom: 34 }}
+        contentContainerStyle={{ padding: 16, paddingBottom: 52 }}
       >
         <View className="flex-row gap-3 mb-6">
           <View className="flex-1 h-12 rounded-xl bg-white border border-neutral-200/80 px-4 flex-row items-center">

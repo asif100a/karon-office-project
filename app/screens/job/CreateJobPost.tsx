@@ -68,7 +68,9 @@ export default function CreateJobPostScreen() {
   };
 
   return (
-    <ScreenWrapper>
+    <ScreenWrapper style={{
+      marginBottom: 40
+    }}>
       <StatusBar style="dark" />
 
       {/* Header */}

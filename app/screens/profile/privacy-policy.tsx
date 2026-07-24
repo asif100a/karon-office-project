@@ -12,7 +12,7 @@ const sections = Array.from({ length: 4 }, (_, index) => ({
 export default function PrivacyPolicy() {
   return (
     <ScreenShell title="Privacy Policy">
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20, paddingBottom: 34 }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20, paddingBottom: 52 }}>
         <VersionBanner />
         <Text className="text-neutral-950 text-xl font-extrabold mb-4">Contents</Text>
         <View className="gap-4">
