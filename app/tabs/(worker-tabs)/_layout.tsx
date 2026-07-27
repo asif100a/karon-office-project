@@ -20,8 +20,8 @@ export default function WorkerTabsLayout() {
       <Tabs.Screen
         name="jobs"
         options={{
-          title: "Jobs",
-          tabBarIcon: ({ color, size }) => <TabIcons.DocumentIcon color={color} size={size} />,
+          title: "Search",
+          tabBarIcon: ({ color, size }) => <TabIcons.SearchIcon color={color} size={size} />,
         }}
       />
       <Tabs.Screen

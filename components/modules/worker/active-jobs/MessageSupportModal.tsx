@@ -35,7 +35,7 @@ export default function MessageSupportModal({
     >
       <View className="flex-1 bg-black/50 justify-end">
         {supportModalState === "form" ? (
-          <View className="bg-white rounded-t-[32px] p-6 pb-12 shadow-2xl border-t border-neutral-100">
+          <View className="bg-white rounded-t-4xl p-6 pb-12 shadow-2xl border-t border-neutral-100">
             <View className="flex-row justify-between items-center mb-6">
               <Text className="text-neutral-900 font-extrabold text-lg tracking-tight">
                 Message Support
@@ -49,7 +49,7 @@ export default function MessageSupportModal({
             </View>
 
             <ScrollView
-              className="max-h-[450px] mb-6"
+              className="max-h-112.5 mb-6"
               showsVerticalScrollIndicator={false}
             >
               <View className="gap-5 pr-1">
@@ -108,7 +108,7 @@ export default function MessageSupportModal({
             </TouchableOpacity>
           </View>
         ) : (
-          <View className="bg-white rounded-t-[32px] p-6 pb-12 shadow-2xl border-t border-neutral-100 items-center">
+          <View className="bg-white rounded-t-4xl p-6 pb-12 shadow-2xl border-t border-neutral-100 items-center">
             <View className="w-20 h-20 bg-green-50 rounded-full items-center justify-center mb-6 border border-green-100">
               <View className="w-14 h-14 bg-green-500 rounded-full items-center justify-center shadow-lg shadow-green-500/25">
                 <Check size={28} color="#FFFFFF" strokeWidth={3} />

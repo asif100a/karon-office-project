@@ -103,7 +103,7 @@ export default function SearchEmployerFilterModal({
                 <View className="bg-neutral-50 border border-neutral-200/60 rounded-2xl px-4 py-3.5 flex-row items-center">
                   <TextInput
                     className="flex-1 text-neutral-800 text-sm font-semibold py-0"
-                    placeholder="Enter Your Email"
+                    placeholder="Enter Your Rate"
                     placeholderTextColor="#A3A3A3"
                     value={rateEmail}
                     onChangeText={setRateEmail}

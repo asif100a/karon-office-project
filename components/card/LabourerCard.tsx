@@ -95,7 +95,7 @@ export default function LabourerCard({ job, handleViewDetails }: { job: any; han
               className="text-white font-bold text-xs text-center"
               numberOfLines={1}
             >
-              Send Request
+              Apply
             </Text>
           </TouchableOpacity>
         </View>

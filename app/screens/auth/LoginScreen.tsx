@@ -62,7 +62,7 @@ export default function LoginScreen({ role, onRegisterPress, onLoginPress }: Log
           Login To Your Account
         </Text>
         <Text className="text-white/85 text-sm mt-1.5 font-medium">
-          Register to continue your journey with Sitesource
+          Register to continue your journey with Site Source
         </Text>
       </View>
 
