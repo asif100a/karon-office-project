@@ -38,7 +38,7 @@ export default function MyJobUpcomingCards({
 
               <View className="items-end">
                 <Text className="text-neutral-700 text-sm font-semibold">
-                  {job.badge}
+                  £{job.badge}/hour
                 </Text>
                 <Text
                   style={{ color: Colors.common.BRAND }}

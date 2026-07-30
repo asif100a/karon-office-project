@@ -1,7 +1,8 @@
 import { View, Text, Modal, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { ChevronDown, X } from "lucide-react-native";
-import { Control, Controller } from "react-hook-form";
+import { Controller } from "react-hook-form";
+import type { Control } from "react-hook-form";
 import { Colors } from "@/constants/Colors";
 
 type FilterFieldId = "tradeSkill" | "radius" | "availableTime";

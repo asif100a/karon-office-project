@@ -30,7 +30,7 @@ export default function WorkerProfileSection({ worker }: { worker: any }) {
       <Text className="text-neutral-500 text-base mt-1">{worker.role}</Text>
 
       <View className="flex-row items-center gap-2 mt-2">
-        <RatingStars rating={worker.rating} />
+        <RatingStars />
         <View className="flex-row items-center -space-x-2">
           <View className="w-7 h-7 rounded-full bg-orange-500 border-2 border-white items-center justify-center">
             <Text className="text-white text-xs font-bold">K</Text>
