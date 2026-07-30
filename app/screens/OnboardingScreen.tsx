@@ -28,7 +28,7 @@ export default function OnboardingScreen() {
   const router = useRouter();
 
   const navigateToWorker = () => {
-    router.replace({ pathname: '/auth', params: { role: 'worker' } });
+    router.replace('/tabs/(worker-tabs)' as any);
   };
 
   const navigateToEmployer = () => {

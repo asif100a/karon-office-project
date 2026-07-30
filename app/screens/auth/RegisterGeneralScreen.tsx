@@ -11,8 +11,6 @@ import { normalizeUserRole, UserRole } from '@/constants/Routes';
 interface RegisterGeneralScreenProps {
   role?: UserRole;
   onContinue?: (data: {
-    fullName: string;
-    email: string;
     trade: string;
     experience: string;
     availableTime: string;
@@ -27,8 +25,6 @@ export default function RegisterGeneralScreen({ role, onContinue, onLoginPress }
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
-      fullName: '',
-      email: '',
       trade: 'Groundworker',
       experience: '6 years',
       availableTime: '8 am - 5 pm',
@@ -85,34 +81,15 @@ export default function RegisterGeneralScreen({ role, onContinue, onLoginPress }
             <LogoWhite />
           </View>
           <Text className="text-white text-3xl font-bold tracking-tight">
-            Create Your Account
+            Add Your Work Details
           </Text>
-          {/* <Text className="text-white/85 text-sm mt-1.5 font-medium">
-            Register to continue your journey with Sitesource
-          </Text> */}
+          <Text className="text-white/85 text-sm mt-1.5 font-medium">
+            Tell employers about your trade, experience, and availability.
+          </Text>
         </View>
 
         {/* Form Fields Section */}
         <View className="px-6 pt-6 pb-20 gap-1">
-          {/* Full Name */}
-          <StandardInputField
-            label="Full Name"
-            id="fullName"
-            control={control}
-            required={true}
-            placeholder="Enter Your Full Name"
-          />
-
-          {/* Email Address */}
-          <StandardInputField
-            label="Email Address"
-            id="email"
-            type="email"
-            control={control}
-            required={true}
-            placeholder="Enter Your Email"
-          />
-
           {/* Trade / Skill Dropdown */}
           <StandardSelectField
             label="Trade / Skill"

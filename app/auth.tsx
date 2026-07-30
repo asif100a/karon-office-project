@@ -10,12 +10,13 @@ import RegisterPasswordScreen from './screens/auth/RegisterPasswordScreen';
 import CompletePayrollScreen from './screens/auth/CompletePayrollScreen';
 import ReviewScreen from './screens/auth/ReviewScreen';
 import RegisterEmployerScreen from './screens/auth/RegisterEmployerScreen';
+import RegisterSsoScreen from './screens/auth/RegisterSsoScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/Colors';
 import BackButton from '@/components/standard_ui/buttons/BackButton';
 import { getDashboardRouteForRole, normalizeUserRole, UserRole } from '@/constants/Routes';
 
-type AuthStep = 'login' | 'register_general' | 'register_employer' | 'register_documents' | 'register_password' | 'complete_payroll' | 'review';
+type AuthStep = 'login' | 'register_sso' | 'register_general' | 'register_employer' | 'register_documents' | 'register_password' | 'complete_payroll' | 'review';
 
 export default function AuthFlow() {
   const router = useRouter();
@@ -29,14 +30,33 @@ export default function AuthFlow() {
     setRole(normalizeUserRole(params.role));
   }, [params.role]);
 
+  useEffect(() => {
+    if (params.step) {
+      setStep(params.step as AuthStep);
+    }
+  }, [params.step]);
+
   const goToRoleDashboard = () => {
     router.replace(getDashboardRouteForRole(role));
   };
 
+  const goToPostRegistrationRoute = () => {
+    const returnTo = Array.isArray(params.returnTo) ? params.returnTo[0] : params.returnTo;
+
+    if (returnTo) {
+      router.replace(returnTo as any);
+      return;
+    }
+
+    goToRoleDashboard();
+  };
+
   // Go back to the previous screen in the flow
   const handleBack = () => {
-    if (step === 'register_general' || step === 'register_employer') {
+    if (step === 'register_sso' || step === 'register_employer') {
       setStep('login');
+    } else if (step === 'register_general') {
+      setStep(role === 'worker' ? 'register_sso' : 'login');
     } else if (step === 'register_documents') {
       setStep('register_general');
     } else if (step === 'register_password') {
@@ -66,8 +86,18 @@ export default function AuthFlow() {
         return (
           <LoginScreen
             role={role}
-            onRegisterPress={() => setStep(role === 'employer' ? 'register_employer' : 'register_general')}
+            onRegisterPress={() => setStep(role === 'employer' ? 'register_employer' : 'register_sso')}
             onLoginPress={goToRoleDashboard}
+          />
+        );
+      case 'register_sso':
+        return (
+          <RegisterSsoScreen
+            onContinue={(provider) => {
+              console.log('Worker SSO provider:', provider);
+              setStep('register_general');
+            }}
+            onLoginPress={() => setStep('login')}
           />
         );
       case 'register_general':
@@ -112,7 +142,7 @@ export default function AuthFlow() {
               if (role === 'employer') {
                 setStep('review');
               } else {
-                goToRoleDashboard();
+                goToPostRegistrationRoute();
               }
             }}
           />
@@ -129,14 +159,14 @@ export default function AuthFlow() {
         return (
           <LoginScreen
             role={role}
-            onRegisterPress={() => setStep(role === 'employer' ? 'register_employer' : 'register_general')}
+            onRegisterPress={() => setStep(role === 'employer' ? 'register_employer' : 'register_sso')}
             onLoginPress={goToRoleDashboard}
           />
         );
     }
   };
 
-  const showHeader = step !== 'complete_payroll' && step !== 'review' && step !== 'login' && step !== 'register_general';
+  const showHeader = step !== 'complete_payroll' && step !== 'review' && step !== 'login' && step !== 'register_general' && step !== 'register_sso';
 
   return (
     <KeyboardAvoidingView 

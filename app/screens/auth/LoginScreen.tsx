@@ -32,6 +32,14 @@ export default function LoginScreen({ role, onRegisterPress, onLoginPress }: Log
     }
   };
 
+  const handleSsoLogin = () => {
+    if (onLoginPress) {
+      onLoginPress('');
+    } else {
+      router.replace(getDashboardRouteForRole(activeRole));
+    }
+  };
+
   const handleRegister = () => {
     if (onRegisterPress) {
       onRegisterPress();
@@ -39,7 +47,7 @@ export default function LoginScreen({ role, onRegisterPress, onLoginPress }: Log
       router.push({
         pathname: '/auth',
         params: {
-          step: activeRole === 'employer' ? 'register_employer' : 'register_general',
+          step: activeRole === 'employer' ? 'register_employer' : 'register_sso',
           role: activeRole,
         },
       });
@@ -62,7 +70,7 @@ export default function LoginScreen({ role, onRegisterPress, onLoginPress }: Log
           Login To Your Account
         </Text>
         <Text className="text-white/85 text-sm mt-1.5 font-medium">
-          Register to continue your journey with Site Source
+          Sign in to continue your journey with Site Source
         </Text>
       </View>
 
@@ -101,6 +109,36 @@ export default function LoginScreen({ role, onRegisterPress, onLoginPress }: Log
               Login
             </Text>
           </TouchableOpacity>
+
+          <View className="gap-3">
+            <View className="flex-row items-center gap-3">
+              <View className="flex-1 h-px bg-neutral-200" />
+              <Text className="text-neutral-400 text-xs font-semibold uppercase">
+                Or
+              </Text>
+              <View className="flex-1 h-px bg-neutral-200" />
+            </View>
+
+            <TouchableOpacity
+              onPress={handleSsoLogin}
+              activeOpacity={0.9}
+              className="w-full border border-neutral-200 bg-white py-4 rounded-xl items-center justify-center shadow-sm"
+            >
+              <Text className="text-[#1B2530] text-base font-semibold">
+                Sign in with Google
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={handleSsoLogin}
+              activeOpacity={0.9}
+              className="w-full bg-[#1B2530] py-4 rounded-xl items-center justify-center shadow-sm"
+            >
+              <Text className="text-white text-base font-semibold">
+                Sign in with Apple
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           <View className="flex-row justify-center items-center">
             <Text className="text-neutral-800 text-sm font-medium">

@@ -122,6 +122,21 @@ export default function EmployerDetailsScreen() {
     router.back();
   };
 
+  const handleApplyPress = () => {
+    const returnTo = jobId
+      ? `/screens/employer-details/${jobId}`
+      : "/tabs/(worker-tabs)";
+
+    router.push({
+      pathname: "/auth",
+      params: {
+        role: "worker",
+        step: "register_sso",
+        returnTo,
+      },
+    } as any);
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }} edges={["bottom"]}>      
       {/* Status Bar */}
@@ -182,7 +197,7 @@ export default function EmployerDetailsScreen() {
       </ScrollView>
 
       <StickyActions
-        onPrimaryPress={handleBackPress}
+        onPrimaryPress={handleApplyPress}
         onSecondaryPress={handleBackPress}
       />
     </SafeAreaView>

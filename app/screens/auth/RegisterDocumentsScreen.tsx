@@ -100,14 +100,23 @@ export default function RegisterDocumentsScreen({ role, onContinue }: RegisterDo
         <Text className="text-white text-3xl font-bold tracking-tight">
           Upload Your Certifications
         </Text>
-        {/* <Text className="text-white/85 text-sm mt-1.5 font-medium">
-          Add your required certificates and site cards so employers can verify your qualifications.
-        </Text> */}
+        <Text className="text-white/85 text-sm mt-1.5 font-medium leading-relaxed">
+          Add certificates, cards, or accreditations relevant to the jobs you want.
+        </Text>
       </View>
 
       {/* Upload Area & Document List */}
       <View className="flex-1 px-6 pt-6 pb-8 justify-between">
         <View className="gap-6">
+          <View className="bg-neutral-50 border border-neutral-200/80 rounded-xl p-4 flex-row gap-3 items-start">
+            <View className="bg-[#1B2530] rounded-full p-1 items-center justify-center mt-0.5">
+              <Info size={12} color="#FFFFFF" />
+            </View>
+            <Text className="flex-1 text-neutral-700 text-xs font-medium leading-relaxed">
+              Upload any relevant construction accreditations or certifications to demonstrate your qualifications, compliance, and industry standards.
+            </Text>
+          </View>
+
           {/* Dashed Upload Box */}
           <View 
             className="border-2 border-dashed border-neutral-200 rounded-2xl p-6 items-center"
