@@ -1,4 +1,4 @@
-import { Modal, Pressable, StyleSheet, View, Text, TouchableOpacity, TextInput } from "react-native";
+import { Modal, Pressable, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { GlassView } from "expo-glass-effect";
 import { Colors } from "@/constants/Colors";
@@ -13,6 +13,14 @@ const TRADE_SKILL_OPTIONS = [
   "Painter",
 ];
 
+const RATE_OPTIONS = [
+  "£100 to £200",
+  "£200 to £300",
+  "£300 to £400",
+  "£400 to £500",
+  "£500+",
+];
+
 const RADIUS_OPTIONS = [
   "1 - 10 miles",
   "10 - 25 miles",
@@ -24,8 +32,8 @@ const RADIUS_OPTIONS = [
 export default function SearchEmployerFilterModal({
   showFilters,
   setShowFilters,
-  rateEmail,
-  setRateEmail,
+  rateRange,
+  setRateRange,
   tradeSkill,
   setTradeSkill,
   radius,
@@ -33,14 +41,14 @@ export default function SearchEmployerFilterModal({
 }: {
   showFilters: boolean;
   setShowFilters: Dispatch<SetStateAction<boolean>>;
-  rateEmail: string;
-  setRateEmail: Dispatch<SetStateAction<string>>;
+  rateRange: string;
+  setRateRange: Dispatch<SetStateAction<string>>;
   tradeSkill: string;
   setTradeSkill: Dispatch<SetStateAction<string>>;
   radius: string;
   setRadius: Dispatch<SetStateAction<string>>;
 }) {
-  const [openDropdown, setOpenDropdown] = useState<"trade" | "radius" | null>(
+  const [openDropdown, setOpenDropdown] = useState<"rate" | "trade" | "radius" | null>(
     null
   );
 
@@ -96,19 +104,38 @@ export default function SearchEmployerFilterModal({
             {/* Filter Forms */}
             <View className="gap-5 mb-8">
               {/* Rate input */}
-              <View>
-                <Text className="text-neutral-400 text-xs font-bold uppercase mb-2 tracking-wider">
-                  Rate
+            <View>
+              <Text className="text-neutral-400 text-xs font-bold uppercase mb-2 tracking-wider">
+                Rate
+              </Text>
+              <TouchableOpacity
+                onPress={() =>
+                  setOpenDropdown(openDropdown === "rate" ? null : "rate")
+                }
+                className="bg-neutral-50 border border-neutral-200/60 rounded-2xl px-4 py-3.5 flex-row justify-between items-center active:opacity-85"
+              >
+                <Text className="text-neutral-800 text-sm font-semibold">
+                  {rateRange || "Select rate"}
                 </Text>
-                <View className="bg-neutral-50 border border-neutral-200/60 rounded-2xl px-4 py-3.5 flex-row items-center">
-                  <TextInput
-                    className="flex-1 text-neutral-800 text-sm font-semibold py-0"
-                    placeholder="Enter Your Rate"
-                    placeholderTextColor="#A3A3A3"
-                    value={rateEmail}
-                    onChangeText={setRateEmail}
-                  />
+                <ChevronDown size={18} color="#737373" />
+              </TouchableOpacity>
+              {openDropdown === "rate" ? (
+                <View className="mt-2 rounded-2xl border border-neutral-200 bg-white shadow-xl overflow-hidden">
+                  {RATE_OPTIONS.map((option) => (
+                    <TouchableOpacity
+                      key={option}
+                      onPress={() => handleSelect(option, setRateRange)}
+                      className={`px-4 py-3.5 active:bg-neutral-50 ${
+                        rateRange === option ? "bg-neutral-100" : "bg-white"
+                      }`}
+                    >
+                      <Text className="text-neutral-800 text-sm font-semibold">
+                        {option}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
                 </View>
+              ) : null}
               </View>
 
               {/* Trade / Skill Dropdown Selection */}

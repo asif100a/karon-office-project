@@ -13,7 +13,7 @@ export default function DisputesScreen() {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <ScreenShell title="My Disputes">
+    <ScreenShell title="My Supports">
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20, paddingBottom: 32 }}>
         <View className="flex-row gap-3 mb-5">
           <Input

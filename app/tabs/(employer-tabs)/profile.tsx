@@ -53,7 +53,7 @@ export default function ProfileScreen() {
       },
       {
         icon: AlertCircle,
-        label: "Dispute",
+        label: "Support",
         onPress: () =>
           router.push({
             pathname: "/screens/profile/disputes",

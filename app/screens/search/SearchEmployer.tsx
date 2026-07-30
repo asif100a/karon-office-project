@@ -28,7 +28,7 @@ export default function WorkerSearchScreen() {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Filter States
-  const [rateEmail, setRateEmail] = useState("");
+  const [rateRange, setRateRange] = useState("");
   const [tradeSkill, setTradeSkill] = useState("Groundworker");
   const [radius, setRadius] = useState("1 - 10 miles");
 
@@ -117,8 +117,8 @@ export default function WorkerSearchScreen() {
       <SearchEmployerFilterModal
         showFilters={showFilters}
         setShowFilters={setShowFilters}
-        rateEmail={rateEmail}
-        setRateEmail={setRateEmail}
+        rateRange={rateRange}
+        setRateRange={setRateRange}
         radius={radius}
         setRadius={setRadius}
         tradeSkill={tradeSkill}
