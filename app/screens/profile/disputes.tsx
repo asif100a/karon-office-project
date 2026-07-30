@@ -15,7 +15,7 @@ export default function DisputesScreen() {
   return (
     <ScreenShell title="My Supports">
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20, paddingBottom: 32 }}>
-        <View className="flex-row gap-3 mb-5">
+        {/* <View className="flex-row gap-3 mb-5">
           <Input
             size="2xl"
             variant="outline"
@@ -34,7 +34,7 @@ export default function DisputesScreen() {
           <TouchableOpacity className="w-12 h-12 bg-white border border-neutral-200 rounded-lg items-center justify-center">
             <SlidersHorizontal size={19} color="#1F2933" />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View className="gap-4">
           {items.map((_, index) => (

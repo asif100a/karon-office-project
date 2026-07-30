@@ -92,7 +92,7 @@ export default function RatingFeedbackScreen() {
         </TouchableOpacity>
 
         <View className="gap-3">
-          {visibleReviews.map((review, index) => (
+          {/* {visibleReviews.map((review, index) => (
             <Card key={`${review.name}-${index}`} className="p-4">
               <View className="flex-row items-start gap-3">
                 <Avatar uri={review.image} size={32} />
@@ -111,7 +111,7 @@ export default function RatingFeedbackScreen() {
                 </View>
               </View>
             </Card>
-          ))}
+          ))} */}
         </View>
       </ScrollView>
 
