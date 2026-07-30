@@ -29,7 +29,7 @@ const JOB_COORDINATES: Region = {
 const DEFAULT_JOB_DETAILS: EmployerJobDetails = {
   title: "Labourer",
   company: "Tech Innovators Inc.",
-  payRate: "$80 - $120/hour",
+  payRate: "120",
   tag: "Market Rate",
   location: "Shoreditch \u2022 1.2 mi away",
   team: "2 developers, 1 designer",
@@ -49,7 +49,7 @@ const JOB_DETAILS_BY_ID: Record<string, EmployerJobDetails> = {
   "5": {
     ...DEFAULT_JOB_DETAILS,
     title: "Graphic Designer",
-    payRate: "$60 - $90/hour",
+    payRate: '90',
     tag: "Competitive Rate",
     location: "Soho \u2022 2.5 mi away",
     team: "1 designer",

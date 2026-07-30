@@ -7,13 +7,13 @@ const MARKET_RATES = [
   {
     id: "1",
     title: "Labourer",
-    rate: "$100 - $120/hour",
+    rate: "120",
     tag: "Market Rate",
   },
   {
     id: "2",
     title: "Labourer",
-    rate: "$100 - $120/hour",
+    rate: "100",
     tag: "Market Rate",
   },
 ];
@@ -53,7 +53,7 @@ export default function MarketRate() {
                 </View>
               </View>
               <Text className="flex-1 text-neutral-500 text-sm mt-1">
-                {job.rate}
+                £{job.rate}/hour
               </Text>
             </View>
           </View>

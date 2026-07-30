@@ -9,7 +9,7 @@ const MOCK_JOBS = [
     id: '3',
     title: 'Labourer',
     company: 'Tech Innovators Inc.',
-    payRate: '$80 - $120/hour',
+    payRate: '120',
     tag: 'Market Rate',
     location: 'Shoreditch • 1.2 mi away',
     team: '2 developers, 1 designer',
@@ -20,7 +20,7 @@ const MOCK_JOBS = [
     id: '4',
     title: 'Labourer',
     company: 'Tech Innovators Inc.',
-    payRate: '$80 - $120/hour',
+    payRate: '80',
     tag: 'Market Rate',
     location: 'Shoreditch • 1.2 mi away',
     team: '2 developers, 1 designer',
@@ -31,7 +31,7 @@ const MOCK_JOBS = [
     id: '5',
     title: 'Graphic Designer',
     company: 'Creative Studios',
-    payRate: '$60 - $90/hour',
+    payRate: '90',
     tag: 'Competitive Rate',
     location: 'Soho • 2.5 mi away',
     team: '1 designer',
@@ -89,7 +89,7 @@ export default function SearchEmployerListView({
 
               <View className="items-end">
                 <Text className="text-neutral-900 font-extrabold text-sm">
-                  {job.payRate}
+                  £{job.payRate}/hour
                 </Text>
                 <View
                   style={{ backgroundColor: Colors.common.BRAND_LIGHT }}
