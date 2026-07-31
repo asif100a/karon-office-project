@@ -65,9 +65,7 @@ const JOB_DETAILS_BY_ID: Record<string, EmployerJobDetails> = {
 };
 
 function getNativeMapComponents(): NativeMapComponents | null {
-  const hasAndroidApiKey = Boolean(process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY);
-
-  if (Platform.OS === "web" || (Platform.OS === "android" && !hasAndroidApiKey)) {
+  if (Platform.OS === "web") {
     return null;
   }
 

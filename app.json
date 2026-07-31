@@ -7,12 +7,22 @@
     "icon": "./assets/images/icon.png",
     "scheme": "site-source",
     "userInterfaceStyle": "automatic",
+    "ios": {
+      "config": {
+        "googleMapsApiKey": "AIzaSyB_3nOokGz9jksH5jN_f05YNEJeZqWizYM"
+      }
+    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.techdebuggers.sitesource"
+      "package": "com.techdebuggers.sitesource",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyB_3nOokGz9jksH5jN_f05YNEJeZqWizYM"
+        }
+      }
     },
     "web": {
       "bundler": "metro",

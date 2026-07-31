@@ -1,84 +1,157 @@
-import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import { Briefcase, Calendar, MapPin, Users } from "lucide-react-native";
+import {
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import type { Region } from "react-native-maps";
+import {
+  Briefcase,
+  Calendar,
+  MapPin,
+  Search,
+  SlidersHorizontal,
+  Users,
+} from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
+import MapFallback from "@/components/modules/employer/employer-details/_ui/MapFallback";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-// Map view mockup data
+type NativeMapComponents = {
+  MapView: typeof import("react-native-maps").default;
+  Marker: typeof import("react-native-maps").Marker;
+};
+
+const MAP_REGION: Region = {
+  latitude: 51.5444,
+  longitude: -0.0031,
+  latitudeDelta: 0.045,
+  longitudeDelta: 0.045,
+};
+
 const MOCK_MAP_JOBS = [
   {
-    id: '6',
-    title: 'Labourer',
-    company: 'London builder limited',
-    payRate: '$100 - $120/hour',
-    tag: 'Market Rate',
-    location: 'Stratford • 2.4 mi away',
-    team: '1 labor, 2 electricians',
-    duration: '10 Jun • 3 weeks',
-    time: '2 hours ago',
+    id: "6",
+    title: "Labourer",
+    company: "London builder limited",
+    payRate: "$100 - $120/hour",
+    tag: "Market Rate",
+    location: "Stratford • 2.4 mi away",
+    team: "1 labor, 2 electricians",
+    duration: "10 Jun • 3 weeks",
+    time: "2 hours ago",
+    coordinate: {
+      latitude: 51.5444,
+      longitude: -0.0031,
+    },
+  },
+] as const;
+
+function getNativeMapComponents(): NativeMapComponents | null {
+  if (Platform.OS === "web") {
+    return null;
   }
-];
+
+  try {
+    const maps =
+      require("react-native-maps") as typeof import("react-native-maps");
+    return { MapView: maps.default, Marker: maps.Marker };
+  } catch {
+    return null;
+  }
+}
 
 export default function SearchEmployerMapView({
   handleViewDetails,
+  searchQuery,
+  onChangeSearchQuery,
+  onOpenFilters,
 }: {
   handleViewDetails: (id: string) => void;
+  searchQuery: string;
+  onChangeSearchQuery: (value: string) => void;
+  onOpenFilters: () => void;
 }) {
+  const nativeMapComponents = getNativeMapComponents();
+  const NativeMapView = nativeMapComponents?.MapView;
+  const NativeMarker = nativeMapComponents?.Marker;
+  const featuredJob = MOCK_MAP_JOBS[0];
+
   return (
-    <View className="flex-1 bg-neutral-100 relative overflow-hidden">
-      {/* Custom vector layout mockup map */}
+    <SafeAreaView
+      style={{ flex: 1 }}
+      className="flex-1 bg-neutral-100 relative overflow-hidden"
+    >
       <View className="absolute inset-0">
-        {/* Street Grid Lines */}
-        <View className="absolute top-[15%] left-0 w-full h-[3px] bg-white rotate-6" />
-        <View className="absolute top-[35%] left-0 w-full h-[3.5px] bg-white -rotate-12" />
-        <View className="absolute top-[60%] left-0 w-full h-[3px] bg-white rotate-3" />
-        <View className="absolute bottom-[20%] left-0 w-full h-[4px] bg-white -rotate-6" />
-        <View className="absolute left-[30%] top-0 w-[3px] h-full bg-white rotate-[35deg]" />
-        <View className="absolute left-[65%] top-0 w-[3.5px] h-full bg-white -rotate-[25deg]" />
-        <View className="absolute left-[85%] top-0 w-[3px] h-full bg-white rotate-[40deg]" />
+        {NativeMapView && NativeMarker ? (
+          <NativeMapView
+            style={{ flex: 1 }}
+            initialRegion={MAP_REGION}
+            mapType="standard"
+            loadingEnabled
+            loadingBackgroundColor="#E5E7EB"
+            moveOnMarkerPress={false}
+            showsUserLocation={false}
+            showsMyLocationButton={false}
+            showsCompass={false}
+            toolbarEnabled={false}
+          >
+            {MOCK_MAP_JOBS.map((job) => (
+              <NativeMarker
+                key={job.id}
+                coordinate={job.coordinate}
+                title={job.title}
+                description={job.company}
+              />
+            ))}
+          </NativeMapView>
+        ) : (
+          <MapFallback />
+        )}
+      </View>
 
-        {/* Street labels */}
-        <Text className="absolute text-[8px] text-neutral-400 font-bold rotate-6 top-[13%] left-[10%]">
-          Weston Dr
-        </Text>
-        <Text className="absolute text-[8px] text-neutral-400 font-bold -rotate-12 top-[32%] left-[45%]">
-          Kenton Ln
-        </Text>
-        <Text className="absolute text-[8px] text-neutral-400 font-bold rotate-3 top-[58%] right-[15%]">
-          Newton Ln
-        </Text>
-        <Text className="absolute text-[8px] text-neutral-400 font-bold -rotate-6 bottom-[22%] left-[30%] font-medium">
-          Culver Grove
-        </Text>
-        <Text className="absolute text-[8px] text-neutral-400 font-bold -rotate-[25deg] top-[75%] left-[78%]">
-          Stratford
-        </Text>
+      <View className="absolute left-5 right-5 top-5">
+        <View className="mb-4 flex-row items-center gap-3">
+          <View className="flex-1 flex-row items-center rounded-xl border border-neutral-200/80 bg-white px-4 py-1 shadow-sm">
+            <Search size={18} color="#A3A3A3" className="mr-2" />
+            <TextInput
+              className="flex-1 py-0 text-sm font-medium text-neutral-800"
+              placeholder="Search Offers"
+              placeholderTextColor="#A3A3A3"
+              value={searchQuery}
+              onChangeText={onChangeSearchQuery}
+            />
+          </View>
 
-        {/* Random orange map pin markers */}
-        <View className="absolute top-[20%] left-[20%] w-3 h-3 rounded-full bg-orange-500 border border-white shadow-sm" />
-        <View className="absolute top-[50%] left-[75%] w-3 h-3 rounded-full bg-orange-500 border border-white shadow-sm" />
-        <View className="absolute bottom-[35%] left-[25%] w-3 h-3 rounded-full bg-orange-500 border border-white shadow-sm" />
+          <TouchableOpacity
+            onPress={onOpenFilters}
+            className="items-center justify-center rounded-xl border border-neutral-200/80 bg-white p-4 shadow-sm active:opacity-80"
+          >
+            <SlidersHorizontal size={18} color="#333333" />
+          </TouchableOpacity>
+        </View>
 
-        {/* Pin 1 (Active/Selected Marker in mock) */}
-        <View className="absolute top-[30%] left-[55%] items-center">
-          {/* Map Popover Card */}
-          <View className="bg-white/95 rounded-xl p-3 border border-neutral-100 shadow-lg mb-2 items-center flex-row gap-2.5">
-            <View className="w-8 h-8 bg-blue-600 rounded-lg items-center justify-center">
+        <View className="self-center rounded-2xl border border-neutral-100 bg-white/95 p-3 shadow-lg">
+          <View className="flex-row items-center gap-2.5">
+            <View className="h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
               <Briefcase size={14} color="#FFFFFF" />
             </View>
             <View>
-              <Text className="text-neutral-900 font-extrabold text-[10px]">
-                Labourer
+              <Text className="text-[10px] font-extrabold text-neutral-900">
+                {featuredJob.title}
               </Text>
-              <Text className="text-neutral-500 text-[8px] font-semibold">
-                London builder limited
+              <Text className="text-[8px] font-semibold text-neutral-500">
+                {featuredJob.company}
               </Text>
-              <Text className="text-neutral-900 font-bold text-[8px] mt-0.5">
-                $100 - $120/hour
+              <Text className="mt-0.5 text-[8px] font-bold text-neutral-900">
+                {featuredJob.payRate}
               </Text>
             </View>
             <View
               style={{ backgroundColor: Colors.common.BRAND_LIGHT }}
-              className="px-1.5 py-0.5 rounded"
+              className="rounded px-1.5 py-0.5"
             >
               <Text
                 style={{ color: Colors.common.BRAND }}
@@ -88,43 +161,37 @@ export default function SearchEmployerMapView({
               </Text>
             </View>
           </View>
-          {/* Pulsing ring */}
-          <View className="w-8 h-8 rounded-full bg-blue-600/20 absolute -bottom-4 justify-center items-center">
-            <View className="w-4 h-4 rounded-full bg-blue-600 border border-white shadow" />
-          </View>
         </View>
       </View>
 
-      {/* Floating Card at the Bottom */}
       <View className="absolute bottom-6 left-5 right-5">
         {MOCK_MAP_JOBS.map((job) => (
           <View
             key={job.id}
-            className="bg-white rounded-3xl p-5 border border-neutral-100/90 shadow-xl"
+            className="rounded-3xl border border-neutral-100/90 bg-white p-5 shadow-xl"
           >
-            {/* Header */}
-            <View className="flex-row justify-between items-start mb-4">
+            <View className="mb-4 flex-row items-start justify-between">
               <View className="flex-row items-center gap-3">
-                <View className="w-12 h-12 bg-blue-600 rounded-xl items-center justify-center">
+                <View className="h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
                   <Briefcase size={22} color="#FFFFFF" />
                 </View>
                 <View>
-                  <Text className="text-neutral-950 font-extrabold text-base">
+                  <Text className="text-base font-extrabold text-neutral-950">
                     {job.title}
                   </Text>
-                  <Text className="text-neutral-500 text-xs font-semibold">
+                  <Text className="text-xs font-semibold text-neutral-500">
                     {job.company}
                   </Text>
                 </View>
               </View>
 
               <View className="items-end">
-                <Text className="text-neutral-900 font-extrabold text-sm">
+                <Text className="text-sm font-extrabold text-neutral-900">
                   {job.payRate}
                 </Text>
                 <View
                   style={{ backgroundColor: Colors.common.BRAND_LIGHT }}
-                  className="px-2.5 py-0.5 rounded-full mt-1.5"
+                  className="mt-1.5 rounded-full px-2.5 py-0.5"
                 >
                   <Text
                     style={{ color: Colors.common.BRAND }}
@@ -136,49 +203,47 @@ export default function SearchEmployerMapView({
               </View>
             </View>
 
-            {/* Specs */}
-            <View className="gap-2.5 py-3 border-y border-neutral-50 mb-4">
+            <View className="mb-4 gap-2.5 border-y border-neutral-50 py-3">
               <View className="flex-row items-center gap-2">
                 <MapPin size={15} color="#858585" />
-                <Text className="text-neutral-500 text-xs font-semibold">
+                <Text className="text-xs font-semibold text-neutral-500">
                   {job.location}
                 </Text>
               </View>
               <View className="flex-row items-center gap-2">
                 <Users size={15} color="#858585" />
-                <Text className="text-neutral-500 text-xs font-semibold">
+                <Text className="text-xs font-semibold text-neutral-500">
                   {job.team}
                 </Text>
               </View>
               <View className="flex-row items-center gap-2">
                 <Calendar size={15} color="#858585" />
-                <Text className="text-neutral-500 text-xs font-semibold">
+                <Text className="text-xs font-semibold text-neutral-500">
                   {job.duration}
                 </Text>
               </View>
             </View>
 
-            {/* Footer and Buttons */}
-            <View className="flex-row justify-between items-center">
-              <Text className="text-neutral-400 text-xs font-medium">
+            <View className="flex-row items-center justify-between">
+              <Text className="text-xs font-medium text-neutral-400">
                 {job.time}
               </Text>
 
               <View className="flex-row gap-2">
                 <TouchableOpacity
                   onPress={() => handleViewDetails(job.id)}
-                  className="px-4 py-2 bg-neutral-100 rounded-xl active:opacity-70"
+                  className="rounded-xl bg-neutral-100 px-4 py-2 active:opacity-70"
                 >
-                  <Text className="text-neutral-600 font-bold text-xs">
+                  <Text className="text-xs font-bold text-neutral-600">
                     View Details
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => handleViewDetails(job.id)}
                   style={{ backgroundColor: Colors.common.GRAY_DARK }}
-                  className="px-4 py-2 rounded-xl active:opacity-90 shadow-sm"
+                  className="rounded-xl px-4 py-2 shadow-sm active:opacity-90"
                 >
-                  <Text className="text-white font-bold text-xs">
+                  <Text className="text-xs font-bold text-white">
                     Send Request
                   </Text>
                 </TouchableOpacity>
@@ -187,6 +252,6 @@ export default function SearchEmployerMapView({
           </View>
         ))}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
