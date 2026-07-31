@@ -164,7 +164,7 @@ export default function SearchEmployerMapView({
         </View>
       </View>
 
-      <View className="absolute bottom-6 left-5 right-5">
+      <View className="absolute bottom-16 left-5 right-5">
         {MOCK_MAP_JOBS.map((job) => (
           <View
             key={job.id}
