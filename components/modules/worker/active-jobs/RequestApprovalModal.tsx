@@ -10,6 +10,16 @@ import React, { useState } from "react";
 import { ChevronDown, X } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 
+const WEEK_OPTIONS = [
+  { label: "Monday", value: "Monday" },
+  { label: "Tuesday", value: "Tuesday" },
+  { label: "Wednesday", value: "Wednesday" },
+  { label: "Thursday", value: "Thursday" },
+  { label: "Friday", value: "Friday" },
+  { label: "Saturday", value: "Saturday" },
+  { label: "Sunday", value: "Sunday" },
+];
+
 export default function RequestApprovalModal({
   showApprovalModal,
   setShowApprovalModal,
@@ -17,11 +27,17 @@ export default function RequestApprovalModal({
   showApprovalModal: boolean;
   setShowApprovalModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [selectedWeek, setSelectedWeek] = useState("Select Week");
+  const [selectedWeek, setSelectedWeek] = useState("");
+  const [openDropdown, setOpenDropdown] = useState(false);
   const [mondayHrs, setMondayHrs] = useState("");
   const [tuesdayHrs, setTuesdayHrs] = useState("");
   const [wednesdayHrs, setWednesdayHrs] = useState("");
   const [thursdayHrs, setThursdayHrs] = useState("");
+
+  const handleSelectWeek = (value: string) => {
+    setSelectedWeek(value);
+    setOpenDropdown(false);
+  };
 
   return (
     <Modal
@@ -45,20 +61,42 @@ export default function RequestApprovalModal({
           </View>
 
           <ScrollView
-            className="max-h-[400px] mb-6"
+            className="max-h-100 mb-6"
             showsVerticalScrollIndicator={false}
           >
             <View className="gap-4.5 pr-1">
-              <View>
+              <View className="relative z-20">
                 <Text className="text-neutral-400 text-xs font-bold uppercase mb-2 tracking-wider">
                   Week
                 </Text>
-                <TouchableOpacity className="bg-neutral-50 border border-neutral-200/60 rounded-2xl px-4 py-3.5 flex-row justify-between items-center active:opacity-85">
+                <TouchableOpacity
+                  onPress={() => setOpenDropdown((current) => !current)}
+                  className="bg-neutral-50 border border-neutral-200/60 rounded-2xl px-4 py-3.5 flex-row justify-between items-center active:opacity-85"
+                >
                   <Text className="text-neutral-800 text-sm font-semibold">
-                    {selectedWeek}
+                    {selectedWeek || "Select Week"}
                   </Text>
                   <ChevronDown size={18} color="#737373" />
                 </TouchableOpacity>
+                {openDropdown ? (
+                  <View className="mt-2 rounded-2xl border border-neutral-200 bg-white shadow-xl overflow-hidden">
+                    {WEEK_OPTIONS.map((option) => (
+                      <TouchableOpacity
+                        key={option.value}
+                        onPress={() => handleSelectWeek(option.label)}
+                        className={`px-4 py-3.5 active:bg-neutral-50 ${
+                          selectedWeek === option.label
+                            ? "bg-neutral-100"
+                            : "bg-white"
+                        }`}
+                      >
+                        <Text className="text-neutral-800 text-sm font-semibold">
+                          {option.label}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                ) : null}
               </View>
 
               <View>
@@ -130,7 +168,7 @@ export default function RequestApprovalModal({
           <TouchableOpacity
             onPress={() => setShowApprovalModal(false)}
             style={{ backgroundColor: Colors.common.GRAY_DARK }}
-            className="w-full py-4 rounded-2xl items-center justify-center active:opacity-90"
+            className="w-full py-4 rounded-2xl items-center justify-center active:opacity-90 mb-3"
           >
             <Text className="text-white font-extrabold text-sm">Submit</Text>
           </TouchableOpacity>

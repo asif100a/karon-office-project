@@ -33,7 +33,10 @@ export default function MessageSupportModal({
       visible={showSupportModal}
       onRequestClose={() => setShowSupportModal(false)}
     >
-      <View className="flex-1 bg-black/50 justify-end">
+      <View
+        className="flex-1 justify-end"
+        style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+      >
         {supportModalState === "form" ? (
           <View className="bg-white rounded-t-4xl p-6 pb-12 shadow-2xl border-t border-neutral-100">
             <View className="flex-row justify-between items-center mb-6">
@@ -102,7 +105,7 @@ export default function MessageSupportModal({
             <TouchableOpacity
               onPress={() => setSupportModalState("submitted")}
               style={{ backgroundColor: Colors.common.GRAY_DARK }}
-              className="w-full py-4 rounded-2xl items-center justify-center active:opacity-90 shadow-md shadow-neutral-900/10"
+              className="w-full py-4 rounded-2xl items-center justify-center active:opacity-90 mb-3"
             >
               <Text className="text-white font-extrabold text-sm">Submit</Text>
             </TouchableOpacity>
@@ -134,7 +137,7 @@ export default function MessageSupportModal({
             <TouchableOpacity
               onPress={() => setShowSupportModal(false)}
               style={{ backgroundColor: Colors.common.GRAY_DARK }}
-              className="w-full py-4 rounded-2xl items-center justify-center active:opacity-90 shadow-md"
+              className="w-full py-4 rounded-2xl items-center justify-center active:opacity-90"
             >
               <Text className="text-white font-extrabold text-sm">
                 Go to dashboard
