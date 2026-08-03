@@ -12,6 +12,8 @@ import {
   getDashboardRouteForRole,
   normalizeUserRole,
 } from "@/constants/Routes";
+import StandardButton from "@/components/standard_ui/buttons/StandardButton";
+import ReviewModal from "@/components/modules/common/ReviewModal";
 
 export default function CompletedJobDetailScreen() {
   const router = useRouter();
@@ -25,6 +27,13 @@ export default function CompletedJobDetailScreen() {
 
   const [activeSubTab, setActiveSubTab] = useState<"schedule" | "summary">(
     "schedule",
+  );
+
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewFeedback, setReviewFeedback] = useState("");
+  const [submittedReviews, setSubmittedReviews] = useState(
+    [],
   );
 
   const jobDetails = {
@@ -70,6 +79,29 @@ export default function CompletedJobDetailScreen() {
     router.back();
   };
 
+  const closeReviewModal = () => {
+    setIsReviewModalOpen(false);
+  };
+
+    const submitReview = () => {
+    if (!reviewRating || !reviewFeedback.trim()) return;
+
+    setSubmittedReviews((currentReviews) => [
+      {
+        name: "You",
+        date: "Just now",
+        rating: reviewRating,
+        feedback: reviewFeedback.trim(),
+        image:
+          "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop",
+      },
+      ...currentReviews,
+    ] as any);
+    setReviewRating(0);
+    setReviewFeedback("");
+    setIsReviewModalOpen(false);
+  };
+
   return (
     <ScreenWrapper>
       <CommonHeader
@@ -87,17 +119,37 @@ export default function CompletedJobDetailScreen() {
           {/* <CompletedEmployerContact jobDetails={jobDetails} /> */}
 
           {/* Toggle Chips */}
-          <CompletedToggleChips activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />
+          <CompletedToggleChips
+            activeSubTab={activeSubTab}
+            setActiveSubTab={setActiveSubTab}
+          />
 
           {activeSubTab === "schedule" && (
-            <CompletedSchedule  jobDetails={jobDetails} />
+            <CompletedSchedule jobDetails={jobDetails} />
           )}
 
-          {activeSubTab === "summary" && (
-            <CompletedWorkSummary />
-          )}
+          {activeSubTab === "summary" && <CompletedWorkSummary />}
+
+          <StandardButton
+            text="Write a review"
+            style={{
+              backgroundColor: "#000000",
+              marginTop: 20,
+            }}
+          />
         </View>
       </ScrollView>
+
+      {/* Review Modal */}
+      <ReviewModal
+        isReviewModalOpen={isReviewModalOpen}
+        closeReviewModal={closeReviewModal}
+        reviewRating={reviewRating}
+        setReviewRating={setReviewRating}
+        reviewFeedback={reviewFeedback}
+        setReviewFeedback={setReviewFeedback}
+        submitReview={submitReview}
+      />
     </ScreenWrapper>
   );
 }
