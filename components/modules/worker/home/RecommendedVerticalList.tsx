@@ -9,6 +9,7 @@ import {
 } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 import LabourerCard from "@/components/card/LabourerCard";
+import { router } from "expo-router";
 
 const MOCK_RECOMMENDED = [
   {
@@ -54,7 +55,14 @@ export default function RecommendedVerticalList({
       {/* Labourer cards */}
       <View className="gap-4">
         {MOCK_RECOMMENDED.map((job) => (
-         <LabourerCard key={job.id} job={job} handleViewDetails={handleViewDetails} />
+          <LabourerCard
+            key={job.id}
+            job={job}
+            handleViewDetails={handleViewDetails}
+            handleApply={() => {
+              router.push("/screens/auth/RegisterGeneralScreen");
+            }}
+          />
         ))}
       </View>
     </View>

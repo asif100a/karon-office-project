@@ -95,7 +95,7 @@ export default function JobRequests({
 
               <View className="flex-row items-center gap-3">
                 <TouchableOpacity>
-                  <Text className="text-neutral-700 text-xs font-medium">
+                  <Text className="min-w-20 text-neutral-700 text-xs font-medium">
                     View Details
                   </Text>
                 </TouchableOpacity>

@@ -62,7 +62,7 @@ export default function WorkerDetailsRatingAndFeedback({
         style={{ backgroundColor: Colors.common.GRAY_DARK }}
         className="w-full py-4 rounded-xl items-center justify-center active:opacity-90 mt-4"
       >
-        <Text className="text-white font-extrabold text-sm">Write Review</Text>
+        <Text className="w-24 text-white font-extrabold text-sm">Write Review</Text>
       </TouchableOpacity>
     </View>
   );

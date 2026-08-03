@@ -25,7 +25,7 @@ export default function WorkerInfo({worker}: {worker: any}) {
           </View>
         </View>
 
-        <Text className="text-neutral-900 text-3xl font-extrabold mt-6">
+        <Text className="flex-1 min-w-[80%] text-center text-neutral-900 text-3xl font-extrabold mt-6">
           {worker.name}
         </Text>
         <Text className="text-neutral-500 text-base mt-1">{worker.role}</Text>

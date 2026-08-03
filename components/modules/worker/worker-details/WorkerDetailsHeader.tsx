@@ -8,7 +8,7 @@ export default function WorkerDetailsHeader({
   handleHeaderBack: () => void;
 }) {
   return (
-    <View className="bg-[#FAFAFA] px-5 pt-4 pb-4 flex-row items-center justify-between">
+    <View className="bg-[#FAFAFA] px-5 pr-14 pt-4 pb-4 flex-row items-center justify-between">
       <View className="flex-row items-center">
         <TouchableOpacity
           onPress={handleHeaderBack}
@@ -16,7 +16,7 @@ export default function WorkerDetailsHeader({
         >
           <ArrowLeft size={18} color="#111827" />
         </TouchableOpacity>
-        <Text className="text-neutral-900 text-lg font-extrabold ml-2">
+        <Text className="flex-1 text-neutral-900 text-lg font-extrabold ml-2">
           Worker Details
         </Text>
       </View>

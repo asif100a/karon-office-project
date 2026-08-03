@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Briefcase, Calendar, MapPin, Users } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 
-export default function LabourerCard({ job, handleViewDetails }: { job: any; handleViewDetails: (id: string) => void }) {
+export default function LabourerCard({ job, handleViewDetails, handleApply }: { job: any; handleViewDetails: (id: string) => void; handleApply?: (id: string) => void; }) {
   return (
     <View
       key={job.id}
@@ -28,17 +28,6 @@ export default function LabourerCard({ job, handleViewDetails }: { job: any; han
           <Text className="flex-1 flex-row text-neutral-900 font-extrabold text-sm min-w-20">
             £{job.payRate}/hour
           </Text>
-          {/* <View
-            style={{ backgroundColor: Colors.common.BRAND_LIGHT }}
-            className="px-2.5 py-0.5 rounded-md mt-1.5"
-          >
-            <Text
-              style={{ color: Colors.common.BRAND }}
-              className="text-[10px] font-extrabold"
-            >
-              {job.tag}
-            </Text>
-          </View> */}
         </View>
       </View>
 
@@ -87,7 +76,7 @@ export default function LabourerCard({ job, handleViewDetails }: { job: any; han
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => handleViewDetails(job.id)}
+            onPress={() => handleApply?.(job.id)}
             style={{ backgroundColor: Colors.common.GRAY_DARK, minWidth: 132 }}
             className="px-4 py-2 rounded-md active:opacity-90 shadow-sm"
           >

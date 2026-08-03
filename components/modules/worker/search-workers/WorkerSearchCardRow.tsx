@@ -14,7 +14,7 @@ export default function WorkerCardRow({
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.9}
-      className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden"
+      className="bg-white rounded-2xl overflow-hidden"
     >
       <View className="px-4 pt-4 pb-3">
         <View className="flex-row items-start justify-between">
@@ -62,9 +62,9 @@ export default function WorkerCardRow({
         <TouchableOpacity
           onPress={onPress}
           style={{ backgroundColor: Colors.common.GRAY_DARK }}
-          className="px-4 py-2 rounded-xl active:opacity-90"
+          className="px-4 py-2 rounded-lg active:opacity-90"
         >
-          <Text className="text-white text-xs font-medium">View Details</Text>
+          <Text className="min-w-20 text-white text-xs font-medium">View Details</Text>
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
