@@ -25,7 +25,7 @@ export default function LabourerCard({ job, handleViewDetails }: { job: any; han
         </View>
 
         <View className="items-end">
-          <Text className="text-neutral-900 font-extrabold text-sm">
+          <Text className="flex-1 flex-row text-neutral-900 font-extrabold text-sm min-w-20">
             £{job.payRate}/hour
           </Text>
           {/* <View

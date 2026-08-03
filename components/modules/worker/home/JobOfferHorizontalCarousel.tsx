@@ -23,10 +23,10 @@ const MOCK_JOB_OFFERS = [
 export default function JobOfferHorizontalCarousel({ handleViewDetails }: { handleViewDetails: (id: string) => void }) {
   return (
     <View className="mt-8">
-      <View className="flex-row justify-between items-center mb-4">
+      <View className="flex-row justify-between items-center mb-4 px-5">
         <View className="flex-row items-center gap-2">
           <Sparkles size={18} color={Colors.common.BRAND} />
-          <Text className="text-neutral-900 font-extrabold text-lg tracking-tight">
+          <Text className="flex-1 text-neutral-900 font-extrabold text-lg tracking-tight">
             Job Offers
           </Text>
         </View>
@@ -69,7 +69,7 @@ export default function JobOfferHorizontalCarousel({ handleViewDetails }: { hand
             </View>
 
             <View className="flex-row justify-between items-center pt-2 border-t border-neutral-50/80">
-              <Text className="text-neutral-800 font-bold text-sm">
+              <Text className="flex-1 text-neutral-800 font-bold text-sm">
                 £{job.payRate}/hour
               </Text>
               {/* <View

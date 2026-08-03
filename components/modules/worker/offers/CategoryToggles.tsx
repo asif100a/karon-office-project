@@ -23,7 +23,7 @@ export default function CategoryToggles({
         className={`px-5 py-3.5 rounded-xl ${activeCategory === "browse" ? "" : "border border-neutral-200/60"}`}
       >
         <Text
-          className={`text-xs font-bold ${activeCategory === "browse" ? "text-white" : "text-neutral-500"}`}
+          className={`min-w-[120px] text-xs font-bold ${activeCategory === "browse" ? "text-white" : "text-neutral-500"}`}
         >
           Browse Opportunities
         </Text>
