@@ -23,7 +23,7 @@ export default function CommonHeader({
   return (
     <View
       style={{ backgroundColor: Colors.common.BRAND }}
-      className="pt-14 pb-4 px-6"
+      className="pt-14 pb-3 px-6"
     >
       <View className="flex-row justify-between items-center">
         {withBackButton ? (

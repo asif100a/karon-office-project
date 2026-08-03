@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, ScrollView, Text, View } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Check, CircleAlert } from 'lucide-react-native';
 import {
   Avatar,
@@ -17,7 +17,9 @@ export default function DisputeDetailScreen() {
   const resolved = status === 'resolved';
 
   return (
-    <ScreenShell title="Support Details">
+    <ScreenShell title="Support Details" navigateBack={() => {
+      router.back();
+    }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 16, paddingBottom: 34 }}>
         <DisputeSummary resolved={resolved} />
 
