@@ -84,7 +84,7 @@ export default function CompletedJobDetailScreen() {
           <CompletedJobDetails jobDetails={jobDetails} />
 
           {/* Employer Contact */}
-          <CompletedEmployerContact jobDetails={jobDetails} />
+          {/* <CompletedEmployerContact jobDetails={jobDetails} /> */}
 
           {/* Toggle Chips */}
           <CompletedToggleChips activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />

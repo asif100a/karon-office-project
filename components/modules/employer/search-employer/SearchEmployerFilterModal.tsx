@@ -87,7 +87,7 @@ export default function SearchEmployerFilterModal({
 
         {/* Bottom Sheet Panel */}
         <View className="flex-1 justify-end">
-          <View className="bg-white rounded-t-[32px] p-6 pb-12 shadow-2xl border-t border-neutral-100">
+          <View className="bg-white rounded-t-4xl p-6 pb-12 shadow-2xl border-t border-neutral-100">
             {/* Header row */}
             <View className="flex-row justify-between items-center mb-6">
               <Text className="text-neutral-900 font-extrabold text-lg tracking-tight">
@@ -213,7 +213,7 @@ export default function SearchEmployerFilterModal({
             <TouchableOpacity
               onPress={() => setShowFilters(false)}
               style={{ backgroundColor: Colors.common.GRAY_DARK }}
-              className="w-full py-4 rounded-2xl items-center justify-center active:opacity-90"
+              className="w-full py-4 rounded-2xl items-center justify-center active:opacity-90 mb-3"
             >
               <Text className="text-white font-extrabold text-sm">
                 Apply Filter

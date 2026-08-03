@@ -155,7 +155,7 @@ export default function ActiveJobDetailScreen() {
           <WorkerJobDetails jobDetails={jobDetails} />
 
           {/* Employer Contact */}
-          <WorkerEmployerContact jobDetails={jobDetails} />
+          {/* <WorkerEmployerContact jobDetails={jobDetails} /> */}
 
           {/* Worker Toggle Chips */}
           <WorkerToggleChips
