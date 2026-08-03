@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, TouchableOpacity } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import CommonHeader from "@/components/modules/common/CommonHeader";
 import ScreenWrapper from "@/components/layout/ScreenWrapper";
@@ -14,6 +14,9 @@ import {
 } from "@/constants/Routes";
 import StandardButton from "@/components/standard_ui/buttons/StandardButton";
 import ReviewModal from "@/components/modules/common/ReviewModal";
+import { Colors } from "@/constants/Colors";
+import { Headphones } from "lucide-react-native";
+import MessageSupportModal from "@/components/modules/common/MessageSupportModal";
 
 export default function CompletedJobDetailScreen() {
   const router = useRouter();
@@ -35,6 +38,11 @@ export default function CompletedJobDetailScreen() {
   const [submittedReviews, setSubmittedReviews] = useState(
     [],
   );
+    // Support Modal State
+  const [showSupportModal, setShowSupportModal] = useState(false);
+  const [supportModalState, setSupportModalState] = useState<
+    "form" | "submitted"
+  >("form");
 
   const jobDetails = {
     title: "Labourer",
@@ -139,6 +147,25 @@ export default function CompletedJobDetailScreen() {
           />
         </View>
       </ScrollView>
+
+      <TouchableOpacity
+        onPress={() => {
+          setSupportModalState("form");
+          setShowSupportModal(true);
+        }}
+        style={{ backgroundColor: Colors.common.BRAND }}
+        className="absolute bottom-16 right-6 w-14 h-14 rounded-full items-center justify-center active:opacity-90 z-20"
+      >
+        <Headphones size={24} color="#FFFFFF" />
+      </TouchableOpacity>
+
+      {/* Message Support Modal */}
+      <MessageSupportModal
+        showSupportModal={showSupportModal}
+        setShowSupportModal={setShowSupportModal}
+        supportModalState={supportModalState}
+        setSupportModalState={setSupportModalState}
+      />
 
       {/* Review Modal */}
       <ReviewModal
