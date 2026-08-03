@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Modal } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/constants/Colors";
@@ -22,6 +17,10 @@ import WorkerDetailsDocuments from "@/components/modules/worker/worker-details/W
 import WorkerDetailsWorkHistory from "@/components/modules/worker/worker-details/WorkerDetailsWorkHistory";
 import WorkerDetailsRatingAndFeedback from "@/components/modules/worker/worker-details/WorkerDetailsRatingAndFeedback";
 import WorkerDetailsReviews from "@/components/modules/worker/worker-details/WorkerDetailsReviews";
+import WorkerRatingStars from "@/components/modules/worker/worker-details/_ui/WorkerRatingStars";
+import { Image } from "expo-image";
+import PLACEHOLDER_USER from "@/assets/images/placeholder/placeholder-user.png";
+import { ChevronDown, MapPin, X } from "lucide-react-native";
 
 type WorkerDetail = {
   name: string;
@@ -120,6 +119,271 @@ const WORKER_DETAILS: Record<string, WorkerDetail> = {
 WORKER_DETAILS["2"] = WORKER_DETAILS["1"];
 WORKER_DETAILS["3"] = WORKER_DETAILS["1"];
 
+const TIMESHEET_WEEKS = [
+  { id: "week-1", title: "Week 1", range: "12th - 16th July" },
+  { id: "week-2", title: "Week 1", range: "12th - 16th July" },
+  { id: "week-3", title: "Week 1", range: "12th - 16th July" },
+  { id: "week-4", title: "Week 1", range: "12th - 16th July" },
+];
+
+const APPROVAL_DAYS = [
+  { day: "Saturday", hours: "8 Hours" },
+  { day: "Sunday", hours: "8 Hours" },
+  { day: "Monday", hours: "8 Hours" },
+  { day: "Tuesday", hours: "8 Hours" },
+];
+
+const WEEK_DAY_OPTIONS = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
+function EmployerWorkerCard({ worker }: { worker: WorkerDetail }) {
+  return (
+    <View className="rounded-2xl bg-white px-4 py-5">
+      <View className="items-center">
+        <View className="relative">
+          <Image
+            source={PLACEHOLDER_USER}
+            style={{ width: 88, height: 88 }}
+            className="rounded-full"
+          />
+          <View className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full border border-emerald-300 bg-emerald-50 px-3 py-1">
+            <Text className="text-[10px] font-bold text-emerald-700">
+              {worker.status}
+            </Text>
+          </View>
+        </View>
+
+        <Text className="mt-6 text-center text-[22px] font-extrabold text-neutral-900">
+          {worker.name}
+        </Text>
+        <Text className="mt-1 text-base text-neutral-500">{worker.role}</Text>
+
+        <View className="mt-3 flex-row items-center gap-2">
+          <View className="flex-row">
+            <View className="h-7 w-7 items-center justify-center rounded-full bg-[#FF7A00]">
+              <Text className="text-xs font-bold text-white">K</Text>
+            </View>
+            <View className="-ml-1.5 h-7 w-7 items-center justify-center rounded-full bg-[#7C3AED]">
+              <Text className="text-xs font-bold text-white">C</Text>
+            </View>
+          </View>
+          <View className="flex-row items-center gap-1.5">
+            <WorkerRatingStars rating={worker.rating} />
+            <Text className="text-sm font-medium text-neutral-700">
+              <Text className="font-extrabold">{worker.rating}</Text> (
+              {worker.reviews})
+            </Text>
+          </View>
+        </View>
+
+        <View className="mt-4 flex-row items-center gap-2">
+          <MapPin size={14} color="#C81E1E" />
+          <Text className="text-sm font-medium text-neutral-500">
+            {worker.location}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+function EmployerTimesheetCard({
+  onApprovePress,
+}: {
+  onApprovePress: () => void;
+}) {
+  return (
+    <View className="mt-4 rounded-2xl bg-white px-4 py-4">
+      <View className="mb-3 flex-row items-center justify-between">
+        <Text className="text-base font-medium text-neutral-900">
+          Update Timesheet
+        </Text>
+        <View className="rounded-full bg-[#FFF1E9] px-2.5 py-1">
+          <Text
+            style={{ color: Colors.common.BRAND }}
+            className="text-xs font-medium"
+          >
+            Day 3 of 20
+          </Text>
+        </View>
+      </View>
+
+      {TIMESHEET_WEEKS.map((week, index) => (
+        <View
+          key={week.id}
+          className={`flex-row items-center justify-between py-3 ${
+            index < TIMESHEET_WEEKS.length - 1
+              ? "border-b border-neutral-100"
+              : ""
+          }`}
+        >
+          <View className="flex-1 pr-3">
+            <Text className="text-base font-semibold text-neutral-900">
+              {week.title}
+            </Text>
+            <Text className="mt-0.5 text-sm text-neutral-500">
+              {week.range}
+            </Text>
+          </View>
+
+          <View className="flex-row items-center gap-3">
+            <TouchableOpacity className="px-1 py-2 active:opacity-70">
+              <Text className="text-sm font-medium text-neutral-600">View</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={onApprovePress}
+              className="rounded-xl border border-neutral-200 bg-white px-4 py-2 active:opacity-80"
+            >
+              <Text className="text-xs font-medium text-neutral-500">
+                Approve
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ))}
+    </View>
+  );
+}
+
+function EmployerApprovalModal({
+  visible,
+  selectedWeek,
+  isWeekDropdownOpen,
+  onToggleWeekDropdown,
+  onSelectWeek,
+  onClose,
+}: {
+  visible: boolean;
+  selectedWeek: string;
+  isWeekDropdownOpen: boolean;
+  onToggleWeekDropdown: () => void;
+  onSelectWeek: (weekDay: string) => void;
+  onClose: () => void;
+}) {
+  return (
+    <Modal
+      transparent
+      animationType="fade"
+      visible={visible}
+      onRequestClose={onClose}
+    >
+      <View
+        className="flex-1 justify-end px-4 pb-8"
+        style={{ backgroundColor: "rgba(0, 0, 0, 0.45)" }}
+      >
+        <View className="absolute left-5 top-[42%] flex-row">
+          <View className="h-8 w-8 items-center justify-center rounded-full bg-[#FF7A00]">
+            <Text className="text-sm font-bold text-white">K</Text>
+          </View>
+          <View className="-ml-1.5 h-8 w-8 items-center justify-center rounded-full bg-[#7C3AED]">
+            <Text className="text-sm font-bold text-white">C</Text>
+          </View>
+        </View>
+
+        <View className="max-h-[82vh] rounded-2xl bg-white">
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+            contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 20 }}
+          >
+            <View className="mb-5 flex-row items-center justify-between">
+              <Text className="text-[28px] font-semibold text-neutral-900">
+                Request approval
+              </Text>
+              <TouchableOpacity
+                onPress={onClose}
+                className="rounded-full p-1 active:opacity-70"
+              >
+                <X size={16} color="#111827" />
+              </TouchableOpacity>
+            </View>
+
+            <View className="mb-4">
+              <Text className="mb-2 text-xs font-medium text-neutral-500">
+                Week
+              </Text>
+              <TouchableOpacity
+                onPress={onToggleWeekDropdown}
+                className="min-h-12 flex-row items-center justify-between rounded-xl border border-neutral-200 px-3 py-3 active:opacity-80"
+              >
+                <Text
+                  className={`text-sm ${
+                    selectedWeek === "Select Week"
+                      ? "text-neutral-400"
+                      : "text-neutral-800"
+                  }`}
+                >
+                  {selectedWeek}
+                </Text>
+                <ChevronDown size={16} color="#737373" />
+              </TouchableOpacity>
+
+              {isWeekDropdownOpen ? (
+                <View className="mt-2 overflow-hidden rounded-xl border border-neutral-200 bg-white">
+                  {WEEK_DAY_OPTIONS.map((weekDay, index) => (
+                    <TouchableOpacity
+                      key={weekDay}
+                      onPress={() => onSelectWeek(weekDay)}
+                      className={`px-3 py-3 active:bg-neutral-50 ${
+                        index < WEEK_DAY_OPTIONS.length - 1
+                          ? "border-b border-neutral-100"
+                          : ""
+                      }`}
+                    >
+                      <Text className="text-sm font-medium text-neutral-800">
+                        {weekDay}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              ) : null}
+            </View>
+
+            <View className="gap-3">
+              {APPROVAL_DAYS.map((item) => (
+                <View
+                  key={item.day}
+                  className="flex-row items-center justify-between rounded-2xl border border-neutral-100 px-4 py-3"
+                >
+                  <View className="flex-1 pr-3">
+                    <Text className="text-base font-medium text-slate-800">
+                      {item.day}
+                    </Text>
+                    <Text className="mt-0.5 text-sm text-slate-400">
+                      {item.hours}
+                    </Text>
+                  </View>
+
+                  <TouchableOpacity className="rounded-xl border border-neutral-200 px-4 py-2 active:opacity-80">
+                    <Text className="text-xs font-medium text-neutral-500">
+                      Approve
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
+
+            <TouchableOpacity
+              onPress={onClose}
+              style={{ backgroundColor: "#1F2937" }}
+              className="mt-5 min-h-12 items-center justify-center rounded-xl px-4 py-3 active:opacity-90"
+            >
+              <Text className="text-base font-medium text-white">Approve</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
 export default function WorkerDetailsScreen() {
   const router = useRouter();
   const { id, origin } = useLocalSearchParams<{
@@ -130,10 +394,14 @@ export default function WorkerDetailsScreen() {
   const originRoute = Array.isArray(origin) ? origin[0] : origin;
   const worker = workerId ? WORKER_DETAILS[workerId] : undefined;
   const showEmptyState = !worker || !worker.name;
+  const isEmployerView = normalizeUserRole(originRoute) === "employer";
 
   const [showReviewComposer, setShowReviewComposer] = useState(false);
   const [reviewRating, setReviewRating] = useState(4);
   const [reviewText, setReviewText] = useState("");
+  const [showApprovalModal, setShowApprovalModal] = useState(false);
+  const [selectedWeek, setSelectedWeek] = useState("Select Week");
+  const [isWeekDropdownOpen, setIsWeekDropdownOpen] = useState(false);
 
   const goBackToOrigin = () => {
     if (originRoute === "worker" || originRoute === "employer") {
@@ -151,6 +419,12 @@ export default function WorkerDetailsScreen() {
   };
 
   const handleHeaderBack = () => {
+    if (showApprovalModal) {
+      setShowApprovalModal(false);
+      setIsWeekDropdownOpen(false);
+      return;
+    }
+
     if (showReviewComposer) {
       closeReviewComposer();
       return;
@@ -170,6 +444,36 @@ export default function WorkerDetailsScreen() {
 
       {showEmptyState ? (
         <WorkerDetailsEmptyState />
+      ) : isEmployerView ? (
+        <>
+          <ScrollView
+            className="flex-1 px-5"
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingTop: 12, paddingBottom: 40 }}
+          >
+            <EmployerWorkerCard worker={worker} />
+            <EmployerTimesheetCard
+              onApprovePress={() => setShowApprovalModal(true)}
+            />
+          </ScrollView>
+
+          <EmployerApprovalModal
+            visible={showApprovalModal}
+            selectedWeek={selectedWeek}
+            isWeekDropdownOpen={isWeekDropdownOpen}
+            onToggleWeekDropdown={() =>
+              setIsWeekDropdownOpen((current) => !current)
+            }
+            onSelectWeek={(weekDay) => {
+              setSelectedWeek(weekDay);
+              setIsWeekDropdownOpen(false);
+            }}
+            onClose={() => {
+              setShowApprovalModal(false);
+              setIsWeekDropdownOpen(false);
+            }}
+          />
+        </>
       ) : (
         <>
           <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>

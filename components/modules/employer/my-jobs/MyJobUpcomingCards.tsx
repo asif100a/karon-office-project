@@ -18,7 +18,7 @@ export default function MyJobUpcomingCards({
           key={job.id}
           onPress={() => openJobDetails(job.id)}
           activeOpacity={0.9}
-          className="bg-white rounded-xl border border-neutral-200/80 overflow-hidden"
+          className="bg-white rounded-xl overflow-hidden"
         >
           <View className="px-4 pt-4 pb-3">
             <View className="flex-row items-start justify-between">
@@ -78,7 +78,7 @@ export default function MyJobUpcomingCards({
               style={{ backgroundColor: Colors.common.GRAY_DARK }}
               className="px-4 py-2 rounded-md active:opacity-90"
             >
-              <Text className="text-white text-xs font-medium">
+              <Text className="min-w-20 text-white text-xs font-medium">
                 View Details
               </Text>
             </TouchableOpacity>

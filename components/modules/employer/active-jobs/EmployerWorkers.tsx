@@ -44,7 +44,7 @@ export default function EmployerWorkers({ openWorkerDetails }: {
               </View>
 
               <View className="flex-row items-center gap-1">
-                <Text className="text-neutral-500 text-xs font-medium">
+                <Text className="min-w-[100px] text-right text-neutral-500 text-xs font-medium">
                   Update Timesheet
                 </Text>
                 <ChevronRight size={16} color="#737373" />

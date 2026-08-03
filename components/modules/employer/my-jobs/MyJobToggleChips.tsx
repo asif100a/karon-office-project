@@ -33,7 +33,7 @@ export default function MyJobToggleChips({
             className={`px-4 py-2.5 rounded-lg ${isActive ? "" : "border border-neutral-200/80"}`}
           >
             <Text
-              className={`text-xs font-bold ${isActive ? "text-white" : "text-neutral-500"}`}
+              className={`min-w-18 text-center text-xs font-bold ${isActive ? "text-white" : "text-neutral-500"}`}
             >
               {tab.label}
             </Text>

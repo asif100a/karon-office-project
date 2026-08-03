@@ -12,6 +12,7 @@ import MyJobToggleChips from "@/components/modules/employer/my-jobs/MyJobToggleC
 import MyJobActiveCards from "@/components/modules/employer/my-jobs/MyJobActiveCards";
 import MyJobUpcomingCards from "@/components/modules/employer/my-jobs/MyJobUpcomingCards";
 import MyJobCompletedOrCanceledCards from "@/components/modules/employer/my-jobs/MyJobCompletedOrCanceledCards";
+import ScreenHeader from "@/components/layout/ScreenHeader";
 
 type JobStatus = "active" | "upcoming" | "completed" | "cancelled";
 type JobTab = "active" | "upcoming" | "completed";
@@ -255,7 +256,7 @@ export default function EmployerMyJobsScreen() {
 
   return (
     <ScreenWrapper>
-      <CommonHeader headerTitle="My Jobs" />
+      <ScreenHeader />
 
       <ScrollView
         className="flex-1 px-5 pt-5"

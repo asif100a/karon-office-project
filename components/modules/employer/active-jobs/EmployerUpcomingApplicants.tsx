@@ -105,7 +105,7 @@ export default function EmployerUpcomingApplicants({
                 <TouchableOpacity
                   onPress={() => openWorkerDetails(applicant.id)}
                 >
-                  <Text className="text-neutral-700 text-xs font-medium">
+                  <Text className="min-w-20 text-neutral-700 text-xs font-medium">
                     View Details
                   </Text>
                 </TouchableOpacity>

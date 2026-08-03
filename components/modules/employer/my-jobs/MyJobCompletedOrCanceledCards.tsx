@@ -18,7 +18,7 @@ export default function MyJobCompletedOrCanceledCards({
         key={job.id}
         onPress={() => openJobDetails(job.id, job.status)}
         activeOpacity={0.9}
-        className="bg-white rounded-xl border border-neutral-200/80 overflow-hidden"
+        className="bg-white rounded-xl overflow-hidden"
       >
         <View className="px-4 pt-4 pb-3">
           <View className="flex-row items-start justify-between">

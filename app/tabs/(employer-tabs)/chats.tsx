@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import CommonHeader from "@/components/modules/common/CommonHeader";
+import ScreenHeader from "@/components/layout/ScreenHeader";
 
 const MOCK_CHATS = [
   {
@@ -80,7 +81,7 @@ export default function EmployerChatsScreen() {
   return (
     <View className="flex-1 bg-white">
       {/* Brand Header */}
-      <CommonHeader headerTitle="Chats" />
+      <ScreenHeader />
 
       {/* Chats List */}
       <ScrollView

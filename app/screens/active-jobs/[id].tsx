@@ -122,7 +122,7 @@ export default function ActiveJobDetailScreen() {
         </ScrollView>
 
         {employerJobStatus === "active" && (
-          <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-neutral-100 px-4 py-4 flex-row gap-3">
+          <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-neutral-100 px-4 py-4 pb-14 flex-row gap-3">
             <TouchableOpacity
               style={{ backgroundColor: Colors.common.GRAY_DARK }}
               className="flex-1 py-4 rounded-xl items-center justify-center active:opacity-90"
