@@ -93,7 +93,7 @@ export default function RegisterDocumentsScreen({ role, onContinue }: RegisterDo
       bounces={false}
     >
       {/* Orange Header Section */}
-      <View className="bg-[#FF5500] pb-10 px-6 items-start justify-end min-h-[220px]">
+      <View className="bg-[#FF5500] pb-10 px-6 items-start justify-end">
         <View className="mb-4">
           <LogoWhite />
         </View>

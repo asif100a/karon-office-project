@@ -234,7 +234,7 @@ export default function SearchEmployerMapView({
                   onPress={() => handleViewDetails(job.id)}
                   className="rounded-xl bg-neutral-100 px-4 py-2 active:opacity-70"
                 >
-                  <Text className="text-xs font-bold text-neutral-600">
+                  <Text className="min-w-20 text-xs font-bold text-neutral-600">
                     View Details
                   </Text>
                 </TouchableOpacity>
@@ -243,7 +243,7 @@ export default function SearchEmployerMapView({
                   style={{ backgroundColor: Colors.common.GRAY_DARK }}
                   className="rounded-xl px-4 py-2 shadow-sm active:opacity-90"
                 >
-                  <Text className="text-xs font-bold text-white">
+                  <Text className="min-w-20 text-xs font-bold text-white">
                     Send Request
                   </Text>
                 </TouchableOpacity>

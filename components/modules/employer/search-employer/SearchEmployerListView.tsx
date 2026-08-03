@@ -69,7 +69,7 @@ export default function SearchEmployerListView({
         {MOCK_JOBS.map((job) => (
           <View
             key={job.id}
-            className="bg-white rounded-2xl p-5 border border-neutral-100/85 shadow-sm"
+            className="bg-white rounded-2xl p-5"
           >
             {/* Job Header */}
             <View className="flex-row justify-between items-start mb-4">
@@ -88,20 +88,9 @@ export default function SearchEmployerListView({
               </View>
 
               <View className="items-end">
-                <Text className="text-neutral-900 font-extrabold text-sm">
+                <Text className="min-w-20 text-neutral-900 font-extrabold text-sm" style={{ textAlign: "right" }}>
                   £{job.payRate}/hour
                 </Text>
-                <View
-                  style={{ backgroundColor: Colors.common.BRAND_LIGHT }}
-                  className="px-2.5 py-0.5 rounded-full mt-1.5"
-                >
-                  <Text
-                    style={{ color: Colors.common.BRAND }}
-                    className="text-[10px] font-extrabold"
-                  >
-                    {job.tag}
-                  </Text>
-                </View>
               </View>
             </View>
 
@@ -138,7 +127,7 @@ export default function SearchEmployerListView({
                   onPress={() => handleViewDetails(job.id)}
                   className="px-4 py-2 bg-neutral-100 rounded-xl active:opacity-70"
                 >
-                  <Text className="text-neutral-600 font-bold text-xs">
+                  <Text className="min-w-20 text-neutral-600 font-bold text-xs">
                     View Details
                   </Text>
                 </TouchableOpacity>
@@ -147,7 +136,7 @@ export default function SearchEmployerListView({
                   style={{ backgroundColor: Colors.common.GRAY_DARK }}
                   className="px-4 py-2 rounded-xl active:opacity-90 shadow-sm"
                 >
-                  <Text className="text-white font-bold text-xs">
+                  <Text className="min-w-20 text-white font-bold text-xs">
                     Send Request
                   </Text>
                 </TouchableOpacity>

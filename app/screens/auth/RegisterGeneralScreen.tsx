@@ -76,7 +76,7 @@ export default function RegisterGeneralScreen({ role, onContinue, onLoginPress }
         bounces={false}
       >
         {/* Orange Header Section */}
-        <View className="bg-[#FF5500] pb-10 pt-16 px-6 items-start justify-end min-h-[220px]">
+        <View className="bg-[#FF5500] pb-10 pt-16 px-6 items-start justify-end">
           <View className="mb-4">
             <LogoWhite />
           </View>

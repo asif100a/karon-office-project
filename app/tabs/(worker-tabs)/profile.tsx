@@ -156,7 +156,7 @@ export default function ProfileScreen() {
                       item.label === "Log out" ? Colors.common.BRAND : "#525252"
                     }
                   />
-                  <Text className="text-neutral-900 font-semibold text-base">
+                  <Text className="min-w-[150px] text-neutral-900 font-semibold text-base">
                     {item.label}
                   </Text>
                 </View>
@@ -190,7 +190,7 @@ export default function ProfileScreen() {
                     }
                   />
                   <Text
-                    className="font-semibold text-base"
+                    className="min-w-[150px] font-semibold text-base"
                     style={
                       item.label === "Log out"
                         ? { color: Colors.common.BRAND }

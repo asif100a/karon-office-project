@@ -21,7 +21,7 @@ export default function MyJobToggleChips({
         className={`px-4 py-2 rounded-lg ${activeTab === "active" ? "" : "border border-neutral-200/60"}`}
       >
         <Text
-          className={`text-xs font-bold ${activeTab === "active" ? "text-white" : "text-neutral-500"}`}
+          className={`min-w-18 text-center text-xs font-bold ${activeTab === "active" ? "text-white" : "text-neutral-500"}`}
         >
           Active jobs
         </Text>

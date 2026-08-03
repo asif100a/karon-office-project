@@ -146,7 +146,7 @@ export default function RatingFeedbackScreen() {
           style={{ backgroundColor: "#1E2933" }}
           className="h-12 rounded-lg items-center justify-center mb-6"
         >
-          <Text className="text-white text-base font-semibold">
+          <Text className="min-w-28 text-white text-base font-semibold">
             Write Review
           </Text>
         </TouchableOpacity>

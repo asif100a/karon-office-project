@@ -35,10 +35,8 @@ export default function CompletedJobDetailScreen() {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewFeedback, setReviewFeedback] = useState("");
-  const [submittedReviews, setSubmittedReviews] = useState(
-    [],
-  );
-    // Support Modal State
+  const [submittedReviews, setSubmittedReviews] = useState([]);
+  // Support Modal State
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [supportModalState, setSupportModalState] = useState<
     "form" | "submitted"
@@ -91,20 +89,23 @@ export default function CompletedJobDetailScreen() {
     setIsReviewModalOpen(false);
   };
 
-    const submitReview = () => {
+  const submitReview = () => {
     if (!reviewRating || !reviewFeedback.trim()) return;
 
-    setSubmittedReviews((currentReviews) => [
-      {
-        name: "You",
-        date: "Just now",
-        rating: reviewRating,
-        feedback: reviewFeedback.trim(),
-        image:
-          "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop",
-      },
-      ...currentReviews,
-    ] as any);
+    setSubmittedReviews(
+      (currentReviews) =>
+        [
+          {
+            name: "You",
+            date: "Just now",
+            rating: reviewRating,
+            feedback: reviewFeedback.trim(),
+            image:
+              "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop",
+          },
+          ...currentReviews,
+        ] as any,
+    );
     setReviewRating(0);
     setReviewFeedback("");
     setIsReviewModalOpen(false);
@@ -139,11 +140,15 @@ export default function CompletedJobDetailScreen() {
           {activeSubTab === "summary" && <CompletedWorkSummary />}
 
           <StandardButton
-            text="Write a review"
+            text="Write review"
             style={{
               backgroundColor: "#000000",
               marginTop: 20,
             }}
+            buttonTextStyle={{
+              minWidth: 120,
+            }}
+            onPress={() => setIsReviewModalOpen(true)}
           />
         </View>
       </ScrollView>
