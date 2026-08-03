@@ -141,7 +141,7 @@ export default function ProfileScreen() {
           <Text className="text-neutral-900 font-extrabold text-lg tracking-tight mb-4">
             Account
           </Text>
-          <View className="bg-white rounded-xl border border-neutral-200/80 overflow-hidden">
+          <View className="bg-white rounded-xl overflow-hidden">
             {menuItems.account.map((item, index) => (
               <TouchableOpacity
                 key={index}
@@ -178,7 +178,7 @@ export default function ProfileScreen() {
           <Text className="text-neutral-900 font-extrabold text-lg tracking-tight mb-4">
             More
           </Text>
-          <View className="bg-white rounded-xl border border-neutral-200/80 overflow-hidden">
+          <View className="bg-white rounded-xl overflow-hidden">
             {menuItems.more.map((item, index) => (
               <TouchableOpacity
                 key={index}
