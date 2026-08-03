@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { Bell, ArrowRight } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import CommonHeader from '@/components/modules/common/CommonHeader';
+import ScreenHeader from '@/components/layout/ScreenHeader';
 
 const MOCK_CHATS = [
   {
@@ -81,7 +82,7 @@ export default function WorkerChatsScreen() {
   return (
     <View className="flex-1 bg-white">
       {/* Brand Header */}
-      <CommonHeader headerTitle="Chats" />
+      <ScreenHeader />
 
       {/* Chats List */}
       <ScrollView 

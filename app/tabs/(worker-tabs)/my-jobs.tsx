@@ -9,6 +9,7 @@ import ScreenWrapper from "@/components/layout/ScreenWrapper";
 import { Headphones } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 import MessageSupportModal from "@/components/modules/common/MessageSupportModal";
+import ScreenHeader from "@/components/layout/ScreenHeader";
 
 export default function MyJobsScreen() {
   const router = useRouter();
@@ -54,7 +55,7 @@ export default function MyJobsScreen() {
   return (
     <ScreenWrapper>
       {/* Header */}
-      <CommonHeader headerTitle="My Jobs" />
+      <ScreenHeader />
 
       <ScrollView
         className="flex-1 px-5 pt-6"
