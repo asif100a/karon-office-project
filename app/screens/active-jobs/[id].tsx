@@ -16,7 +16,7 @@ import WorkerToggleChips from "@/components/modules/worker/active-jobs/WorkerTog
 import WorkerProjectSchedule from "@/components/modules/worker/active-jobs/WorkerProjectSchedule";
 import WorkerWorkSummary from "@/components/modules/worker/active-jobs/WorkerWorkSummary";
 import WorkerWorkPolicy from "@/components/modules/worker/active-jobs/WorkerWorkPolicy";
-import MessageSupportModal from "@/components/modules/worker/active-jobs/MessageSupportModal";
+import MessageSupportModal from "@/components/modules/common/MessageSupportModal";
 import RequestApprovalModal from "@/components/modules/worker/active-jobs/RequestApprovalModal";
 
 export default function ActiveJobDetailScreen() {

@@ -13,10 +13,12 @@ import {
   MessageSquare,
   LogOut,
   ChevronRight,
+  Headphones,
 } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 import ScreenHeader from "@/components/layout/ScreenHeader";
 import StandardToggle from "@/components/standard_ui/StandardToggle";
+import MessageSupportModal from "@/components/modules/common/MessageSupportModal";
 
 type MenuItem = {
   icon: ComponentType<{ size?: number; color?: string }>;
@@ -28,6 +30,11 @@ type MenuItem = {
 export default function ProfileScreen() {
   const router = useRouter();
   const [available, setAvailable] = useState(true);
+  // Support Modal State
+  const [showSupportModal, setShowSupportModal] = useState(false);
+  const [supportModalState, setSupportModalState] = useState<
+    "form" | "submitted"
+  >("form");
 
   const menuItems: { account: MenuItem[]; more: MenuItem[] } = {
     account: [
@@ -199,6 +206,25 @@ export default function ProfileScreen() {
           </View>
         </View>
       </ScrollView>
+
+      <TouchableOpacity
+        onPress={() => {
+          setSupportModalState("form");
+          setShowSupportModal(true);
+        }}
+        style={{ backgroundColor: Colors.common.BRAND }}
+        className="absolute bottom-8 right-6 w-14 h-14 rounded-full items-center justify-center active:opacity-90 z-20"
+      >
+        <Headphones size={24} color="#FFFFFF" />
+      </TouchableOpacity>
+
+      {/* Message Support Modal */}
+      <MessageSupportModal
+        showSupportModal={showSupportModal}
+        setShowSupportModal={setShowSupportModal}
+        supportModalState={supportModalState}
+        setSupportModalState={setSupportModalState}
+      />
     </View>
   );
 }
