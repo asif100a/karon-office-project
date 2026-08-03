@@ -26,7 +26,7 @@ export default function EditProfileScreen() {
     <ScreenShell
       title="Profile"
       footer={
-        <View className="px-5 pb-8 pt-4 bg-neutral-50">
+        <View className="px-5 pb-16 pt-4 bg-neutral-50">
           <TouchableOpacity style={{ backgroundColor: '#1E2933' }} className="h-14 rounded-lg items-center justify-center">
             <Text className="text-white font-extrabold text-sm">Save Changes</Text>
           </TouchableOpacity>

@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   Search,
@@ -18,6 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import SearchEmployerListView from "@/components/modules/employer/search-employer/SearchEmployerListView";
 import SearchEmployerMapView from "@/components/modules/employer/search-employer/SearchEmployerMapView";
 import SearchEmployerFilterModal from "@/components/modules/employer/search-employer/SearchEmployerFilterModal";
+import LogoWhite from "@/assets/icons/LogoWhite";
 
 export default function WorkerSearchScreen() {
   const router = useRouter();
@@ -55,9 +51,9 @@ export default function WorkerSearchScreen() {
       {/* Search Header */}
       <View
         style={{ backgroundColor: Colors.common.BRAND }}
-        className="pb-4 pt-14 px-6 z-10"
+        className="pb-3 pt-12 px-6 z-10"
       >
-        <View className="flex-row justify-between items-center">
+        <View className="flex-row justify-between items-end">
           {/* Back button and title */}
           <TouchableOpacity
             onPress={goBackToOrigin}
@@ -68,6 +64,10 @@ export default function WorkerSearchScreen() {
               Search Jobs
             </Text>
           </TouchableOpacity>
+
+          <View className="-mb-3 flex-1 ml-6">
+            <LogoWhite size={{ width: "100", height: "72" }} />
+          </View>
 
           {/* Map/List View Toggle */}
           <TouchableOpacity

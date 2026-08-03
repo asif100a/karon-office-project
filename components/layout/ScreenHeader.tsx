@@ -15,9 +15,9 @@ export default function ScreenHeader() {
   return (
     <View
       style={{ backgroundColor: Colors.common.BRAND }}
-      className="px-6 pt-14 pb-3"
+      className="px-6 pt-12 pb-3"
     >
-      <View className="flex-row items-center justify-between">
+      <View className="flex-row items-end justify-between">
         <Image
           source={{
             uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
@@ -25,7 +25,9 @@ export default function ScreenHeader() {
           className="w-14 h-14 rounded-full border-2 border-white/30"
         />
 
-        <LogoWhite size={{ width: "100", height: "72" }} />
+        <View className="-mb-3">
+          <LogoWhite size={{ width: "100", height: "72" }} />
+        </View>
 
         <View className="flex-row items-center gap-3">
           <TouchableOpacity

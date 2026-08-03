@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ChevronLeft } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import StandardToggle from '@/components/standard_ui/StandardToggle';
+import { ScreenShell } from './_components';
 
 type NotificationOption = {
   id: string;
@@ -45,40 +46,6 @@ const notificationOptions: NotificationOption[] = [
   },
 ];
 
-function NotificationSettingsHeader() {
-  const router = useRouter();
-  const { origin } = useLocalSearchParams<{ origin?: string | string[] }>();
-  const originRoute = Array.isArray(origin) ? origin[0] : origin;
-
-  const handleBackPress = () => {
-    if (originRoute === 'employer') {
-      router.replace('/tabs/(employer-tabs)/profile');
-      return;
-    }
-
-    if (originRoute === 'worker') {
-      router.replace('/tabs/(worker-tabs)/profile');
-      return;
-    }
-
-    router.back();
-  };
-
-  return (
-    <View style={{ backgroundColor: Colors.common.BRAND }} className="px-5 pb-6 pt-14">
-      <TouchableOpacity
-        onPress={handleBackPress}
-        className="flex-row items-center active:opacity-75"
-        accessibilityRole="button"
-        accessibilityLabel="Go back"
-      >
-        <ChevronLeft size={22} color="#FFFFFF" />
-        <Text className="ml-1 text-lg font-extrabold text-white">Notification Settings</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
 export default function NotificationSettings() {
   const [settings, setSettings] = useState(notificationOptions);
 
@@ -91,8 +58,7 @@ export default function NotificationSettings() {
   };
 
   return (
-    <View className="flex-1 bg-neutral-50">
-      <NotificationSettingsHeader />
+    <ScreenShell title="Notification Settings">
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingTop: 16, paddingBottom: 32 }}
@@ -120,6 +86,6 @@ export default function NotificationSettings() {
           </View>
         ))}
       </ScrollView>
-    </View>
+    </ScreenShell>
   );
 }

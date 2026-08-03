@@ -16,6 +16,7 @@ import {
   Star,
 } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
+import LogoWhite from "@/assets/icons/LogoWhite";
 
 export const profilePhoto =
   "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&h=160&fit=crop";
@@ -55,9 +56,9 @@ export function ProfileHeader({
   return (
     <View
       style={{ backgroundColor: Colors.common.BRAND }}
-      className="pt-14 pb-4 px-5"
+      className="pt-12 pb-3 px-5"
     >
-      <View className="flex-row justify-between items-center">
+      <View className="flex-row justify-between items-end">
         <TouchableOpacity
           onPress={handleBackPress}
           className="flex-row items-center gap-1 active:opacity-75"
@@ -67,6 +68,10 @@ export function ProfileHeader({
             {title}
           </Text>
         </TouchableOpacity>
+
+        <View className="-mb-3 mr-10">
+          <LogoWhite size={{ width: "100", height: "72" }} />
+        </View>
 
         <TouchableOpacity className="w-11 h-11 rounded-full bg-white/15 items-center justify-center active:opacity-75">
           <Bell color="#FFFFFF" size={18} />
