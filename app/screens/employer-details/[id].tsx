@@ -174,7 +174,7 @@ export default function EmployerDetailsScreen() {
                   <ArrowLeft size={20} color="#171717" />
                 </TouchableOpacity>
 
-                <Text className="text-[18px] font-extrabold text-white">
+                <Text className="text-[18px] font-extrabold text-neutral-900">
                   Employer Details
                 </Text>
               </View>

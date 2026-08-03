@@ -87,10 +87,10 @@ export default function Notifications() {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#F8FAFC" }} edges={[]}>
       <View
         style={{ backgroundColor: Colors.common.BRAND }}
-        className="px-6 pt-16 pb-7"
+        className="px-6 pt-12 pb-3"
       >
         <BackButton />
-        <Text className="text-white text-[17px] font-semibold mt-10">
+        <Text className="text-white text-[17px] font-semibold mt-4">
           Notifications
         </Text>
       </View>
