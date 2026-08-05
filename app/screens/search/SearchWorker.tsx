@@ -80,15 +80,15 @@ export default function SearchWorkerScreen() {
   };
 
   const goBackToOrigin = () => {
-    if (originRoute === "employer") {
-      router.replace("/tabs/(employer-tabs)/workers");
-      return;
-    }
+    // if (originRoute === "employer") {
+    //   router.replace("/tabs/(employer-tabs)/workers");
+    //   return;
+    // }
 
-    if (originRoute === "worker") {
-      router.replace("/tabs/(worker-tabs)/jobs");
-      return;
-    }
+    // if (originRoute === "worker") {
+    //   router.replace("/tabs/(worker-tabs)/jobs");
+    //   return;
+    // }
 
     router.back();
   };

@@ -33,15 +33,15 @@ export default function WorkerSearchScreen() {
   };
 
   const goBackToOrigin = () => {
-    if (originRoute === "worker") {
-      router.replace("/tabs/(worker-tabs)/jobs");
-      return;
-    }
+    // if (originRoute === "worker") {
+    //   router.replace("/tabs/(worker-tabs)/jobs");
+    //   return;
+    // }
 
-    if (originRoute === "employer") {
-      router.replace("/tabs/(employer-tabs)/workers");
-      return;
-    }
+    // if (originRoute === "employer") {
+    //   router.replace("/tabs/(employer-tabs)/workers");
+    //   return;
+    // }
 
     router.back();
   };
