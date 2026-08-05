@@ -19,7 +19,7 @@ export default function RegisterSsoScreen({
   return (
     <ScrollView
       className="flex-1 bg-white"
-      contentContainerStyle={{ flexGrow: 1 }}
+      contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
       bounces={false}
     >
       <View className="bg-[#FF5500] pb-10 pt-16 px-6 items-start justify-end">
@@ -55,10 +55,6 @@ export default function RegisterSsoScreen({
               Continue with Apple
             </Text>
           </TouchableOpacity>
-
-          <Text className="text-neutral-500 text-sm leading-relaxed mt-2">
-            After this, add your work details, upload certifications, and create a password to finish applying.
-          </Text>
         </View>
 
         <View className="flex-row justify-center items-center mt-10">

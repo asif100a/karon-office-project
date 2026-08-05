@@ -1,30 +1,50 @@
-import { useEffect, useState } from 'react';
-import { View, KeyboardAvoidingView, Platform } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect, useState } from "react";
+import { View, KeyboardAvoidingView, Platform } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 // Import Screens
-import LoginScreen from './screens/auth/LoginScreen';
-import RegisterGeneralScreen from './screens/auth/RegisterGeneralScreen';
-import RegisterDocumentsScreen from './screens/auth/RegisterDocumentsScreen';
-import RegisterPasswordScreen from './screens/auth/RegisterPasswordScreen';
-import CompletePayrollScreen from './screens/auth/CompletePayrollScreen';
-import ReviewScreen from './screens/auth/ReviewScreen';
-import RegisterEmployerScreen from './screens/auth/RegisterEmployerScreen';
-import RegisterSsoScreen from './screens/auth/RegisterSsoScreen';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Colors } from '@/constants/Colors';
-import BackButton from '@/components/standard_ui/buttons/BackButton';
-import { getDashboardRouteForRole, normalizeUserRole, UserRole } from '@/constants/Routes';
+import LoginScreen from "./screens/auth/LoginScreen";
+import RegisterGeneralScreen from "./screens/auth/RegisterGeneralScreen";
+import RegisterDocumentsScreen from "./screens/auth/RegisterDocumentsScreen";
+import RegisterPasswordScreen from "./screens/auth/RegisterPasswordScreen";
+import CompletePayrollScreen from "./screens/auth/CompletePayrollScreen";
+import ReviewScreen from "./screens/auth/ReviewScreen";
+import RegisterEmployerScreen from "./screens/auth/RegisterEmployerScreen";
+import RegisterSsoScreen from "./screens/auth/RegisterSsoScreen";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Colors } from "@/constants/Colors";
+import BackButton from "@/components/standard_ui/buttons/BackButton";
+import {
+  getDashboardRouteForRole,
+  normalizeUserRole,
+  UserRole,
+} from "@/constants/Routes";
 
-type AuthStep = 'login' | 'register_sso' | 'register_general' | 'register_employer' | 'register_documents' | 'register_password' | 'complete_payroll' | 'review';
+type AuthStep =
+  | "login"
+  | "register_sso"
+  | "register_general"
+  | "register_employer"
+  | "register_documents"
+  | "register_password"
+  | "complete_payroll"
+  | "review";
 
 export default function AuthFlow() {
   const router = useRouter();
   const params = useLocalSearchParams();
-  const initialStep = (params.step as AuthStep) || 'login';
+  const initialStep = (params.step as AuthStep) || "login";
 
   const [step, setStep] = useState<AuthStep>(initialStep);
   const [role, setRole] = useState<UserRole>(normalizeUserRole(params.role));
+
+  const currentStep = params?.currentStep as AuthStep;
+
+  useEffect(() => {
+    if (currentStep) {
+      setStep(currentStep);
+    }
+  }, [currentStep]);
 
   useEffect(() => {
     setRole(normalizeUserRole(params.role));
@@ -41,7 +61,9 @@ export default function AuthFlow() {
   };
 
   const goToPostRegistrationRoute = () => {
-    const returnTo = Array.isArray(params.returnTo) ? params.returnTo[0] : params.returnTo;
+    const returnTo = Array.isArray(params.returnTo)
+      ? params.returnTo[0]
+      : params.returnTo;
 
     if (returnTo) {
       router.replace(returnTo as any);
@@ -53,105 +75,112 @@ export default function AuthFlow() {
 
   // Go back to the previous screen in the flow
   const handleBack = () => {
-    if (step === 'register_sso' || step === 'register_employer') {
-      setStep('login');
-    } else if (step === 'register_general') {
-      setStep(role === 'worker' ? 'register_sso' : 'login');
-    } else if (step === 'register_documents') {
-      setStep('register_general');
-    } else if (step === 'register_password') {
-      setStep('register_documents');
-    } else if (step === 'complete_payroll' || step === 'review') {
-      setStep('login');
+    if (step === "register_sso" || step === "register_employer") {
+      setStep("login");
+    } else if (step === "register_general") {
+      setStep(role === "worker" ? "register_sso" : "login");
+    } else if (step === "register_documents") {
+      setStep("register_general");
+    } else if (step === "register_password") {
+      setStep("register_documents");
+    } else if (step === "complete_payroll" || step === "review") {
+      setStep("login");
     } else {
       router.back();
     }
   };
 
   const renderActiveScreen = () => {
-    if (role === 'employer' && (step === 'register_general' || step === 'register_employer')) {
+    if (
+      role === "employer" &&
+      (step === "register_general" || step === "register_employer")
+    ) {
       return (
         <RegisterEmployerScreen
           onContinue={(data) => {
-            console.log('Employer register data:', data);
-            setStep('complete_payroll');
+            console.log("Employer register data:", data);
+            setStep("complete_payroll");
           }}
-          onLoginPress={() => setStep('login')}
+          onLoginPress={() => setStep("login")}
         />
       );
     }
 
     switch (step) {
-      case 'login':
+      case "login":
         return (
           <LoginScreen
             role={role}
-            onRegisterPress={() => setStep(role === 'employer' ? 'register_employer' : 'register_sso')}
+            onRegisterPress={() =>
+              setStep(
+                role === "employer" ? "register_employer" : "register_sso",
+              )
+            }
             onLoginPress={goToRoleDashboard}
           />
         );
-      case 'register_sso':
+      case "register_sso":
         return (
           <RegisterSsoScreen
             onContinue={(provider) => {
-              console.log('Worker SSO provider:', provider);
-              setStep('register_general');
+              console.log("Worker SSO provider:", provider);
+              setStep("register_general");
             }}
-            onLoginPress={() => setStep('login')}
+            onLoginPress={() => setStep("login")}
           />
         );
-      case 'register_general':
+      case "register_general":
         return (
           <RegisterGeneralScreen
             role={role}
             onContinue={(data) => {
-              console.log('General register data:', data);
-              setStep('register_documents');
+              console.log("General register data:", data);
+              setStep("register_documents");
             }}
-            onLoginPress={() => setStep('login')}
+            onLoginPress={() => setStep("login")}
           />
         );
-      case 'register_documents':
+      case "register_documents":
         return (
           <RegisterDocumentsScreen
             role={role}
             onContinue={(docs) => {
-              console.log('Uploaded documents:', docs);
-              setStep('register_password');
+              console.log("Uploaded documents:", docs);
+              setStep("register_password");
             }}
           />
         );
-      case 'register_password':
+      case "register_password":
         return (
           <RegisterPasswordScreen
             role={role}
             onComplete={(password) => {
-              console.log('Password complete registration');
-              if (role === 'employer') {
-                setStep('review');
+              console.log("Password complete registration");
+              if (role === "employer") {
+                setStep("review");
               } else {
-                setStep('complete_payroll');
+                setStep("complete_payroll");
               }
             }}
           />
         );
-      case 'complete_payroll':
+      case "complete_payroll":
         return (
           <CompletePayrollScreen
             onComplete={() => {
-              if (role === 'employer') {
-                setStep('review');
+              if (role === "employer") {
+                setStep("review");
               } else {
                 goToPostRegistrationRoute();
               }
             }}
           />
         );
-      case 'review':
+      case "review":
         return (
           <ReviewScreen
             onBackToLogin={() => {
-              setStep('login');
+              setStep("login");
             }}
           />
         );
@@ -159,28 +188,45 @@ export default function AuthFlow() {
         return (
           <LoginScreen
             role={role}
-            onRegisterPress={() => setStep(role === 'employer' ? 'register_employer' : 'register_sso')}
+            onRegisterPress={() =>
+              setStep(
+                role === "employer" ? "register_employer" : "register_sso",
+              )
+            }
             onLoginPress={goToRoleDashboard}
           />
         );
     }
   };
 
-  const showHeader = step !== 'complete_payroll' && step !== 'review' && step !== 'login' && step !== 'register_general' && step !== 'register_sso';
+  const showHeader =
+    step !== "complete_payroll" &&
+    step !== "review" &&
+    step !== "login" &&
+    step !== "register_general" &&
+    step !== "register_sso";
 
   return (
-    <KeyboardAvoidingView 
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={{ flex: 1, backgroundColor: 'white' }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      style={{ flex: 1, backgroundColor: "white" }}
     >
-      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={['bottom']}>
+      <SafeAreaView
+        style={{ flex: 1, backgroundColor: "white" }}
+        edges={["bottom"]}
+      >
         {/* Top Mini-Navigation Bar */}
         {showHeader && (
-          <View className="flex-row items-center justify-between px-4 pt-16" style={{backgroundColor: Colors.common.BRAND}}>
-            <BackButton onPress={handleBack} textStyle={{
-              color: Colors.common.WHITE
-            }} 
-            iconColor={Colors.common.WHITE}
+          <View
+            className="flex-row items-center justify-between px-4 pt-16"
+            style={{ backgroundColor: Colors.common.BRAND }}
+          >
+            <BackButton
+              onPress={handleBack}
+              textStyle={{
+                color: Colors.common.WHITE,
+              }}
+              iconColor={Colors.common.WHITE}
             />
           </View>
         )}

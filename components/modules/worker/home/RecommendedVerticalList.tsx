@@ -60,7 +60,10 @@ export default function RecommendedVerticalList({
             job={job}
             handleViewDetails={handleViewDetails}
             handleApply={() => {
-              router.push("/screens/auth/RegisterGeneralScreen");
+              router.push({
+                pathname: "/auth",
+                params: { role: "worker", step: "register_sso" },
+              });
             }}
           />
         ))}

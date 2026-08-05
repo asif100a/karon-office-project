@@ -4,7 +4,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import SearchAndFilterInput from "@/components/modules/common/job/SearchAndFilterInput";
 import MyJobToggleChips from "@/components/modules/worker/my-jobs/MyJobToggleChips";
 import JobsList from "@/components/modules/worker/my-jobs/JobsList";
-import CommonHeader from "@/components/modules/common/CommonHeader";
 import ScreenWrapper from "@/components/layout/ScreenWrapper";
 import { Headphones } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
