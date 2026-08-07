@@ -150,29 +150,6 @@ export default function RatingFeedbackScreen() {
             Write Review
           </Text>
         </TouchableOpacity>
-
-        <View className="gap-3">
-          {/* {visibleReviews.map((review, index) => (
-            <Card key={`${review.name}-${index}`} className="p-4">
-              <View className="flex-row items-start gap-3">
-                <Avatar uri={review.image} size={32} />
-                <View className="flex-1">
-                  <View className="flex-row items-start justify-between">
-                    <View>
-                      <Text className="text-neutral-900 text-sm font-semibold">{review.name}</Text>
-                      <View className="flex-row items-center gap-1 mt-1">
-                        <Star size={11} color="#FBC02D" fill="#FBC02D" />
-                        <Text className="text-neutral-700 text-xs font-semibold">{review.rating}</Text>
-                      </View>
-                    </View>
-                    <Text className="text-neutral-400 text-xs">{review.date}</Text>
-                  </View>
-                  <Text className="text-neutral-700 text-sm mt-3">{review.feedback}</Text>
-                </View>
-              </View>
-            </Card>
-          ))} */}
-        </View>
       </ScrollView>
 
       {/* Review Modal */}

@@ -14,6 +14,7 @@ const TRADE_SKILL_OPTIONS = [
 ];
 
 const RATE_OPTIONS = [
+  "£0 to £100",
   "£100 to £200",
   "£200 to £300",
   "£300 to £400",
