@@ -40,15 +40,15 @@ export function ProfileHeader({
       navigateBack();
       return;
     }
-    if (originRoute === "employer") {
-      router.replace("/tabs/(employer-tabs)/profile");
-      return;
-    }
+    // if (originRoute === "employer") {
+    //   router.replace("/tabs/(employer-tabs)/profile");
+    //   return;
+    // }
 
-    if (originRoute === "worker") {
-      router.replace("/tabs/(worker-tabs)/profile");
-      return;
-    }
+    // if (originRoute === "worker") {
+    //   router.replace("/tabs/(worker-tabs)/profile");
+    //   return;
+    // }
 
     router.back();
   };

@@ -6,15 +6,15 @@ import { ChevronLeft } from "lucide-react-native";
 
 export default function ChatHeader({ origin }: { origin?: string }) {
   const handleBackPress = () => {
-    if (origin === "employer") {
-      router.replace("/tabs/(employer-tabs)/chats" as any);
-      return;
-    }
+    // if (origin === "employer") {
+    //   router.replace("/tabs/(employer-tabs)/chats" as any);
+    //   return;
+    // }
 
-    if (origin === "worker") {
-      router.replace("/tabs/(worker-tabs)/chats" as any);
-      return;
-    }
+    // if (origin === "worker") {
+    //   router.replace("/tabs/(worker-tabs)/chats" as any);
+    //   return;
+    // }
 
     router.back();
   };
