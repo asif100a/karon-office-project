@@ -62,8 +62,8 @@ export default function LoginScreen({ role, onRegisterPress, onLoginPress }: Log
       bounces={false}
     >
       {/* Orange Header Section */}
-      <View className="bg-[#FF5500] pb-10 pt-16 px-6 items-start justify-end min-h-[220px]">
-        <View className="mb-4">
+      <View className="bg-[#FF5500] pb-10 pt-16 px-6 min-h-[220px]">
+        <View className="mb-4 justify-center items-center">
           <LogoWhite />
         </View>
         <Text className="text-white text-3xl font-bold tracking-tight">

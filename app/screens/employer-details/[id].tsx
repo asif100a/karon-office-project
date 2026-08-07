@@ -1,10 +1,13 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import type { ReactNode } from "react";
+import { ArrowLeft, Bookmark } from "lucide-react-native";
 import {
-  ArrowLeft,
-  Bookmark,
-} from "lucide-react-native";
-import { Platform, ScrollView, Text, TouchableOpacity, View } from "react-native";
+  Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import type { Region } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StickyActions from "@/components/modules/employer/employer-details/StickyActions";
@@ -13,6 +16,9 @@ import JobOverviewSection from "@/components/modules/employer/employer-details/J
 import MapFallback from "@/components/modules/employer/employer-details/_ui/MapFallback";
 import { EmployerJobDetails } from "@/types";
 import { StatusBar } from "expo-status-bar";
+import CommonHeader from "@/components/modules/common/CommonHeader";
+import { Colors } from "@/constants/Colors";
+import BackButton from "@/components/standard_ui/buttons/BackButton";
 
 type NativeMapComponents = {
   MapView: typeof import("react-native-maps").default;
@@ -49,7 +55,7 @@ const JOB_DETAILS_BY_ID: Record<string, EmployerJobDetails> = {
   "5": {
     ...DEFAULT_JOB_DETAILS,
     title: "Graphic Designer",
-    payRate: '90',
+    payRate: "90",
     tag: "Competitive Rate",
     location: "Soho \u2022 2.5 mi away",
     team: "1 designer",
@@ -70,7 +76,8 @@ function getNativeMapComponents(): NativeMapComponents | null {
   }
 
   try {
-    const maps = require("react-native-maps") as typeof import("react-native-maps");
+    const maps =
+      require("react-native-maps") as typeof import("react-native-maps");
     return { MapView: maps.default, Marker: maps.Marker };
   } catch {
     return null;
@@ -99,8 +106,12 @@ function TradeSkillSection({ value }: { value: string }) {
 function RequirementsSection({ value }: { value: string }) {
   return (
     <View className="mb-6 rounded-2xl border border-neutral-200/80 bg-white p-4">
-      <Text className="mb-3 text-base font-extrabold text-neutral-900">Requirements</Text>
-      <Text className="text-sm font-medium leading-relaxed text-neutral-600">{value}</Text>
+      <Text className="mb-3 text-base font-extrabold text-neutral-900">
+        Requirements
+      </Text>
+      <Text className="text-sm font-medium leading-relaxed text-neutral-600">
+        {value}
+      </Text>
     </View>
   );
 }
@@ -136,61 +147,58 @@ export default function EmployerDetailsScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }} edges={["bottom"]}>      
-      {/* Status Bar */}
-      <StatusBar style="dark" />
-      
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "white" }}
+      edges={["bottom"]}
+    >
       <ScrollView
         className="flex-1"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 160 }}
       >
-        {/* Map Header */}
-        <View className="relative h-56 w-full overflow-hidden bg-slate-100">
-          {NativeMapView && NativeMarker ? (
-            <NativeMapView
-              style={{ flex: 1 }}
-              initialRegion={JOB_COORDINATES}
-              region={JOB_COORDINATES}
-              scrollEnabled={false}
-              zoomEnabled={false}
-              rotateEnabled={false}
-              pitchEnabled={false}
-              toolbarEnabled={false}
-            >
-              <NativeMarker coordinate={JOB_COORDINATES} />
-            </NativeMapView>
-          ) : (
-            <MapFallback />
-          )}
+        <View
+          style={{ backgroundColor: Colors.common.BRAND }}
+          className="pt-12 pb-3 px-6"
+        >
+          <View className="flex-row items-center justify-between">
+             <BackButton title="Employer Details" textStyle={{fontSize: 18, fontWeight: "600"}} />
 
-          <View className="absolute inset-x-0 top-8 px-6 pb-6 pt-4">
-            <View className="flex-row items-center justify-between">
-              <View className="flex-row items-center gap-3">
-                <TouchableOpacity
-                  onPress={handleBackPress}
-                  className="h-11 w-11 items-center justify-center rounded-full bg-white/95 active:opacity-75"
-                >
-                  <ArrowLeft size={20} color="#171717" />
-                </TouchableOpacity>
-
-                <Text className="text-[18px] font-extrabold text-neutral-900">
-                  Employer Details
-                </Text>
-              </View>
-
-              <TouchableOpacity className="h-11 w-11 items-center justify-center rounded-2xl bg-neutral-900 active:opacity-85">
-                <Bookmark size={18} color="#FFFFFF" />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity className="h-11 w-11 items-center justify-center rounded-2xl bg-neutral-900 active:opacity-85">
+              <Bookmark size={18} color="#FFFFFF" />
+            </TouchableOpacity>
           </View>
         </View>
+        {/* <CommonHeader /> */}
 
         <View className="px-6">
           <JobSummaryCard jobDetails={jobDetails} />
           <TradeSkillSection value={jobDetails.tradeSkill} />
           <JobOverviewSection jobDetails={jobDetails} />
           <RequirementsSection value={jobDetails.requirements} />
+
+          <View className="mb-8">
+            <SectionLabel>Location</SectionLabel>
+            <View className="overflow-hidden rounded-2xl border border-neutral-200/80 bg-slate-100">
+              <View className="h-56 w-full">
+                {NativeMapView && NativeMarker ? (
+                  <NativeMapView
+                    style={{ flex: 1 }}
+                    initialRegion={JOB_COORDINATES}
+                    region={JOB_COORDINATES}
+                    scrollEnabled={false}
+                    zoomEnabled={false}
+                    rotateEnabled={false}
+                    pitchEnabled={false}
+                    toolbarEnabled={false}
+                  >
+                    <NativeMarker coordinate={JOB_COORDINATES} />
+                  </NativeMapView>
+                ) : (
+                  <MapFallback />
+                )}
+              </View>
+            </View>
+          </View>
         </View>
       </ScrollView>
 

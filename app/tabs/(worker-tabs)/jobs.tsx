@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
-import {
-  ChevronRight,
-} from "lucide-react-native";
+import { ChevronRight } from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 import ScreenHeader from "@/components/layout/ScreenHeader";
 import TappableSearchTriggerBar from "@/components/modules/worker/offers/TappableSearchTriggerBar";
 import CategoryToggles from "@/components/modules/worker/offers/CategoryToggles";
 import VerticalJobListings from "@/components/modules/worker/offers/VerticalJobListings";
 import ScreenWrapper from "@/components/layout/ScreenWrapper";
+import VerticalOfferListings from "@/components/modules/worker/offers/VerticalOfferListings";
 
 export default function WorkerJobsTabLanding() {
   const router = useRouter();
@@ -26,6 +25,10 @@ export default function WorkerJobsTabLanding() {
 
   const handleViewDetails = (id: string) => {
     router.push(`/screens/employer-details/${id}` as any);
+  };
+
+  const handleAcceptOffer = (id: string) => {
+    console.log("Accepting offer:", id);
   };
 
   return (
@@ -67,7 +70,14 @@ export default function WorkerJobsTabLanding() {
         </View>
 
         {/* Vertical Job Listings */}
-        <VerticalJobListings handleViewDetails={handleViewDetails} />
+        {activeCategory === "browse" ? (
+          <VerticalJobListings handleViewDetails={handleViewDetails} />
+        ) : (
+          <VerticalOfferListings
+            handleViewDetails={handleViewDetails}
+            handleAcceptOffer={handleAcceptOffer}
+          />
+        )}
       </ScrollView>
     </ScreenWrapper>
   );

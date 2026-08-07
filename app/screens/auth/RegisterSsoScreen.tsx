@@ -22,8 +22,8 @@ export default function RegisterSsoScreen({
       contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
       bounces={false}
     >
-      <View className="bg-[#FF5500] pb-10 pt-16 px-6 items-start justify-end">
-        <View className="mb-4">
+      <View className="bg-[#FF5500] pb-10 pt-16 px-6">
+        <View className="mb-4 justify-center items-center">
           <LogoWhite />
         </View>
         <Text className="text-white text-3xl font-bold tracking-tight">

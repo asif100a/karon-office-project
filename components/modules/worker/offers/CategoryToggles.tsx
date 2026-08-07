@@ -20,10 +20,10 @@ export default function CategoryToggles({
             ? { backgroundColor: Colors.common.GRAY_DARK }
             : { backgroundColor: "#ffffff" }
         }
-        className={`px-5 py-3.5 rounded-xl ${activeCategory === "browse" ? "" : "border border-neutral-200/60"}`}
+        className={`px-4 py-3 rounded-xl ${activeCategory === "browse" ? "" : "border border-neutral-200/60"}`}
       >
         <Text
-          className={`min-w-[120px] text-xs font-bold ${activeCategory === "browse" ? "text-white" : "text-neutral-500"}`}
+          className={`min-w-[120px] text-center text-xs font-bold ${activeCategory === "browse" ? "text-white" : "text-neutral-500"}`}
         >
           Browse Opportunities
         </Text>
@@ -38,7 +38,7 @@ export default function CategoryToggles({
             ? { backgroundColor: Colors.common.GRAY_DARK }
             : { backgroundColor: "#ffffff" }
         }
-        className={`px-5 py-3.5 rounded-xl ${activeCategory === "offers" ? "" : "border border-neutral-200/60"}`}
+        className={`px-4 py-3 rounded-xl ${activeCategory === "offers" ? "" : "border border-neutral-200/60"}`}
       >
         <Text
           className={`text-xs font-bold ${activeCategory === "offers" ? "text-white" : "text-neutral-500"}`}
