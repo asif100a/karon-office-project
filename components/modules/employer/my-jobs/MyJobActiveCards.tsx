@@ -6,7 +6,7 @@ import AvatarStack from "./_ui/AvatarStack";
 
 export default function MyJobActiveCards({
   filteredJobs,
-  openJobDetails
+  openJobDetails,
 }: {
   filteredJobs: any[];
   openJobDetails: (id: string) => void;
@@ -14,12 +14,7 @@ export default function MyJobActiveCards({
   return (
     <>
       {filteredJobs.map((job) => (
-        <TouchableOpacity
-          key={job.id}
-          onPress={() => openJobDetails(job.id)}
-          activeOpacity={0.9}
-          className="bg-white rounded-xl overflow-hidden"
-        >
+        <View key={job.id} className="bg-white rounded-xl overflow-hidden">
           <View className="px-4 pt-4 pb-3">
             <View className="flex-row items-start justify-between">
               <View className="flex-row items-center gap-3 flex-1 pr-3">
@@ -72,6 +67,7 @@ export default function MyJobActiveCards({
 
             <TouchableOpacity
               onPress={() => openJobDetails(job.id)}
+              activeOpacity={0.9}
               style={{ backgroundColor: Colors.common.GRAY_DARK }}
               className="px-4 py-2 rounded-md active:opacity-90"
             >
@@ -80,7 +76,7 @@ export default function MyJobActiveCards({
               </Text>
             </TouchableOpacity>
           </View>
-        </TouchableOpacity>
+        </View>
       ))}
     </>
   );

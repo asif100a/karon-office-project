@@ -267,6 +267,7 @@ export default function EmployerMyJobsScreen() {
         <SearchAndFilterInput
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
+          shouldHideFilters
         />
 
         <MyJobToggleChips activeTab={activeTab} setActiveTab={setActiveTab} />
