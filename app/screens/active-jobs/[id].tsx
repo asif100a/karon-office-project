@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { Headphones } from "lucide-react-native";
@@ -65,18 +65,6 @@ export default function ActiveJobDetailScreen() {
   };
 
   const handleNavigateBack = () => {
-    // if (originRoute === "employer") {
-    //   router.push({
-    //     pathname: "/tabs/(employer-tabs)/my-jobs",
-    //   });
-    //   return;
-    // }
-    // if (originRoute === "worker") {
-    //   router.push({
-    //     pathname: "/tabs/(worker-tabs)/my-jobs",
-    //   });
-    //   return;
-    // }
     router.back();
   };
 
