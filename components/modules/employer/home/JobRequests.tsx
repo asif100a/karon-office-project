@@ -39,10 +39,8 @@ export default function JobRequests({
 
       <View className="gap-4">
         {JOB_REQUESTS.map((job) => (
-          <TouchableOpacity
+          <View
             key={job.id}
-            onPress={() => openWorkerDetails(job.id)}
-            activeOpacity={0.9}
             className="bg-white rounded-xl border border-neutral-200/80 overflow-hidden"
           >
             <View className="px-4 pt-4 pb-3">
@@ -94,7 +92,10 @@ export default function JobRequests({
               </View>
 
               <View className="flex-row items-center gap-3">
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => openWorkerDetails(job.id)}
+                  activeOpacity={0.9}
+                >
                   <Text className="min-w-20 text-neutral-700 text-xs font-medium">
                     View Details
                   </Text>
@@ -104,7 +105,7 @@ export default function JobRequests({
                 </TouchableOpacity>
               </View>
             </View>
-          </TouchableOpacity>
+          </View>
         ))}
       </View>
     </View>

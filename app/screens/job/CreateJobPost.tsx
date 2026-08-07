@@ -55,14 +55,14 @@ export default function CreateJobPostScreen() {
   };
 
   const onBackPress = () => {
-    if (origin === "worker") {
-      router.replace("/tabs/(worker-tabs)" as any);
-      return;
-    }
-    if (origin === "employer") {
-      router.replace("/tabs/(employer-tabs)" as any);
-      return;
-    }
+    // if (origin === "worker") {
+    //   router.replace("/tabs/(worker-tabs)" as any);
+    //   return;
+    // }
+    // if (origin === "employer") {
+    //   router.replace("/tabs/(employer-tabs)" as any);
+    //   return;
+    // }
 
     router.back();
   };

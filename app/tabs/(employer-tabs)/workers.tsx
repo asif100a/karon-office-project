@@ -1,7 +1,14 @@
 import React from "react";
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import { useRouter } from "expo-router";
-import { Bell, Search, SlidersHorizontal, Bookmark, MapPin, Clock } from "lucide-react-native";
+import {
+  Bell,
+  Search,
+  SlidersHorizontal,
+  Bookmark,
+  MapPin,
+  Clock,
+} from "lucide-react-native";
 import { Colors } from "@/constants/Colors";
 import ScreenHeader from "@/components/layout/ScreenHeader";
 import ScreenWrapper from "@/components/layout/ScreenWrapper";
@@ -48,7 +55,7 @@ export default function EmployerWorkersScreen() {
       pathname: "/screens/search/SearchWorker",
       params: { origin: "employer" },
     });
-  }
+  };
 
   return (
     <ScreenWrapper>
@@ -66,7 +73,9 @@ export default function EmployerWorkersScreen() {
             className="flex-1 flex-row items-center bg-white border border-neutral-200/80 rounded-xl px-4 py-3"
           >
             <Search size={18} color="#A3A3A3" className="mr-2" />
-            <Text className="flex-1 text-neutral-400 text-sm font-medium">Search Offers</Text>
+            <Text className="flex-1 text-neutral-400 text-sm font-medium">
+              Search Offers
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity className="w-12 h-12 bg-white border border-neutral-200/80 rounded-xl items-center justify-center active:opacity-85">
             <SlidersHorizontal size={18} color="#333333" />
@@ -74,9 +83,14 @@ export default function EmployerWorkersScreen() {
         </View>
 
         <View className="flex-row justify-between items-center mt-6 mb-4">
-          <Text className="text-neutral-950 text-[18px] font-semibold">Search Result</Text>
+          <Text className="text-neutral-950 text-[18px] font-semibold">
+            Search Result
+          </Text>
           <View className="bg-orange-50 px-2.5 py-1.5 rounded-md">
-            <Text style={{ color: Colors.common.BRAND }} className="text-xs font-medium">
+            <Text
+              style={{ color: Colors.common.BRAND }}
+              className="text-xs font-medium"
+            >
               28 Results
             </Text>
           </View>
@@ -84,22 +98,26 @@ export default function EmployerWorkersScreen() {
 
         <View className="gap-4">
           {WORKERS.map((worker) => (
-            <TouchableOpacity
+            <View
               key={worker.id}
-              onPress={() => openWorkerDetails(worker.id)}
-              activeOpacity={0.9}
               className="bg-white rounded-xl overflow-hidden"
             >
               <View className="px-4 pt-4 pb-3">
                 <View className="flex-row items-start justify-between">
                   <View className="flex-row items-center gap-3 flex-1 pr-3">
                     <Image
-                      source={{ uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop" }}
+                      source={{
+                        uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+                      }}
                       className="w-11 h-11 rounded-full"
                     />
                     <View className="flex-1">
-                      <Text className="text-neutral-950 text-base font-bold">{worker.name}</Text>
-                      <Text className="text-neutral-500 text-sm">{worker.role}</Text>
+                      <Text className="text-neutral-950 text-base font-bold">
+                        {worker.name}
+                      </Text>
+                      <Text className="text-neutral-500 text-sm">
+                        {worker.role}
+                      </Text>
                     </View>
                   </View>
 
@@ -111,25 +129,38 @@ export default function EmployerWorkersScreen() {
                 <View className="pt-4 mt-4 border-t border-neutral-100 gap-2.5">
                   <View className="flex-row items-center gap-2">
                     <MapPin size={14} color="#C81E1E" />
-                    <Text className="text-neutral-500 text-xs">{worker.location}</Text>
+                    <Text className="text-neutral-500 text-xs">
+                      {worker.location}
+                    </Text>
                   </View>
                   <View className="flex-row items-center gap-2">
                     <Clock size={14} color="#737373" />
-                    <Text className="text-neutral-500 text-xs">{worker.availability}</Text>
+                    <Text className="text-neutral-500 text-xs">
+                      {worker.availability}
+                    </Text>
                   </View>
                 </View>
               </View>
 
               <View className="flex-row items-center justify-between px-4 pb-4">
                 <View className="bg-orange-50 px-3 py-1.5 rounded-md">
-                  <Text style={{ color: Colors.common.BRAND }} className="text-xs font-medium">
+                  <Text
+                    style={{ color: Colors.common.BRAND }}
+                    className="text-xs font-medium"
+                  >
                     {worker.badge}
                   </Text>
                 </View>
 
                 <View className="flex-row items-center gap-3">
-                  <TouchableOpacity>
-                    <Text className="text-neutral-700 text-xs font-medium" numberOfLines={1}>
+                  <TouchableOpacity
+                    onPress={() => openWorkerDetails(worker.id)}
+                    activeOpacity={0.9}
+                  >
+                    <Text
+                      className="text-neutral-700 text-xs font-medium"
+                      numberOfLines={1}
+                    >
                       View Details
                     </Text>
                   </TouchableOpacity>
@@ -146,7 +177,7 @@ export default function EmployerWorkersScreen() {
                   </TouchableOpacity>
                 </View>
               </View>
-            </TouchableOpacity>
+            </View>
           ))}
         </View>
       </ScrollView>
