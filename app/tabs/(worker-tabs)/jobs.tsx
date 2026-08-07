@@ -27,6 +27,13 @@ export default function WorkerJobsTabLanding() {
     router.push(`/screens/employer-details/${id}` as any);
   };
 
+  const handleApply = () => {
+    router.push({
+      pathname: "/auth",
+      params: { role: "worker", step: "register_sso" },
+    });
+  };
+
   const handleAcceptOffer = (id: string) => {
     console.log("Accepting offer:", id);
   };
@@ -71,7 +78,10 @@ export default function WorkerJobsTabLanding() {
 
         {/* Vertical Job Listings */}
         {activeCategory === "browse" ? (
-          <VerticalJobListings handleViewDetails={handleViewDetails} />
+          <VerticalJobListings
+            handleViewDetails={handleViewDetails}
+            handleApply={handleApply}
+          />
         ) : (
           <VerticalOfferListings
             handleViewDetails={handleViewDetails}

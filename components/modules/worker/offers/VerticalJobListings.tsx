@@ -31,8 +31,10 @@ const MOCK_FEATURED_JOBS = [
 
 export default function VerticalJobListings({
   handleViewDetails,
+  handleApply,
 }: {
   handleViewDetails: (id: string) => void;
+  handleApply: () => void;
 }) {
   return (
     <View className="gap-4">
@@ -41,6 +43,7 @@ export default function VerticalJobListings({
           key={job.id}
           job={job}
           handleViewDetails={handleViewDetails}
+          handleApply={handleApply}
         />
       ))}
     </View>

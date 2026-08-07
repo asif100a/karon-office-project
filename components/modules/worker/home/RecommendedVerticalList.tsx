@@ -41,6 +41,13 @@ export default function RecommendedVerticalList({
 }: {
   handleViewDetails: (id: string) => void;
 }) {
+  const handleApply = () => {
+    router.push({
+      pathname: "/auth",
+      params: { role: "worker", step: "register_sso" },
+    });
+  };
+
   return (
     <View className="mt-8">
       <View className="flex-row justify-between items-center mb-4">
@@ -59,12 +66,7 @@ export default function RecommendedVerticalList({
             key={job.id}
             job={job}
             handleViewDetails={handleViewDetails}
-            handleApply={() => {
-              router.push({
-                pathname: "/auth",
-                params: { role: "worker", step: "register_sso" },
-              });
-            }}
+            handleApply={handleApply}
           />
         ))}
       </View>
