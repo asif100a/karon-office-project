@@ -73,6 +73,14 @@ export default function AuthFlow() {
     goToRoleDashboard();
   };
 
+  const goToRegisterForCurrentRole = () => {
+    const currentRole = params.role ? normalizeUserRole(params.role) : role;
+    setRole(currentRole);
+    setStep(
+      currentRole === "employer" ? "register_employer" : "register_sso",
+    );
+  };
+
   // Go back to the previous screen in the flow
   const handleBack = () => {
     if (step === "register_sso" || step === "register_employer") {
@@ -111,19 +119,15 @@ export default function AuthFlow() {
         return (
           <LoginScreen
             role={role}
-            onRegisterPress={() =>
-              setStep(
-                role === "employer" ? "register_employer" : "register_sso",
-              )
-            }
+            onRegisterPress={goToRegisterForCurrentRole}
             onLoginPress={goToRoleDashboard}
           />
         );
       case "register_sso":
         return (
           <RegisterSsoScreen
-            onContinue={(provider) => {
-              console.log("Worker SSO provider:", provider);
+            onContinue={(data) => {
+              console.log("Worker registration data:", data);
               setStep("register_general");
             }}
             onLoginPress={() => setStep("login")}
@@ -188,11 +192,7 @@ export default function AuthFlow() {
         return (
           <LoginScreen
             role={role}
-            onRegisterPress={() =>
-              setStep(
-                role === "employer" ? "register_employer" : "register_sso",
-              )
-            }
+            onRegisterPress={goToRegisterForCurrentRole}
             onLoginPress={goToRoleDashboard}
           />
         );

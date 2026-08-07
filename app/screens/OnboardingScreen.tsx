@@ -32,7 +32,10 @@ export default function OnboardingScreen() {
   };
 
   const navigateToEmployer = () => {
-    router.replace({ pathname: '/auth', params: { role: 'employer' } });
+    router.replace({
+      pathname: '/auth',
+      params: { role: 'employer', step: 'login' },
+    });
   };
 
   return (

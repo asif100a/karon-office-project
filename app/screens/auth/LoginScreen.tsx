@@ -1,11 +1,15 @@
-import React from 'react';
-import { View, TouchableOpacity, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
-import { Text } from '@/components/ui/text';
-import LogoWhite from '@/assets/icons/LogoWhite';
-import { useForm } from 'react-hook-form';
-import StandardInputField from '@/components/standard_ui/form_fields/StandardInputField';
-import { getDashboardRouteForRole, normalizeUserRole, UserRole } from '@/constants/Routes';
+import React from "react";
+import { View, TouchableOpacity, ScrollView } from "react-native";
+import { useRouter } from "expo-router";
+import { Text } from "@/components/ui/text";
+import LogoWhite from "@/assets/icons/LogoWhite";
+import { useForm } from "react-hook-form";
+import StandardInputField from "@/components/standard_ui/form_fields/StandardInputField";
+import {
+  getDashboardRouteForRole,
+  normalizeUserRole,
+  UserRole,
+} from "@/constants/Routes";
 
 interface LoginScreenProps {
   role?: UserRole;
@@ -13,15 +17,19 @@ interface LoginScreenProps {
   onLoginPress?: (email: string) => void;
 }
 
-export default function LoginScreen({ role, onRegisterPress, onLoginPress }: LoginScreenProps) {
+export default function LoginScreen({
+  role,
+  onRegisterPress,
+  onLoginPress,
+}: LoginScreenProps) {
   const router = useRouter();
   const activeRole = normalizeUserRole(role);
-  
+
   const { control, handleSubmit } = useForm({
     defaultValues: {
-      email: 'sl@gb.so',
-      password: '123456',
-    }
+      email: "",
+      password: "",
+    },
   });
 
   const onSubmit = (data: any) => {
@@ -34,7 +42,7 @@ export default function LoginScreen({ role, onRegisterPress, onLoginPress }: Log
 
   const handleSsoLogin = () => {
     if (onLoginPress) {
-      onLoginPress('');
+      onLoginPress("");
     } else {
       router.replace(getDashboardRouteForRole(activeRole));
     }
@@ -45,24 +53,25 @@ export default function LoginScreen({ role, onRegisterPress, onLoginPress }: Log
       onRegisterPress();
     } else {
       router.push({
-        pathname: '/auth',
+        pathname: "/auth",
         params: {
-          step: activeRole === 'employer' ? 'register_employer' : 'register_sso',
+          step:
+            activeRole === "employer" ? "register_employer" : "register_sso",
           role: activeRole,
         },
       });
     }
   };
-
+  
   return (
-    <ScrollView 
-      className="flex-1 bg-white" 
+    <ScrollView
+      className="flex-1 bg-white"
       contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
       keyboardShouldPersistTaps="handled"
       bounces={false}
     >
       {/* Orange Header Section */}
-      <View className="bg-[#FF5500] pb-10 pt-16 px-6 min-h-[220px]">
+      <View className="bg-[#FF5500] pb-10 pt-16 px-6">
         <View className="mb-4 justify-center items-center">
           <LogoWhite />
         </View>
@@ -105,9 +114,7 @@ export default function LoginScreen({ role, onRegisterPress, onLoginPress }: Log
             activeOpacity={0.9}
             className="w-full bg-[#1B2530] py-4 rounded-xl items-center justify-center shadow-sm"
           >
-            <Text className="text-white text-base font-semibold">
-              Login
-            </Text>
+            <Text className="text-white text-base font-semibold">Login</Text>
           </TouchableOpacity>
 
           <View className="gap-3">
@@ -142,7 +149,7 @@ export default function LoginScreen({ role, onRegisterPress, onLoginPress }: Log
 
           <View className="flex-row justify-center items-center">
             <Text className="text-neutral-800 text-sm font-medium">
-              Don't have an account?{' '}
+              Don't have an account?{" "}
             </Text>
             <TouchableOpacity onPress={handleRegister} activeOpacity={0.7}>
               <Text className="text-[#1B2530] text-sm font-bold underline">
