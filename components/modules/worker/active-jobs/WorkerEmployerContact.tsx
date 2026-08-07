@@ -6,7 +6,7 @@ export default function WorkerEmployerContact({jobDetails}: {jobDetails: any}) {
   return (
     <View className="bg-white rounded-xl p-5 border border-neutral-200/80 mb-6">
       <Text className="text-neutral-900 font-extrabold text-base mb-4">
-        Employer Contact
+        Employer
       </Text>
 
       <View className="flex-row items-center gap-3 mb-4">
@@ -23,7 +23,7 @@ export default function WorkerEmployerContact({jobDetails}: {jobDetails: any}) {
         </View>
       </View>
 
-      <View className="gap-2.5 pt-3 border-t border-neutral-50">
+      {/* <View className="gap-2.5 pt-3 border-t border-neutral-50">
         <View className="flex-row items-center gap-2.5">
           <Mail size={15} color="#858585" />
           <Text className="text-neutral-500 text-xs font-semibold">
@@ -36,7 +36,7 @@ export default function WorkerEmployerContact({jobDetails}: {jobDetails: any}) {
             {jobDetails.contactPhone}
           </Text>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 }

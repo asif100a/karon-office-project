@@ -1,10 +1,12 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import type { ReactNode } from "react";
-import { ArrowLeft, Bookmark } from "lucide-react-native";
+import { Bookmark, MapPin, ExternalLink } from "lucide-react-native";
 import {
+  Linking,
   Platform,
   ScrollView,
   Text,
+  Pressable,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -15,8 +17,6 @@ import JobSummaryCard from "@/components/modules/employer/employer-details/JobSu
 import JobOverviewSection from "@/components/modules/employer/employer-details/JobOverviewSection";
 import MapFallback from "@/components/modules/employer/employer-details/_ui/MapFallback";
 import { EmployerJobDetails } from "@/types";
-import { StatusBar } from "expo-status-bar";
-import CommonHeader from "@/components/modules/common/CommonHeader";
 import { Colors } from "@/constants/Colors";
 import BackButton from "@/components/standard_ui/buttons/BackButton";
 
@@ -146,6 +146,16 @@ export default function EmployerDetailsScreen() {
     } as any);
   };
 
+  const handleOpenGoogleMaps = async () => {
+    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${JOB_COORDINATES.latitude},${JOB_COORDINATES.longitude}`;
+
+    try {
+      await Linking.openURL(mapsUrl);
+    } catch {
+      // Best-effort fallback if the device blocks the direct open.
+    }
+  };
+
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: "white" }}
@@ -161,7 +171,10 @@ export default function EmployerDetailsScreen() {
           className="pt-12 pb-3 px-6"
         >
           <View className="flex-row items-center justify-between">
-             <BackButton title="Employer Details" textStyle={{fontSize: 18, fontWeight: "600"}} />
+            <BackButton
+              title="Employer Details"
+              textStyle={{ fontSize: 18, fontWeight: "600" }}
+            />
 
             <TouchableOpacity className="h-11 w-11 items-center justify-center rounded-2xl bg-neutral-900 active:opacity-85">
               <Bookmark size={18} color="#FFFFFF" />
@@ -196,6 +209,21 @@ export default function EmployerDetailsScreen() {
                 ) : (
                   <MapFallback />
                 )}
+
+                <View className="absolute inset-0 z-10 items-center justify-center">
+                  <View className="items-center gap-3">
+                    <MapPin size={34} color="#EF4444" fill="#EF4444" />
+                    <Pressable
+                      onPress={handleOpenGoogleMaps}
+                      className="flex-row items-center gap-2 rounded-full bg-white/95 px-3 py-2 shadow-lg border border-neutral-100"
+                    >
+                      <Text className="text-xs font-extrabold text-neutral-900">
+                        Open in Google Maps
+                      </Text>
+                      <ExternalLink size={14} color="#6B7280" />
+                    </Pressable>
+                  </View>
+                </View>
               </View>
             </View>
           </View>
