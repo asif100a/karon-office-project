@@ -20,6 +20,8 @@ import {
   UserRole,
 } from "@/constants/Routes";
 
+const WEB_ROLE_STORAGE_KEY = "site-source.active-role";
+
 type AuthStep =
   | "login"
   | "register_sso"
@@ -57,6 +59,9 @@ export default function AuthFlow() {
   }, [params.step]);
 
   const goToRoleDashboard = () => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(WEB_ROLE_STORAGE_KEY, role);
+    }
     router.replace(getDashboardRouteForRole(role));
   };
 

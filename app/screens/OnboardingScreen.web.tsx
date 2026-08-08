@@ -19,6 +19,8 @@ import {
 } from "lucide-react-native";
 import ONBOARDING_1 from "@/assets/images/onboarding/onboarding-1.png";
 
+const WEB_ROLE_STORAGE_KEY = "site-source.active-role";
+
 const BottomFade = () => (
   <View
     style={{
@@ -97,10 +99,16 @@ export default function OnboardingScreen() {
   const isDesktop = width >= 960;
 
   const navigateToWorker = () => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(WEB_ROLE_STORAGE_KEY, "worker");
+    }
     router.replace("/tabs/(worker-tabs)" as any);
   };
 
   const navigateToEmployer = () => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(WEB_ROLE_STORAGE_KEY, "employer");
+    }
     router.replace({
       pathname: "/auth",
       params: { role: "employer", step: "login" },
@@ -217,24 +225,7 @@ export default function OnboardingScreen() {
             >
               <BottomFade />
 
-              <View style={{ flex: 1, justifyContent: "space-between" }}>
-                <View
-                  style={{
-                    paddingTop: isDesktop ? 52 : 28,
-                    paddingHorizontal: isDesktop ? 44 : 24,
-                    alignItems: "flex-end",
-                  }}
-                >
-                  <View className="rounded-full border border-white/12 bg-black/25 px-4 py-2">
-                    <Text
-                      className="text-white/90 text-xs font-semibold uppercase"
-                      style={{ letterSpacing: 2 }}
-                    >
-                      Web experience
-                    </Text>
-                  </View>
-                </View>
-
+              <View style={{ flex: 1, justifyContent: "flex-end" }}>
                 <View
                   style={{
                     paddingHorizontal: isDesktop ? 44 : 24,
