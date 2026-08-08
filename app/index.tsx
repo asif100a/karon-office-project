@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Animated } from "react-native";
 import SplashScreenComponent from "./screens/SplashScreen";
 import OnboardingScreenComponent from "./screens/OnboardingScreen";
-import { router } from "expo-router";
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
