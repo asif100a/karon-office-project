@@ -2,6 +2,7 @@ import React from "react";
 import {
   Image,
   ImageSourcePropType,
+  Platform,
   Text,
   TouchableOpacity,
   View,
@@ -92,6 +93,15 @@ export function ScreenShell({
   footer?: React.ReactNode;
   navigateBack?: () => void;
 }) {
+  if (Platform.OS === "web") {
+    return (
+      <View className="flex-1 bg-neutral-50">
+        <View className="flex-1">{children}</View>
+        {footer}
+      </View>
+    );
+  }
+
   return (
     <View className="flex-1 bg-neutral-50">
       <ProfileHeader title={title} navigateBack={navigateBack} />
