@@ -1,0 +1,137 @@
+import React, { useState } from "react";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { useRouter } from "expo-router";
+import { useForm } from "react-hook-form";
+import { Check, ShieldCheck, Sparkles } from "lucide-react-native";
+import Toast from "react-native-toast-message";
+import StandardInputField from "@/components/standard_ui/form_fields/StandardInputField";
+import { getDashboardRouteForRole, normalizeUserRole, type UserRole } from "@/constants/Routes";
+import LogoWhite from "@/assets/icons/LogoWhite";
+import AuthWebShell from "./_web-shell";
+
+interface RegisterPasswordScreenProps {
+  role?: UserRole;
+  onComplete?: (password: string) => void;
+}
+
+export default function RegisterPasswordScreenWeb({
+  role,
+  onComplete,
+}: RegisterPasswordScreenProps) {
+  const router = useRouter();
+  const [rememberMe, setRememberMe] = useState(false);
+  const activeRole = normalizeUserRole(role);
+
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const onSubmit = (data: any) => {
+    if (data.password !== data.confirmPassword) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Passwords do not match.",
+      });
+      return;
+    }
+
+    if (onComplete) {
+      onComplete(data.password);
+    } else {
+      router.replace(getDashboardRouteForRole(activeRole));
+    }
+  };
+
+  return (
+    <AuthWebShell
+      eyebrow="Account security"
+      title="Create your password"
+      subtitle="Set a password for your new account and keep it unique."
+      footer={
+        <View className="flex-row items-center gap-2 rounded-2xl bg-neutral-50 px-4 py-3">
+          <ShieldCheck size={16} color="#16A34A" />
+          <Text className="text-xs font-semibold text-neutral-600">
+            Passwords are checked for confirmation before submission
+          </Text>
+        </View>
+      }
+    >
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 4 }}
+      >
+        <View className="rounded-[28px] border border-neutral-200 bg-white p-5 md:p-6">
+          <View className="mb-6 items-center rounded-[24px] bg-[#FF5500] px-6 py-8">
+            <LogoWhite />
+            <Text className="mt-6 text-center text-2xl font-black tracking-tight text-white">
+              Create your password
+            </Text>
+            <Text className="mt-2 max-w-md text-center text-sm leading-6 text-white/85">
+              Use a strong password so your account stays protected.
+            </Text>
+          </View>
+
+          <View className="grid gap-5 lg:grid-cols-2">
+            <View className="lg:col-span-2">
+              <StandardInputField
+                label="Password"
+                id="password"
+                type="password"
+                control={control}
+                required
+                placeholder="Enter your password"
+              />
+            </View>
+
+            <View className="lg:col-span-2">
+              <StandardInputField
+                label="Confirm Password"
+                id="confirmPassword"
+                type="password"
+                control={control}
+                required
+                placeholder="Confirm your password"
+              />
+            </View>
+          </View>
+
+          <TouchableOpacity
+            onPress={() => setRememberMe((current) => !current)}
+            activeOpacity={0.8}
+            className="mt-2 flex-row items-center gap-3 py-2"
+          >
+            <View
+              className={`h-5 w-5 items-center justify-center rounded-md border ${
+                rememberMe
+                  ? "border-[#FF5500] bg-[#FF5500]"
+                  : "border-neutral-300 bg-[#FCFCFC]"
+              }`}
+            >
+              {rememberMe ? <Check size={12} color="#FFFFFF" strokeWidth={3} /> : null}
+            </View>
+            <Text className="text-sm font-medium text-neutral-700">
+              Remember me
+            </Text>
+          </TouchableOpacity>
+
+          <View className="mt-6 gap-4">
+            <TouchableOpacity
+              onPress={handleSubmit(onSubmit)}
+              activeOpacity={0.9}
+              className="flex-row items-center justify-center gap-2 rounded-2xl bg-[#1B2530] py-4"
+            >
+              <Text className="text-base font-semibold text-white">
+                Complete registration
+              </Text>
+              <Sparkles size={16} color="#FFFFFF" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </AuthWebShell>
+  );
+}
