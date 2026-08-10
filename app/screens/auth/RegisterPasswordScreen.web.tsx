@@ -61,6 +61,7 @@ export default function RegisterPasswordScreenWeb({
       }
     >
       <ScrollView
+        className="flex-1 min-h-0"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 4 }}
       >
