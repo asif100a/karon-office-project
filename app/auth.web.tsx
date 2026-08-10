@@ -209,10 +209,10 @@ export default function AuthFlowWeb() {
         </View>
       </View>
 
-      <View className="flex-1 min-w-0">
-        <View className="flex-1 px-4 py-6 md:px-10 md:py-10 xl:px-14">
-          <View className="mx-auto flex w-full max-w-3xl">
-            <View className="overflow-hidden rounded-[32px] border border-neutral-200 bg-white shadow-sm">
+      <View className="flex-1 min-w-0 min-h-0">
+        <View className="flex-1 min-h-0 px-4 py-6 md:px-10 md:py-10 xl:px-14">
+          <View className="mx-auto flex-1 min-h-0 w-full max-w-3xl">
+            <View className="flex-1 min-h-0 overflow-hidden rounded-[32px] border border-neutral-200 bg-white shadow-sm">
               {renderActiveScreen()}
             </View>
           </View>

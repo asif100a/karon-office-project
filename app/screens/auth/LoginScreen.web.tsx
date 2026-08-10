@@ -65,28 +65,10 @@ export default function LoginScreenWeb({
   };
 
   return (
-    <AuthWebShell
-      eyebrow="Welcome back"
-      title="Login to your account"
-      subtitle="Sign in to continue your journey with Site Source."
-      footer={
-        <View className="flex-row items-center justify-between rounded-2xl bg-neutral-50 px-4 py-3">
-          <View className="flex-row items-center gap-2">
-            <ShieldCheck size={16} color="#16A34A" />
-            <Text className="text-xs font-semibold text-neutral-600">
-              Secure session
-            </Text>
-          </View>
-          <View className="flex-row items-center gap-2">
-            <Sparkles size={16} color="#FF5500" />
-            <Text className="text-xs font-semibold text-neutral-600">
-              Fast access on web
-            </Text>
-          </View>
-        </View>
-      }
-    >
-      <View className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+      <ScrollView
+        className="flex-1 min-h-0"
+        showsVerticalScrollIndicator={false}
+      >
         <View className="rounded-[28px] border border-neutral-200 bg-white p-5 md:p-6">
           <View className="mb-6 items-center rounded-[24px] bg-[#FF5500] px-6 py-8">
             <LogoWhite />
@@ -170,28 +152,6 @@ export default function LoginScreenWeb({
             </View>
           </View>
         </View>
-
-        <View className="hidden rounded-[28px] border border-neutral-200 bg-neutral-950 p-6 lg:flex lg:justify-between">
-          <View className="gap-5">
-            <View className="rounded-[24px] border border-white/10 bg-white/5 p-5">
-              <View className="h-12 w-12 rounded-2xl bg-[#FF5500]" />
-              <Text className="mt-5 text-xl font-black tracking-tight text-white">
-                Secure access for workers and employers.
-              </Text>
-              <Text className="mt-2 text-sm leading-6 text-white/70">
-                Keep your account, applications, and messages together in one
-                web experience.
-              </Text>
-            </View>
-
-            <View className="gap-3">
-              <View className="h-3 w-5/6 rounded-full bg-white/10" />
-              <View className="h-3 w-4/6 rounded-full bg-white/10" />
-              <View className="h-3 w-3/6 rounded-full bg-white/10" />
-            </View>
-          </View>
-        </View>
-      </View>
-    </AuthWebShell>
+      </ScrollView>
   );
 }

@@ -15,6 +15,7 @@ import * as ImagePicker from "expo-image-picker";
 import LogoWhite from "@/assets/icons/LogoWhite";
 import { normalizeUserRole, type UserRole } from "@/constants/Routes";
 import AuthWebShell from "./_web-shell";
+import { Colors } from "@/constants/Colors";
 
 interface DocumentItem {
   id: string;
@@ -125,11 +126,13 @@ export default function RegisterDocumentsScreenWeb({
         </Text>
       }
     >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 4 }}
-      >
-        <View className="rounded-[28px] border border-neutral-200 bg-white p-5 md:p-6">
+      <View className="flex-1 min-h-0">
+        <ScrollView
+          className="flex-1 min-h-0"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 4 }}
+        >
+          <View className="rounded-[28px] border border-neutral-200 bg-white p-5 md:p-6">
           <View className="mb-6 items-center rounded-[24px] bg-[#FF5500] px-6 py-8">
             <LogoWhite />
             <Text className="mt-6 text-center text-2xl font-black tracking-tight text-white">
@@ -255,8 +258,9 @@ export default function RegisterDocumentsScreenWeb({
               <ArrowRight size={16} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
+      </View>
     </AuthWebShell>
   );
 }
